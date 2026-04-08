@@ -1,0 +1,150 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','usbmi_devicemi_massstoragemi_project0',this)" class="pathLink">usb-device-massstorage-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 1042</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>(void)
+{
+    unsigned char sdConnected = 0;
+    unsigned char sdInitErrorCnt = 0, sdInitExecDelay = 0;
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_CONFIGURE1432879529',this); ">TRACE_CONFIGURE</a>(DBGU_STANDARD, 115200, BOARD_MCK);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- USB Device Mass Storage Project %s --\n\r", SOFTPACK_VERSION);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- %s\n\r", BOARD_NAME);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
+
+    // If they are present, configure Vbus &amp; Wake-up pins
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_InitializeInterrupts171142247',this); ">PIO_InitializeInterrupts</a>(0);
+
+    // If there is on board power, switch it off
+  #ifdef PIN_USB_POWER_ENB
+  { const <a href="#" onMouseOver="link('_class','../at91lib/peripherals/pio/Pin0',this); ">Pin</a> pinUsbPwr = PIN_USB_POWER_ENB;
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(&amp;pinUsbPwr, 1);
+  }
+  #endif
+
+    WAKEUP_CONFIGURE();
+
+    // Start TC for timing &amp; status update
+    <a href="#" onMouseOver="link('_member','../basic-sdmmc-project/ConfigureTc053616',this); ">ConfigureTc0</a>();
+
+    MemoryInitialization();
+
+    ASSERT(numMedias &gt; 0, "Error: No media defined.\n\r");
+    TRACE_INFO("%u medias defined\n\r", numMedias);
+
+    // BOT driver initialization
+    <a href="#" onMouseOver="link('_member','../at91lib/usb/device/massstorage/MSDDriver_Initialize3687359460',this); ">MSDDriver_Initialize</a>(luns, numMedias);
+
+    // connect if needed
+    <a href="#" onMouseOver="link('_member','../usb-device-ccid-project/VBUS_CONFIGURE3880171460',this); ">VBUS_CONFIGURE</a>();
+
+    while (<a href="#" onMouseOver="link('_member','../at91lib/usb/device/core/USBD_GetState53616',this); ">USBD_GetState</a>() &lt; <a href="#" onMouseOver="link('_member','../at91lib/usb/device/core/USBD_STATE_CONFIGURED2292695961',this); ">USBD_STATE_CONFIGURED</a>);
+
+
+    // Infinite loop
+    <a href="#" onMouseOver="link('_member','updateDelay0',this); ">updateDelay</a> = <a href="#" onMouseOver="link('_member','UPDATE_DELAY1624518674',this); ">UPDATE_DELAY</a>;
+    <a href="#" onMouseOver="link('_member','updateView0',this); ">updateView</a> = 0;
+    while (1) {
+
+      #if defined(BOARD_SD_MCI_BASE)
+        // SD Card disconnection
+        if (<a href="#" onMouseOver="link('_member','../at91lib/memories/MEDSdcard_Detect3103606021',this); ">MEDSdcard_Detect</a>(&amp;medias[DRV_SDMMC], 0)) {
+            if (sdConnected == 0) {
+                // Try several times
+                if (sdInitExecDelay == 0) {
+                    sdInitExecDelay = sdInitErrorCnt + 1;
+                }
+            }
+        }
+        else if (sdConnected) {
+            sdConnected = 0;
+            sdInitErrorCnt = 0;
+            SDConnectionUpdate(0);
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r** SD removed!\n\r");
+        }
+      #endif
+
+        // Mass storage state machine
+        if (<a href="#" onMouseOver="link('_member','../at91lib/usb/device/core/USBD_GetState53616',this); ">USBD_GetState</a>() &lt; <a href="#" onMouseOver="link('_member','../at91lib/usb/device/core/USBD_STATE_CONFIGURED2292695961',this); ">USBD_STATE_CONFIGURED</a>){}
+        else <a href="#" onMouseOver="link('_member','../at91lib/usb/device/massstorage/MSDDriver_StateMachine53616',this); ">MSDDriver_StateMachine</a>();
+
+        if( <a href="#" onMouseOver="link('_member','../usb-device-audio-speaker-ac97-project/USBState0',this); ">USBState</a> == <a href="#" onMouseOver="link('_member','../usb-device-audio-speaker-ac97-project/STATE_SUSPEND2762171834',this); ">STATE_SUSPEND</a> ) {
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("suspend  !\n\r");
+            <a href="#" onMouseOver="link('_member','../usb-device-cdc-serial-project/LowPowerMode53616',this); ">LowPowerMode</a>();
+            <a href="#" onMouseOver="link('_member','../usb-device-audio-speaker-ac97-project/USBState0',this); ">USBState</a> = <a href="#" onMouseOver="link('_member','../at91lib/components/sensors/ms5540b/STATE_IDLE791864008',this); ">STATE_IDLE</a>;
+        }
+        if( <a href="#" onMouseOver="link('_member','../usb-device-audio-speaker-ac97-project/USBState0',this); ">USBState</a> == <a href="#" onMouseOver="link('_member','../usb-device-audio-speaker-ac97-project/STATE_RESUME2762171834',this); ">STATE_RESUME</a> ) {
+            // Return in normal MODE
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("resume !\n\r");
+            <a href="#" onMouseOver="link('_member','../usb-device-cdc-serial-project/NormalPowerMode53616',this); ">NormalPowerMode</a>();
+            <a href="#" onMouseOver="link('_member','../usb-device-audio-speaker-ac97-project/USBState0',this); ">USBState</a> = <a href="#" onMouseOver="link('_member','../at91lib/components/sensors/ms5540b/STATE_IDLE791864008',this); ">STATE_IDLE</a>;
+        }
+
+        // Update status view
+        if (<a href="#" onMouseOver="link('_member','updateView0',this); ">updateView</a>) {
+
+            <a href="#" onMouseOver="link('_member','updateView0',this); ">updateView</a> = 0;
+            #if 0
+            if (msdWriteTotal &lt; 50 * 1000)
+                MED_Flush(&amp;medias[DRV_NAND]);
+            #endif
+
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Read %5dK, Write %5dK, IO %5dK; Null %4d, Full %4d\r",
+                msdReadTotal/(UPDATE_DELAY*250),
+                msdWriteTotal/(UPDATE_DELAY*250),
+                (msdReadTotal+msdWriteTotal)/(UPDATE_DELAY*250),
+                msdNullCnt, msdFullCnt);
+
+            <a href="#" onMouseOver="link('_member','msdReadTotal0',this); ">msdReadTotal</a> = 0;
+            msdWriteTotal = 0;
+            msdNullCnt = 0;
+            msdFullCnt = 0;
+ 
+            #if defined(BOARD_SD_MCI_BASE) 
+            if (sdInitExecDelay) {
+                if (0 == --sdInitExecDelay) {
+                    sdConnected = SDConnectionUpdate(1);
+                    if (!sdConnected) {
+                        if (<a href="#" onMouseOver="link('_member','SD_INIT_RETRY1624518674',this); ">SD_INIT_RETRY</a> &lt;= sdInitErrorCnt++) {
+                            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r** SD inserted but init fail!\n\r");
+                            sdConnected = 1;
+                        }
+                    }
+                }
+            }
+            #endif
+        }
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

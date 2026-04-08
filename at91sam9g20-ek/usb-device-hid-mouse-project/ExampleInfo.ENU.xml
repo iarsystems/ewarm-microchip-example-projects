@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<infocenter_data version="1.0">
+  <iar_name>usb-device-hid-mouse-project</iar_name>                    <!--App-->
+  <iar_description>Creates an USB mouse using the evaluation kit, enabling the user to move cursor with Joystick. </iar_description>  <!--App short description-->
+  <iar_curdir>$CUR_DIR$</iar_curdir>
+</infocenter_data>

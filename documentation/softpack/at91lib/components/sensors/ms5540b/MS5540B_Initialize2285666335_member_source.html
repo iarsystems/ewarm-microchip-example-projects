@@ -1,0 +1,78 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - MS5540B_Initialize</TITLE>
+<script type="text/javascript" src="../../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../../common/";
+ var relPathToHelpDir = "../../../../../common/help/";
+ var toSearchPage     = "_search','../../../../../search";
+ Body1();
+</script>
+<div class="headerPage">MS5540B_Initialize</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../components0',this)" class="pathLink">components</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../sensors0',this)" class="pathLink">sensors</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','ms5540b0',this)" class="pathLink">ms5540b</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">MS5540B_Initialize</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','MS5540B_Initialize2285666335','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','MS5540B_Initialize2285666335','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 187</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','MS5540B_Initialize2285666335',this); ">MS5540B_Initialize</a>(AT91S_SPI *pSpi, unsigned char cs)
+{
+    unsigned short word1, word2, word3, word4;
+
+    <a href="#" onMouseOver="link('_member','../../../utility/SANITY_CHECK407576460',this); ">SANITY_CHECK</a>(pSpi);
+
+    <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("MS5540B_Initialize(0x%08X, %d)\n\r", pSpi, cs);
+
+    // Store SPI information
+    lpSpi = pSpi;
+    lCs = cs;
+    lState = <a href="#" onMouseOver="link('_member','STATE_IDLE791864008',this); ">STATE_IDLE</a>;
+
+    // Reset the sensor
+    Reset();
+
+    // Extract calibration data from the sensor
+    word1 = ReadCalibrationWord(CMD_WORD_1);
+    word2 = ReadCalibrationWord(CMD_WORD_2);
+    word3 = ReadCalibrationWord(CMD_WORD_3);
+    word4 = ReadCalibrationWord(CMD_WORD_4);
+
+    <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("Word1 = %d\n\r", word1);
+    <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("Word2 = %d\n\r", word2);
+    <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("Word3 = %d\n\r", word3);
+    <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("Word4 = %d\n\r", word4);
+
+    // Compute coefficients
+    lCoeffs[0] = (word1 &gt;&gt; 1) &amp; 0x7FFF;
+    lCoeffs[1] = (word4 &amp; 0x003F) | ((word3 &amp; 0x003F) &lt;&lt; 6);
+    lCoeffs[2] = (word4 &gt;&gt; 6) &amp; 0x03FF;
+    lCoeffs[3] = (word3 &gt;&gt; 6) &amp; 0x03FF;
+    lCoeffs[4] = ((word2 &gt;&gt; 6) | ((word1 &amp; 0x0001) &lt;&lt; 10)) &amp; 0x07FF;
+    lCoeffs[5] = word2 &amp; 0x003F;
+
+    <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("C1 = %d\n\r", lCoeffs[0]);
+    <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("C2 = %d\n\r", lCoeffs[1]);
+    <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("C3 = %d\n\r", lCoeffs[2]);
+    <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("C4 = %d\n\r", lCoeffs[3]);
+    <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("C5 = %d\n\r", lCoeffs[4]);
+    <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("C6 = %d\n\r", lCoeffs[5]);
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

@@ -1,0 +1,139 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - AC97C_Transfer</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">AC97C_Transfer</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','ac97c0',this)" class="pathLink">ac97c</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">AC97C_Transfer</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','AC97C_Transfer2274623386','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','AC97C_Transfer2274623386','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 368</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','AC97C_Transfer2274623386',this); ">AC97C_Transfer</a>(unsigned char channel, unsigned char *pBuffer, unsigned int numSamples, Ac97Callback callback, void *pArg)
+{
+    unsigned int size;
+    unsigned int <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a>;
+    <a href="#" onMouseOver="link('_class','_Ac97Transfer0',this); ">Ac97Transfer</a> *pTransfer;
+
+    <a href="#" onMouseOver="link('_member','../../utility/SANITY_CHECK407576460',this); ">SANITY_CHECK</a>(channel &lt;= 5);
+    <a href="#" onMouseOver="link('_member','../../utility/SANITY_CHECK407576460',this); ">SANITY_CHECK</a>(pBuffer);
+    <a href="#" onMouseOver="link('_member','../../utility/SANITY_CHECK407576460',this); ">SANITY_CHECK</a>(numSamples &gt; 0);
+
+    // Check that no transfer is pending on the channel
+    pTransfer = &amp;(ac97c.transfers[channel]);
+    if (pTransfer-&gt;<a href="#" onMouseOver="link('_member','numSamples172472460',this); ">numSamples</a> &gt; 0) {
+
+        TRACE_WARNING(
+            "AC97C_Transfer: Channel %d is busy\n\r", channel);
+        return <a href="#" onMouseOver="link('_member','AC97C_ERROR_BUSY4239039939',this); ">AC97C_ERROR_BUSY</a>;
+    }
+
+    // Fill transfer information
+    pTransfer-&gt;<a href="#" onMouseOver="link('_member','pBuffer172472460',this); ">pBuffer</a> = <a href="#" onMouseOver="link('_member','../../../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a>;
+    pTransfer-&gt;<a href="#" onMouseOver="link('_member','numSamples172472460',this); ">numSamples</a> = numSamples;
+    pTransfer-&gt;<a href="#" onMouseOver="link('_member','callback172472460',this); ">callback</a> = callback;
+    pTransfer-&gt;<a href="#" onMouseOver="link('_member','pArg172472460',this); ">pArg</a> = pArg;
+
+    // Transmit or receive over codec channel
+    if (channel == <a href="#" onMouseOver="link('_member','AC97C_CODEC_TRANSFER4239039939',this); ">AC97C_CODEC_TRANSFER</a>) {
+
+        // Send command
+        <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a> = *((unsigned int *) pTransfer-&gt;<a href="#" onMouseOver="link('_member','pBuffer172472460',this); ">pBuffer</a>); 
+        AT91C_BASE_AC97C-&gt;AC97C_COTHR = <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a>;
+
+        // Check if transfer is read or write
+        if ((<a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a> &amp; AT91C_AC97C_READ) != 0) {
+
+            AT91C_BASE_AC97C-&gt;AC97C_COMR |= AT91C_AC97C_RXRDY;
+        }
+        else {
+        
+            pTransfer-&gt;<a href="#" onMouseOver="link('_member','pBuffer172472460',this); ">pBuffer</a> += sizeof(unsigned int);
+            AT91C_BASE_AC97C-&gt;AC97C_COMR |= AT91C_AC97C_TXRDY;
+        }
+
+        // Enable interrupts
+        AT91C_BASE_AC97C-&gt;AC97C_IER |= AT91C_AC97C_COEVT;
+    }
+    // Transmit over channel A
+    else if (channel == <a href="#" onMouseOver="link('_member','AC97C_CHANNEL_A_TRANSMIT4239039939',this); ">AC97C_CHANNEL_A_TRANSMIT</a>) {
+
+        // Disable PDC
+        AT91C_BASE_AC97C-&gt;AC97C_PTCR = AT91C_PDC_TXTDIS;
+
+        // Fill PDC buffers
+        size = <a href="#" onMouseOver="link('_member','../../utility/min3363666690',this); ">min</a>(pTransfer-&gt;<a href="#" onMouseOver="link('_member','numSamples172472460',this); ">numSamples</a>, <a href="#" onMouseOver="link('_member','MAX_PDC_COUNTER4180319683',this); ">MAX_PDC_COUNTER</a>);
+        AT91C_BASE_AC97C-&gt;AC97C_TPR = (unsigned int) pTransfer-&gt;<a href="#" onMouseOver="link('_member','pBuffer172472460',this); ">pBuffer</a>;
+        AT91C_BASE_AC97C-&gt;AC97C_TCR = size;
+        pTransfer-&gt;<a href="#" onMouseOver="link('_member','pBuffer172472460',this); ">pBuffer</a> += size * GetSampleSize(AC97C_CHANNEL_A);
+
+        size = <a href="#" onMouseOver="link('_member','../../utility/min3363666690',this); ">min</a>(pTransfer-&gt;<a href="#" onMouseOver="link('_member','numSamples172472460',this); ">numSamples</a> - size, MAX_PDC_COUNTER);
+        if (size &gt; 0) {
+
+            AT91C_BASE_AC97C-&gt;AC97C_TNPR = (unsigned int) pTransfer-&gt;<a href="#" onMouseOver="link('_member','pBuffer172472460',this); ">pBuffer</a>;
+            AT91C_BASE_AC97C-&gt;AC97C_TNCR = size;
+            pTransfer-&gt;<a href="#" onMouseOver="link('_member','pBuffer172472460',this); ">pBuffer</a> += size * GetSampleSize(AC97C_CHANNEL_A);
+        }
+
+        // Enable interrupts
+        AT91C_BASE_AC97C-&gt;AC97C_CAMR |= AT91C_AC97C_PDCEN | AT91C_AC97C_ENDTX;
+        AT91C_BASE_AC97C-&gt;AC97C_IER |= AT91C_AC97C_CAEVT;
+
+        // Start transfer
+        AT91C_BASE_AC97C-&gt;AC97C_PTCR = AT91C_PDC_TXTEN;
+    }
+    // Receive over channel A
+    else if (channel == <a href="#" onMouseOver="link('_member','AC97C_CHANNEL_A_RECEIVE4239039939',this); ">AC97C_CHANNEL_A_RECEIVE</a>) {
+
+        // Disable PDC
+        AT91C_BASE_AC97C-&gt;AC97C_PTCR = AT91C_PDC_RXTDIS;
+
+        // Fill PDC buffers
+        size = <a href="#" onMouseOver="link('_member','../../utility/min3363666690',this); ">min</a>(pTransfer-&gt;<a href="#" onMouseOver="link('_member','numSamples172472460',this); ">numSamples</a>, MAX_PDC_COUNTER);
+        AT91C_BASE_AC97C-&gt;AC97C_RPR = (unsigned int) pTransfer-&gt;<a href="#" onMouseOver="link('_member','pBuffer172472460',this); ">pBuffer</a>;
+        AT91C_BASE_AC97C-&gt;AC97C_RCR = size;
+        pTransfer-&gt;<a href="#" onMouseOver="link('_member','pBuffer172472460',this); ">pBuffer</a> += size * GetSampleSize(AC97C_CHANNEL_A);
+
+        size = <a href="#" onMouseOver="link('_member','../../utility/min3363666690',this); ">min</a>(pTransfer-&gt;<a href="#" onMouseOver="link('_member','numSamples172472460',this); ">numSamples</a> - size, MAX_PDC_COUNTER);
+        if (size &gt; 0) {
+
+            AT91C_BASE_AC97C-&gt;AC97C_RNPR = (unsigned int) pTransfer-&gt;<a href="#" onMouseOver="link('_member','pBuffer172472460',this); ">pBuffer</a>;
+            AT91C_BASE_AC97C-&gt;AC97C_RNCR = size;
+            pTransfer-&gt;<a href="#" onMouseOver="link('_member','pBuffer172472460',this); ">pBuffer</a> += size * GetSampleSize(AC97C_CHANNEL_A);
+        }
+
+        // Enable interrupts
+        AT91C_BASE_AC97C-&gt;AC97C_CAMR |= AT91C_AC97C_PDCEN | AT91C_AC97C_ENDRX;
+        AT91C_BASE_AC97C-&gt;AC97C_IER |= AT91C_AC97C_CAEVT;
+
+        // Start transfer
+        AT91C_BASE_AC97C-&gt;AC97C_PTCR = AT91C_PDC_RXTEN;
+    }
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

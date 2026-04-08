@@ -1,0 +1,53 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - DisplayMenuSleep</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">DisplayMenuSleep</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','testmi_powermi_consumptionmi_sam3mi_project0',this)" class="pathLink">test-power-consumption-sam3-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">DisplayMenuSleep</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','DisplayMenuSleep53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','DisplayMenuSleep53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 369</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','DisplayMenuSleep53616',this); ">DisplayMenuSleep</a>(void)
+{
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Select clock configuration for sleep mode:\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("  0 : PCK=500Hz by using 32K RC Oscillator\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("  1 : PCK=32KHz by using 32K RC Oscillator\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("  2 : PCK=125KHz by using Fast RC Oscillator\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("  3 : PCK=250KHz by using Fast RC Oscillator\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("  4 : PCK=500KHz by using Fast RC Oscillator\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("  5 : PCK=1MHz by using Fast RC Oscillator\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("  6 : PCK=2MHz by using Fast RC Oscillator\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("  7 : PCK=4MHz by using Fast RC Oscillator\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("  8 : PCK=8MHz by using Fast RC Oscillator\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("  9 : PCK=12MHz by using Fast RC Oscillator\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("  c : Current clock PCK=%dMHz running from PLL\n\r", <a href="#" onMouseOver="link('_member','../at91lib/utility/CLOCK_GetCurrPCK53616',this); ">CLOCK_GetCurrPCK</a>());
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

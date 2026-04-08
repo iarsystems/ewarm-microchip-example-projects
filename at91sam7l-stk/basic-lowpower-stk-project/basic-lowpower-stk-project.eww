@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<workspace>
+	<project>
+		<path>$WS_DIR$/ewp/at91sam7l-stk.ewp</path>
+	</project>
+	<batchBuild>
+		<batchDefinition>
+			<name>All</name>&gt;
+			<member>
+				<project>at91sam7l-stk</project>
+				<configuration>at91sam7l128_flash</configuration>
+			</member>
+			<member>
+				<project>at91sam7l-stk</project>
+				<configuration>at91sam7l64_flash</configuration>
+			</member>
+		</batchDefinition>
+	</batchBuild>
+</workspace>

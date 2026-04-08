@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<workspace>
+  <project>
+    <path>$WS_DIR$/eww-at91sam9261-ek/dataflash2sdram.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$/eww-at91sam9261-ek/nandflash2sdram.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$/eww-at91sam9261-ek/norflash.ewp</path>
+  </project>
+  <batchBuild>
+    <batchDefinition>
+      <name>All</name>
+      <member>
+        <project>dataflash2sdram</project>
+        <configuration>DF Card</configuration>
+      </member>
+    </batchDefinition>
+  </batchBuild>
+</workspace>

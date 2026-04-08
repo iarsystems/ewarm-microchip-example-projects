@@ -1,0 +1,49 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - KBD_GetKeyCode</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">KBD_GetKeyCode</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','demomi_sam7lmi_ekmi_project0',this)" class="pathLink">demo-sam7l-ek-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">KBD_GetKeyCode</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','KBD_GetKeyCode2593655934','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','KBD_GetKeyCode2593655934','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 201</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','KBD_GetKeyCode2593655934',this); ">KBD_GetKeyCode</a>(unsigned char key)
+{
+    // Natural key
+    if ((!<a href="#" onMouseOver="link('_member','g2ndF0',this); ">g2ndF</a> &amp;&amp; !<a href="#" onMouseOver="link('_member','g2ndFLock0',this); ">g2ndFLock</a>) || (<a href="#" onMouseOver="link('_member','g2ndF0',this); ">g2ndF</a> &amp;&amp; <a href="#" onMouseOver="link('_member','g2ndFLock0',this); ">g2ndFLock</a>)) {
+
+        return <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/gpKeyboardMatrix0',this); ">gpKeyboardMatrix</a>[key];
+    }
+    // Alternate key
+    else {
+
+        return <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/gpKeyboardMatrixAlt0',this); ">gpKeyboardMatrixAlt</a>[key];
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

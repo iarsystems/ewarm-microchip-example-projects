@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<workspace>
+  <project>
+    <path>$WS_DIR$/eww-at91sam9260-ek/dataflash2sdram.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$/eww-at91sam9260-ek/nandflash2sdram.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$/eww-at91sam9260-ek/norflash.ewp</path>
+  </project>
+  <batchBuild>
+    <batchDefinition>
+      <name>All</name>
+      <member>
+        <project>dataflash2sdram</project>
+        <configuration>Slot A (On Board)</configuration>
+      </member>
+      <member>
+        <project>nandflash2sdram</project>
+        <configuration>EBI (On Board)</configuration>
+      </member>
+      <member>
+        <project>norflash</project>
+        <configuration>EBI (External)</configuration>
+      </member>
+    </batchDefinition>
+  </batchBuild>
+</workspace>

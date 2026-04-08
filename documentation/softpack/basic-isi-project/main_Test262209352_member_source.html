@@ -1,0 +1,110 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main_Test</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main_Test</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_isimi_project0',this)" class="pathLink">basic-isi-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main_Test</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main_Test262209352','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main_Test262209352','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 661</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','main_Test262209352',this); ">main_Test</a>(<a href="#" onMouseOver="link('_class','../at91lib/utility/_AT91S_VIDEO0',this); ">AT91PS_VIDEO</a> pVideo)
+{
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("main_Test\n\r");
+    <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/Hblank244647195',this); ">Hblank</a> = 0;
+    <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/Vblank244647195',this); ">Vblank</a> = 0;
+    <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/lcd_fb_addr244647195',this); ">lcd_fb_addr</a> = (unsigned int)<a href="#" onMouseOver="link('_member','BuffCam0',this); ">BuffCam</a>;
+    // base address of the descriptor list for preview DMA
+    <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/Isi_fbd_base244647195',this); ">Isi_fbd_base</a> = (int)&amp;<a href="#" onMouseOver="link('_member','FbList0',this); ">FbList</a>[0];
+    <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/codec_fb_addr244647195',this); ">codec_fb_addr</a> = 0;
+    <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/rgb_or_yuv244647195',this); ">rgb_or_yuv</a> = <a href="#" onMouseOver="link('_member','../at91lib/utility/YUV3978897121',this); ">YUV</a>;
+
+    #if defined (AT91C_ID_LCDC)
+    if( <a href="#" onMouseOver="link('_member','../at91lib/boards/at91cap9-dk/BOARD_LCD_WIDTH3857385940',this); ">BOARD_LCD_WIDTH</a> &lt; <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/codec_hsize244647195',this); ">codec_hsize</a> ) {
+        <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/lcd_hsize244647195',this); ">lcd_hsize</a> = <a href="#" onMouseOver="link('_member','../at91lib/boards/at91cap9-dk/BOARD_LCD_WIDTH3857385940',this); ">BOARD_LCD_WIDTH</a>;
+        <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/lcd_vsize244647195',this); ">lcd_vsize</a> = <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/codec_vsize244647195',this); ">codec_vsize</a>*<a href="#" onMouseOver="link('_member','../at91lib/boards/at91cap9-dk/BOARD_LCD_WIDTH3857385940',this); ">BOARD_LCD_WIDTH</a>/<a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/codec_hsize244647195',this); ">codec_hsize</a>;
+    }
+    else {
+        if(<a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/codec_vsize244647195',this); ">codec_vsize</a> &gt; <a href="#" onMouseOver="link('_member','../at91lib/boards/at91cap9-dk/BOARD_LCD_HEIGHT3857385940',this); ">BOARD_LCD_HEIGHT</a>) {
+            <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/lcd_vsize244647195',this); ">lcd_vsize</a> = <a href="#" onMouseOver="link('_member','../at91lib/boards/at91cap9-dk/BOARD_LCD_HEIGHT3857385940',this); ">BOARD_LCD_HEIGHT</a>;
+        }
+        else {
+            <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/lcd_vsize244647195',this); ">lcd_vsize</a> = <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/codec_vsize244647195',this); ">codec_vsize</a>;
+        }                        
+        <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/lcd_hsize244647195',this); ">lcd_hsize</a> = <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/codec_hsize244647195',this); ">codec_hsize</a>*<a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/lcd_vsize244647195',this); ">lcd_vsize</a>/<a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/codec_vsize244647195',this); ">codec_vsize</a>;
+    }
+    #endif
+
+#if !defined (BOARD_ISI_V200)
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/isi/ISI_DisableInterrupt171142247',this); ">ISI_DisableInterrupt</a>( AT91C_ISI_FO_P_EMP | AT91C_ISI_FO_C_EMP
+                        | AT91C_ISI_FO_C_OVF | AT91C_ISI_FO_P_OVF);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/isi/ISI_Init262209352',this); ">ISI_Init</a>(&amp;S_Video);
+
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/isi/ISI_EnableInterrupt171142247',this); ">ISI_EnableInterrupt</a>( AT91C_ISI_FO_P_EMP | AT91C_ISI_FO_C_EMP
+                       | AT91C_ISI_FO_C_OVF | AT91C_ISI_FO_P_OVF);
+#else
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/isi/ISI_DisableInterrupt171142247',this); ">ISI_DisableInterrupt</a>( AT91C_ISI_PXFR_DONE_1 | AT91C_ISI_CXFR_DONE_1
+                        | AT91C_ISI_C_OVR_1     | AT91C_ISI_P_OVR_1
+                        | AT91C_ISI_CRC_ERR_1   | AT91C_ISI_FR_OVR_1);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/isi/ISI_Init262209352',this); ">ISI_Init</a>(&amp;S_Video);
+
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/isi/ISI_EnableInterrupt171142247',this); ">ISI_EnableInterrupt</a>( AT91C_ISI_PXFR_DONE_1 | AT91C_ISI_CXFR_DONE_1
+                       | AT91C_ISI_C_OVR_1     | AT91C_ISI_P_OVR_1
+                       | AT91C_ISI_CRC_ERR_1   | AT91C_ISI_FR_OVR_1);
+#endif
+
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/isi/ISI_Reset53616',this); ">ISI_Reset</a>();
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/isi/ISI_Enable53616',this); ">ISI_Enable</a>();
+
+    <a href="#" onMouseOver="link('_member','../at91lib/components/omnivision/ov9655/ov965x_configure971410422',this); ">ov965x_configure</a>(&amp;twid, <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/codec_hsize244647195',this); ">codec_hsize</a>, <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/codec_vsize244647195',this); ">codec_vsize</a>);
+   // ov95x_DumpRegisters(&amp;twid); 
+
+#if defined (AT91C_ID_LCDC)
+    <a href="#" onMouseOver="link('_member','InitializeLcd53616',this); ">InitializeLcd</a>();
+
+    AT91C_BASE_LCDC-&gt;LCDC_IDR = AT91C_LCDC_EOFI;
+
+    LCD_Disable(0);
+    LCD_DisableDma();
+    LCD_DMAReset();
+    LCD_SetBitsPerPixel(AT91C_LCDC_PIXELSIZE_SIXTEENBITSPERPIXEL);
+    LCD_SetSize(<a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/lcd_hsize244647195',this); ">lcd_hsize</a>, <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/lcd_vsize244647195',this); ">lcd_vsize</a>);
+    LCD_SetFrameSize((<a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/lcd_hsize244647195',this); ">lcd_hsize</a> * <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/lcd_vsize244647195',this); ">lcd_vsize</a> * <a href="#" onMouseOver="link('_member','S_Video0',this); ">S_Video</a>.<a href="#" onMouseOver="link('_member','../at91lib/utility/lcd_nbpp244647195',this); ">lcd_nbpp</a>)/32);
+    LCD_SetBurstLength(4);
+    LCD_SetFrameBufferAddress(BuffCam);
+
+    LCD_EnableDma();
+    LCD_Enable(8);
+    LCD_EnableInterrupts(AT91C_LCDC_EOFI  | // (LCDC) End of Frame Interrupt
+                         AT91C_LCDC_UFLWI | // (LCDC) FIFO Underflow Interrupt
+                         AT91C_LCDC_OWRI  | // (LCDC) Over Write Interrupt
+                         AT91C_LCDC_MERI);  // (LCDC) Memory Error  Interrupt
+#endif
+}
+
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

@@ -1,0 +1,57 @@
+setup()
+{
+  __var i,clk,Reg;
+ 
+  // Enable I Cache
+  // Disable MMU and enable ICache
+  Reg = __jtagCP15ReadReg(1, 0, 0, 0);
+  Reg &= 0xFFFFFFFA;
+  Reg |= 1<<12;
+  __jtagCP15WriteReg(1, 0, 0, 0, Reg);
+
+  // ******************************************************
+  // Set clock
+  // ******************************************************
+
+  __writeMemory32(0x1, 0xFFFFFC00, "Memory");             // PMC_SCER: PCK = 1
+
+  __writeMemory32(0x0000FF01, 0xFFFFFC20, "Memory");      // PMC_MOR: MOSCEN = 1, enable main clock
+
+  while(((clk = __readMemory32(0xFFFFFC24, "Memory")) & 0x00010000) == 0);  // Read PMC_MCFR to determine Fosc
+
+  clk = (clk & 0x0000FFFF) * 32768 / 16;    // * 244 / 5;
+
+  __writeMemory32(0x1, 0xFFFFFC30, "Memory");             // PMC_MCKR: CSS = 1, PRES = 0, MDIV = 0
+
+  // ******************************************************
+  // Test and set Remap
+  // ******************************************************
+
+  __writeMemory32(0xAAAAAAAA,0x00000000,"Memory");
+  if(__readMemory32(0x00000000,"Memory") != 0xAAAAAAAA)
+  {
+    __writeMemory32(0x01,0xFFFFFF00,"Memory");    // MC_RCR: toggle remap bit
+  }
+
+  // ******************************************************
+  // Setup the external AT48BV6416T x16 bit (ie. 8MB) FLASH - 70ns
+  // ******************************************************
+  i = __readMemory32(0xFFFFFF60, "Memory");
+  __writeMemory32(i & ~0x1, 0xFFFFFF60, "Memory");         // EBI_CSA: CS0A = 0, Chip Select 0 is assigned to the Static Memory Controller.
+  
+  __writeMemory32(0x0000308D, 0xFFFFFF70, "Memory");       // FLASH NWS - 13, WSEN - 1, BAT - 1, DBW - 1(x16bit)
+
+}
+
+execUserPreload()
+{
+  setup();
+  __message("Target init macro complete");
+}
+
+execUserReset()
+{
+  setup();
+  __message("Target init macro complete");
+}
+

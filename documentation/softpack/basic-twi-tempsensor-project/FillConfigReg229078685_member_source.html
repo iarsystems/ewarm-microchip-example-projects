@@ -1,0 +1,54 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - FillConfigReg</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">FillConfigReg</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_twimi_tempsensormi_project0',this)" class="pathLink">basic-twi-tempsensor-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">FillConfigReg</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','FillConfigReg229078685','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','FillConfigReg229078685','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 201</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','FillConfigReg229078685',this); ">FillConfigReg</a>(unsigned char reg_value, <a href="#" onMouseOver="link('_class','Confg_Reg0',this); ">Confg_Reg</a> *conf)
+{
+  unsigned char res_array[]={9,10,11,12};
+  unsigned char fault_queue_array[]={1,2,4,6};
+  unsigned char temp;
+  temp = ((reg_value&gt;&gt;7)&amp;0x1);
+  conf-&gt;bOneShot = temp;
+  temp = ((reg_value&gt;&gt;5)&amp;0x3);
+  conf-&gt;bRes = res_array[temp];
+  temp = ((reg_value&gt;&gt;3)&amp;0x3);
+  conf-&gt;bFaultQueue = fault_queue_array[temp];
+  temp = ((reg_value&gt;&gt;2)&amp;0x1);
+  conf-&gt;bAlrtPol = temp;
+  temp = ((reg_value&gt;&gt;1)&amp;0x1);
+  conf-&gt;bMode = temp;
+  conf-&gt;bShutdown = (reg_value&amp;0x1);
+  
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

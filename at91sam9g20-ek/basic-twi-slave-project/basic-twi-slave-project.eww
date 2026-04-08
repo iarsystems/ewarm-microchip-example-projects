@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<workspace>
+	<project>
+		<path>$WS_DIR$/ewp/at91sam9g20-ek.ewp</path>
+	</project>
+	<batchBuild>
+		<batchDefinition>
+			<name>All</name>&gt;
+			<member>
+				<project>at91sam9g20-ek</project>
+				<configuration>at91sam9g20_sdram</configuration>
+			</member>
+			<member>
+				<project>at91sam9g20-ek</project>
+				<configuration>at91sam9g20_norflash</configuration>
+			</member>
+			<member>
+				<project>at91sam9g20-ek</project>
+				<configuration>at91sam9g20_sram</configuration>
+			</member>
+		</batchDefinition>
+	</batchBuild>
+</workspace>

@@ -1,0 +1,62 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - BATT_CheckLevel</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">BATT_CheckLevel</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','demomi_sam7lmi_ekmi_project0',this)" class="pathLink">demo-sam7l-ek-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">BATT_CheckLevel</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','BATT_CheckLevel53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','BATT_CheckLevel53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 68</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','BATT_CheckLevel53616',this); ">BATT_CheckLevel</a>(void)
+{
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("BATT_CheckLevel()\n\r");
+
+    // Battery charge
+    if (((AT91C_BASE_SUPC-&gt;SUPC_SR &amp; AT91C_SUPC_BROWNOUT) != AT91C_SUPC_BROWNOUT) &amp;&amp; (<a href="#" onMouseOver="link('_member','gBatteryLevel0',this); ">gBatteryLevel</a> &lt; 4)) {
+
+        <a href="#" onMouseOver="link('_member','gBatteryLevel0',this); ">gBatteryLevel</a>++;
+        AT91C_BASE_SUPC-&gt;SUPC_BOMR = <a href="#" onMouseOver="link('_member','pThresholds0',this); ">pThresholds</a>[<a href="#" onMouseOver="link('_member','gBatteryLevel0',this); ">gBatteryLevel</a>-1];
+    }
+    else {
+
+        // Battery discharge
+        if (((AT91C_BASE_SUPC-&gt;SUPC_SR &amp; AT91C_SUPC_BROWNOUT) == AT91C_SUPC_BROWNOUT) &amp;&amp; (<a href="#" onMouseOver="link('_member','gBatteryLevel0',this); ">gBatteryLevel</a> &gt; 0)) {
+
+            <a href="#" onMouseOver="link('_member','gBatteryLevel0',this); ">gBatteryLevel</a>--;
+            if (<a href="#" onMouseOver="link('_member','gBatteryLevel0',this); ">gBatteryLevel</a> &gt; 0) {
+
+                AT91C_BASE_SUPC-&gt;SUPC_BOMR = <a href="#" onMouseOver="link('_member','pThresholds0',this); ">pThresholds</a>[<a href="#" onMouseOver="link('_member','gBatteryLevel0',this); ">gBatteryLevel</a>-1];
+            }
+        }
+
+        // Update display on SLCD
+        <a href="#" onMouseOver="link('_member','SLCD_SetBattery2593655934',this); ">SLCD_SetBattery</a>(gBatteryLevel);
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

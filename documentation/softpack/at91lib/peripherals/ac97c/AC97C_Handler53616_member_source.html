@@ -1,0 +1,55 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - AC97C_Handler</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">AC97C_Handler</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','ac97c0',this)" class="pathLink">ac97c</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">AC97C_Handler</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','AC97C_Handler53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','AC97C_Handler53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 333</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','AC97C_Handler53616',this); ">AC97C_Handler</a>(void)
+{
+    unsigned int status;
+
+    // Get the real interrupt source
+    status = AT91C_BASE_AC97C-&gt;AC97C_SR;
+    status &amp;= AT91C_BASE_AC97C-&gt;AC97C_IMR;
+    
+    // Check if an event on the codec channel is active
+    if ((status &amp; AT91C_AC97C_COEVT) != 0) {
+
+        CodecHandler();    
+    }
+    // Check if an event on channel A is active
+    if ((status &amp; AT91C_AC97C_CAEVT) != 0) {
+
+        ChannelAHandler();  
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

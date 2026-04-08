@@ -1,0 +1,131 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - TestSleepMode</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">TestSleepMode</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','testmi_powermi_consumptionmi_sam3mi_project0',this)" class="pathLink">test-power-consumption-sam3-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">TestSleepMode</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','TestSleepMode53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','TestSleepMode53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 390</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','TestSleepMode53616',this); ">TestSleepMode</a>(void)
+{
+    unsigned char key = '0';
+    unsigned int oldPll;
+    unsigned int oldMck;
+    unsigned int oldPeriphClk;
+    unsigned int temp;
+
+    // Select frequency of sleep mode
+    <a href="#" onMouseOver="link('_member','DisplayMenuSleep53616',this); ">DisplayMenuSleep</a>();
+    key = <a href="#" onMouseOver="link('_member','../at91lib/peripherals/dbgu/DBGU_GetChar53616',this); ">DBGU_GetChar</a>();
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Select option: %c\n\r", key);
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Enter in Sleep Mode\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" - Press USR-LEFT button to wakeup\n\r");
+
+    // Save current working clock
+    <a href="#" onMouseOver="link('_member','SaveWorkingClock1159289006',this); ">SaveWorkingClock</a>(&amp;oldPll, &amp;oldMck);
+
+    // Save previous values peripheral clock then disable all
+    oldPeriphClk = AT91C_BASE_PMC-&gt;PMC_PCSR;
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pmc/PMC_DisableAllPeripherals53616',this); ">PMC_DisableAllPeripherals</a>();
+
+    // Stop UTMI
+    AT91C_BASE_CKGR-&gt;CKGR_UCKR &amp;= ~AT91C_CKGR_UPLLEN;
+
+    // Disable Brownout Detector
+    AT91C_BASE_SUPC-&gt;SUPC_MR |= (0xA5 &lt;&lt; 24) | (0x01 &lt;&lt; 13);
+
+    // Configure PIO for warkup
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(&amp;pinPB1, 1);
+    <a href="#" onMouseOver="link('_member','ConfigureWakeUpInterrupt53616',this); ">ConfigureWakeUpInterrupt</a>();
+
+    // Switch clock frequency
+    switch (key) {
+        case '0': // 500Hz
+            <a href="#" onMouseOver="link('_member','ConfigureClockUsing32KRcOsc171142247',this); ">ConfigureClockUsing32KRcOsc</a>(AT91C_PMC_PRES_CLK_64);
+            break;
+        case '1': // 32KHz
+            <a href="#" onMouseOver="link('_member','ConfigureClockUsing32KRcOsc171142247',this); ">ConfigureClockUsing32KRcOsc</a>(AT91C_PMC_PRES_CLK);
+            break;
+        case '2': // 125KHz
+            <a href="#" onMouseOver="link('_member','ConfigureClockUsingFastRcOsc3363666690',this); ">ConfigureClockUsingFastRcOsc</a>(FAST_RC_OSC_4MHZ, AT91C_PMC_PRES_CLK_32);
+            break;
+        case '3': // 250KHz
+            <a href="#" onMouseOver="link('_member','ConfigureClockUsingFastRcOsc3363666690',this); ">ConfigureClockUsingFastRcOsc</a>(FAST_RC_OSC_4MHZ, AT91C_PMC_PRES_CLK_16);
+            break;
+        case '4': // 500KHz
+            <a href="#" onMouseOver="link('_member','ConfigureClockUsingFastRcOsc3363666690',this); ">ConfigureClockUsingFastRcOsc</a>(FAST_RC_OSC_4MHZ, AT91C_PMC_PRES_CLK_8);
+            break;
+        case '5': // 1MHz
+            <a href="#" onMouseOver="link('_member','ConfigureClockUsingFastRcOsc3363666690',this); ">ConfigureClockUsingFastRcOsc</a>(FAST_RC_OSC_4MHZ, AT91C_PMC_PRES_CLK_4);
+            break;
+        case '6': // 2MHz
+            <a href="#" onMouseOver="link('_member','ConfigureClockUsingFastRcOsc3363666690',this); ">ConfigureClockUsingFastRcOsc</a>(FAST_RC_OSC_4MHZ, AT91C_PMC_PRES_CLK_2);
+            break;
+        case '7': // 4MHz
+            <a href="#" onMouseOver="link('_member','ConfigureClockUsingFastRcOsc3363666690',this); ">ConfigureClockUsingFastRcOsc</a>(FAST_RC_OSC_4MHZ, AT91C_PMC_PRES_CLK);
+            break;
+        case '8': // 8MHz
+            <a href="#" onMouseOver="link('_member','ConfigureClockUsingFastRcOsc3363666690',this); ">ConfigureClockUsingFastRcOsc</a>(FAST_RC_OSC_8MHZ, AT91C_PMC_PRES_CLK);
+            break;
+        case '9': // 12MHz
+            <a href="#" onMouseOver="link('_member','ConfigureClockUsingFastRcOsc3363666690',this); ">ConfigureClockUsingFastRcOsc</a>(FAST_RC_OSC_12MHZ, AT91C_PMC_PRES_CLK);
+            break;
+        case 'c':
+        default:
+            // do nothing
+            break;
+    }
+
+    // Enter Sleep Mode
+    <a href="#" onMouseOver="link('_member','EnterSleepMode53616',this); ">EnterSleepMode</a>();
+
+    // Restore working clock
+    RestoreWorkingClock(oldPll, oldMck);
+
+    <a href="#" onMouseOver="link('_member','DisableWakeUpInterrupt53616',this); ">DisableWakeUpInterrupt</a>();
+    
+    // Restore peripheral clock
+    AT91C_BASE_PMC-&gt;PMC_PCER = oldPeriphClk;
+
+    // Start UTMI
+    AT91C_BASE_CKGR-&gt;CKGR_UCKR |= (AT91C_CKGR_UPLLCOUNT &amp; (3 &lt;&lt; 20)) | AT91C_CKGR_UPLLEN;
+    while (!(AT91C_BASE_PMC-&gt;PMC_SR &amp; AT91C_PMC_LOCKU));
+
+    // Enable Brownout Detector
+    temp = AT91C_BASE_SUPC-&gt;SUPC_MR &amp; 0x00FFFFFF;
+    AT91C_BASE_SUPC-&gt;SUPC_MR = (0xA5 &lt;&lt; 24) | (temp &amp; (~(0x01 &lt;&lt; 13)));
+
+    // Reconfigure DBGU
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/dbgu/DBGU_Configure1358050609',this); ">DBGU_Configure</a>(DBGU_STANDARD, 115200, <a href="#" onMouseOver="link('_member','../at91lib/utility/CLOCK_GetCurrMCK53616',this); ">CLOCK_GetCurrMCK</a>()*1000000);
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Exit Sleep Mode\n\r");
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<workspace>
+  <project>
+    <path>$WS_DIR$/at91_ebxx.ewp</path>
+  </project>
+  <batchBuild>
+    <batchDefinition>
+      <name>All</name>
+      <member>
+        <project>at91_ebxx</project>
+        <configuration>flashcode-EB40A</configuration>
+      </member>
+      <member>
+        <project>at91_ebxx</project>
+        <configuration>flashcode-EBxx</configuration>
+      </member>
+      <member>
+        <project>at91_ebxx</project>
+        <configuration>ramcode-EB40A</configuration>
+      </member>
+      <member>
+        <project>at91_ebxx</project>
+        <configuration>ramcode-EBxx</configuration>
+      </member>
+    </batchDefinition>
+  </batchBuild>
+</workspace>

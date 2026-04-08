@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - RawNandFlash_Initialize</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">RawNandFlash_Initialize</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">RawNandFlash_Initialize</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','RawNandFlash_Initialize2663508270','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','RawNandFlash_Initialize2663508270','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 491</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','RawNandFlash_Initialize2663508270',this); ">RawNandFlash_Initialize</a>(struct <a href="#" onMouseOver="link('_class','RawNandFlash0',this); ">RawNandFlash</a> *raw, const struct <a href="#" onMouseOver="link('_class','NandFlashModel0',this); ">NandFlashModel</a> *model, unsigned int commandAddress, unsigned int addressAddress, unsigned int dataAddress, const <a href="#" onMouseOver="link('_class','../../peripherals/pio/Pin0',this); ">Pin</a> pinChipEnable, const <a href="#" onMouseOver="link('_class','../../peripherals/pio/Pin0',this); ">Pin</a> pinReadyBusy)
+{
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("RawNandFlash_Initialize()\r\n");
+
+    // Initialize fields
+    raw-&gt;<a href="#" onMouseOver="link('_member','commandAddress267785469',this); ">commandAddress</a> = commandAddress;
+    raw-&gt;<a href="#" onMouseOver="link('_member','addressAddress267785469',this); ">addressAddress</a> = addressAddress;
+    raw-&gt;<a href="#" onMouseOver="link('_member','dataAddress267785469',this); ">dataAddress</a> = dataAddress;
+    raw-&gt;<a href="#" onMouseOver="link('_member','pinChipEnable267785469',this); ">pinChipEnable</a> = pinChipEnable;
+    raw-&gt;<a href="#" onMouseOver="link('_member','pinReadyBusy267785469',this); ">pinReadyBusy</a> = pinReadyBusy;
+
+    // Reset
+    <a href="#" onMouseOver="link('_member','RawNandFlash_Reset4250963074',this); ">RawNandFlash_Reset</a>(raw);
+
+    // If model is not provided, autodetect it
+    if (!model) {
+
+        <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("No model provided, trying autodetection ...\n\r");
+        if (<a href="#" onMouseOver="link('_member','NandFlashModel_Find817418041',this); ">NandFlashModel_Find</a>(nandFlashModelList,
+                                NandFlashModelList_SIZE,
+                                <a href="#" onMouseOver="link('_member','RawNandFlash_ReadId4250963074',this); ">RawNandFlash_ReadId</a>(raw),
+                                &amp;(raw-&gt;<a href="#" onMouseOver="link('_member','model267785469',this); ">model</a>))) {
+
+            TRACE_ERROR(
+                      "RawNandFlash_Initialize: Could not autodetect chip.\n\r");
+            return <a href="#" onMouseOver="link('_member','NandCommon_ERROR_UNKNOWNMODEL3454457112',this); ">NandCommon_ERROR_UNKNOWNMODEL</a>;
+        }
+    }
+    else {
+
+        // Copy provided model
+        raw-&gt;<a href="#" onMouseOver="link('_member','model267785469',this); ">model</a> = *model;
+    }
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

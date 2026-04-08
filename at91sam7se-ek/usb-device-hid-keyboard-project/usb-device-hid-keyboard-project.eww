@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<workspace>
+	<project>
+		<path>$WS_DIR$/ewp/at91sam7se-ek.ewp</path>
+	</project>
+	<batchBuild>
+		<batchDefinition>
+			<name>All</name>&gt;
+			<member>
+				<project>at91sam7se-ek</project>
+				<configuration>at91sam7se256_sdram</configuration>
+			</member>
+			<member>
+				<project>at91sam7se-ek</project>
+				<configuration>at91sam7se256_flash</configuration>
+			</member>
+			<member>
+				<project>at91sam7se-ek</project>
+				<configuration>at91sam7se256_sram</configuration>
+			</member>
+			<member>
+				<project>at91sam7se-ek</project>
+				<configuration>at91sam7se32_sdram</configuration>
+			</member>
+			<member>
+				<project>at91sam7se-ek</project>
+				<configuration>at91sam7se32_flash</configuration>
+			</member>
+			<member>
+				<project>at91sam7se-ek</project>
+				<configuration>at91sam7se512_sdram</configuration>
+			</member>
+			<member>
+				<project>at91sam7se-ek</project>
+				<configuration>at91sam7se512_flash</configuration>
+			</member>
+			<member>
+				<project>at91sam7se-ek</project>
+				<configuration>at91sam7se512_sram</configuration>
+			</member>
+		</batchDefinition>
+	</batchBuild>
+</workspace>

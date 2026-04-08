@@ -1,0 +1,48 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - NorFlashCommon.h</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">NorFlashCommon.h</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','norflash0',this)" class="pathLink">norflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">NorFlashCommon.h</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("divID74132","aID74132","LeftMenuActive","leftMenuLinkActive");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_unit','NorFlashCommon_h0','_description',this)" class="tabLinkActive">Description</a></span>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_unit','NorFlashCommon_h0','_overview',this)" class="tabLinkInActive">Overview</a></span>
+<script type="text/javascript">
+ Body4();
+</script>
+&nbsp;<br>
+<div class="paragraph2">Description</div>
+<div id="descDesc" class="paddingMembers"><div class="userParagraph3">Purpose</div>
+The Hardware Adaptation Layer manages the hardware functions of the NORFLASH Flash. It implements a low level driver to manage the hardware functionality of NORFLASH.<br>
+<br>
+<div class="userParagraph3">Usage</div>
+<ol>
+<li><a href="#" OnMouseOver="link('_member','WriteRawData1593415754',this)">WriteRawData()</a> is used to write <a href="#" OnMouseOver="link('_member','../../../basic-fatfs-nandflash-project/data0',this)">data</a> to the NorFlash <a href="#" OnMouseOver="link('_dir','../../usb/device/device0',this)">device</a>.</li>
+<li><a href="#" OnMouseOver="link('_member','ReadRawData1593415754',this)">ReadRawData()</a> is used to read <a href="#" OnMouseOver="link('_member','../../../basic-fatfs-nandflash-project/data0',this)">data</a> from the NorFlash <a href="#" OnMouseOver="link('_dir','../../usb/device/device0',this)">device</a>.</li>
+<li>The specified address for read/write opertion is an linear byte address of targer application byte address space represented by WORD((8-bit, 16-bit, 32-bit). The start (base) address of the <a href="#" OnMouseOver="link('_dir','../flash/flash0',this)">flash</a> memory in this address space is defined in <a href="#" OnMouseOver="link('_unit','../../boards/at91sam9xe-ek/board_h0',this)">board.h</a> file as <a href="#" OnMouseOver="link('_member','../../boards/at91sam9xe-ek/BOARD_NORFLASH_ADDR3153881151',this)">BOARD_NORFLASH_ADDR</a> and users might need to change it.</li>
+<li><a href="#" OnMouseOver="link('_member','WriteCommand342970182',this)">WriteCommand()</a> is used to write a command to specified command address.</li>
+</ol>
+
+<br>
+<div class="userParagraph3"> NorFlash Error Codes</div>
+ It provides detailed error codes to describe the various errors that may occur during the operation. Some functions return an error number directly as the function value. These functions return a value of zero (<a href="#" OnMouseOver="link('_member','NorCommon_ERROR_NONE2638405329',this)">NorCommon_ERROR_NONE</a>) to indicate a success.<br>
+</div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_unit','_description');
+</script>

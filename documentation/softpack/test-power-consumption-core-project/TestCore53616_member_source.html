@@ -1,0 +1,75 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - TestCore</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">TestCore</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','testmi_powermi_consumptionmi_coremi_project0',this)" class="pathLink">test-power-consumption-core-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">TestCore</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','TestCore53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','TestCore53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 347</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','TestCore53616',this); ">TestCore</a>(void)
+{
+    unsigned char key = 0; 
+    
+    while (1)
+    {
+        <a href="#" onMouseOver="link('_member','DisplayMenuCore53616',this); ">DisplayMenuCore</a>();      
+      
+        key = <a href="#" onMouseOver="link('_member','../at91lib/peripherals/dbgu/DBGU_GetChar53616',this); ">DBGU_GetChar</a>();
+        switch(key)
+        {
+            // Configuration
+            case 'p': 
+                if(<a href="#" onMouseOver="link('_member','../at91lib/peripherals/pmc/PMC_IsAllPeriphEnabled53616',this); ">PMC_IsAllPeriphEnabled</a>()) {
+                    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pmc/PMC_DisableAllPeripherals53616',this); ">PMC_DisableAllPeripherals</a>();
+                } else {
+                    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pmc/PMC_EnableAllPeripherals53616',this); ">PMC_EnableAllPeripherals</a>();  
+                }
+                break;
+            case 'c':
+                if(CP15_IsIcacheEnabled()) {
+                    CP15_DisableIcache();
+                } else {
+                    CP15_EnableIcache();  
+                }
+                break;            
+            case 'f': <a href="#" onMouseOver="link('_member','../at91lib/utility/CLOCK_UserChangeConfig53616',this); ">CLOCK_UserChangeConfig</a>();    break;          
+            
+            // Mode test
+            case 'A': <a href="#" onMouseOver="link('_member','SetActiveMode53616',this); ">SetActiveMode</a>();             break;            
+            case 'I': <a href="#" onMouseOver="link('_member','SetIdleMode53616',this); ">SetIdleMode</a>();               break;
+            case 'S': <a href="#" onMouseOver="link('_member','SetSlowClockMode53616',this); ">SetSlowClockMode</a>();          break;
+
+            default :
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("This menu does not exist !\n\r");
+                break;                        
+        }//switch   
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

@@ -1,0 +1,55 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - NorFlashApi.h</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">NorFlashApi.h</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','norflash0',this)" class="pathLink">norflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">NorFlashApi.h</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("divID74131","aID74131","LeftMenuActive","leftMenuLinkActive");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_unit','NorFlashApi_h0','_description',this)" class="tabLinkActive">Description</a></span>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_unit','NorFlashApi_h0','_overview',this)" class="tabLinkInActive">Overview</a></span>
+<script type="text/javascript">
+ Body4();
+</script>
+&nbsp;<br>
+<div class="paragraph2">Description</div>
+<div id="descDesc" class="paddingMembers"><div class="userParagraph3">Purpose</div>
+The API layer consists of several functions that allow user to do operations with <a href="#" OnMouseOver="link('_dir','../flash/flash0',this)">flash</a> in a unified way. As a result, future <a href="#" OnMouseOver="link('_dir','../../usb/device/device0',this)">device</a> changes will not necessarily lead to the code changes in the application environments. In this norflash library we support AMD and INTEL command set. The API layar code accesses the Flash memory by calling the low-level code, so users do not have to concern themselves with the details of the special command sequences.<br>
+<br>
+<div class="userParagraph3">Usage</div>
+ !!!Usage<ol>
+<li>Flash program using <a href="#" OnMouseOver="link('_member','NORFLASH_WriteData2267191262',this)">NORFLASH_WriteData()</a>.<ul>
+<li>The Program command is used to modify the <a href="#" OnMouseOver="link('_member','../../../basic-fatfs-nandflash-project/data0',this)">data</a> stored at the specified <a href="#" OnMouseOver="link('_dir','../../usb/device/device0',this)">device</a> address.</li>
+</ul>
+
+</li>
+<li>erase a block within the <a href="#" OnMouseOver="link('_dir','../flash/flash0',this)">flash</a> using <a href="#" OnMouseOver="link('_member','NORFLASH_EraseSector1882410306',this)">NORFLASH_EraseSector()</a>.<ul>
+<li>Flash erase is performed on a block basis. An entire block is erased each time an erase command sequence is given.</li>
+</ul>
+
+</li>
+<li>erase whole blocks within the <a href="#" OnMouseOver="link('_dir','../flash/flash0',this)">flash</a> using <a href="#" OnMouseOver="link('_member','NORFLASH_EraseChip863130501',this)">NORFLASH_EraseChip()</a>.</li>
+<li><a href="#" OnMouseOver="link('_member','NORFLASH_Reset1882410306',this)">NORFLASH_Reset()</a> function <a href="#" OnMouseOver="link('_dir','../../peripherals/can/can0',this)">can</a> be issued, between Bus Write cycles before the start of a program or erase operation, to return the <a href="#" OnMouseOver="link('_dir','../../usb/device/device0',this)">device</a> to read mode.</li>
+<li><a href="#" OnMouseOver="link('_member','NORFLASH_ReadDeviceID863130501',this)">NORFLASH_ReadDeviceID()</a> is used to retrieve information about the Flash Device type.</li>
+<li><a href="#" OnMouseOver="link('_member','NORFLASH_ReadManufactoryID863130501',this)">NORFLASH_ReadManufactoryID()</a> is used to retrieve information about the Flash Device Manufactory ID.</li>
+</ol>
+
+</div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_unit','_description');
+</script>

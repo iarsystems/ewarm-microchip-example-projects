@@ -1,0 +1,154 @@
+<!DOCTYPE PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+        <title>Software Examples</title>
+        <link rel="stylesheet" type="text/css" href="common/style.css" />
+    </head>
+
+    <body>
+        <div id="body">
+            <h1>Flash loader usage with AT91 devices</h1>
+            <div id="banner"></div>
+
+            <p>The flash loaders provided with AT91 devices software examples allow to program internal flash memories, as well as external flash memories such as Nandflash, Dataflash, Serialflash, Norflash or TWI EEPROM.</p>
+            <p>This page explains how to fill the EWARM "Download window" to allow the user to write his program into a selected memory.</p>
+            <p>The figure below shows the three EWARM windows involved in Flashloader configuration :</p> 
+            <img src="./EWARM_Flashloader_options.jpg" alt="Flashloader configuration overview (at91sam9263 for project at91bootstrap)">
+    
+            <h2>Extra parameters list</h2>
+            <p>Use this text box to specify the memory to be programed and to set the selected flashloader options.</p>
+            <table>
+                <tr>
+                    <th width="200">Extra parameters</th>
+                    <th>Description</th>
+                </tr>
+				<tr>
+                    <td><a>--flash</a></td>
+					<td class="description">Program the embedded flash.</td>
+				</tr>
+				<tr>
+                    <td><a>--dataflash</a></td>
+					<td class="description">Program AT45DB/DCB DataFlash®.</td>
+				</tr>
+				<tr>
+                    <td><a>--serialflash</a></td>
+                    <td class="description">Program AT25/AT26 serial flash.</td>
+				</tr>
+				<tr>
+                    <td><a>--nandflash</a></td>
+					<td class="description">Program NAND flash.</td>
+				</tr>
+				<tr>
+                    <td><a>--norflash</a></td>
+					<td class="description">Program CFI compatible Nor flash.</td>
+				</tr>
+				<tr>
+                    <td><a>--eeprom</a></td>
+					<td class="description">Program 2-Wire Bus Serial EEPROM.</td>
+				</tr>
+            </table>
+            
+             
+            <h2>Internal flash bank</h2>
+            <p>Use this option with --flash extra parameter to indicate on which eefc bank.</p>
+            <table>
+				<tr>
+                    <td><a>--eefcbank {0/1}</a></td>
+                    <td class="description">EEFC bank select. Set 0 for EEFC bank 0, set 1 for EEFC bank 1.<br>
+                    This option only support for the chip which have two EEFC controller. </td>
+				</tr>
+            </table>
+            
+            <h2>Dataflash and Serialflash Chip Select</h2>
+            <p>Use this option with --dataflash or --serialflash extra parameter to indicate on which CS pin the flash is connected.</p>
+            <table>
+				<tr>
+                    <td><a>--cs {0/1}</a></td>
+                    <td class="description">SPI CS pin select. Set 0 for CS0, set 1 for CS1.</td>
+				</tr>
+            </table>
+
+            <h2>AT24 EEPROM device type selection</h2>
+            <p>Use this option with --eeprom extra parameter.</p>
+            <table>
+				<tr>
+                    <td><a>--at24id {0-10}</a></td>
+                    <td class="description">2-Wire Bus Serial EEPROM device type.</td>
+				</tr>
+            </table>
+
+            <table>
+                <tr>
+                    <th width="50">ID</th>
+                    <th>EEPROM type</th>
+                </tr>
+				<tr><td><a>0</a></td> <td class="description">AT24C01</td></tr>
+				<tr><td><a>1</a></td> <td class="description">AT24C02</td></tr>
+				<tr><td><a>2</a></td> <td class="description">AT24C04</td></tr>
+				<tr><td><a>3</a></td> <td class="description">AT24C08</td></tr>
+				<tr><td><a>4</a></td> <td class="description">AT24C16</td></tr>
+				<tr><td><a>5</a></td> <td class="description">AT24C32</td></tr>
+				<tr><td><a>6</a></td> <td class="description">AT24C64</td></tr>
+				<tr><td><a>7</a></td> <td class="description">AT24C128</td></tr>
+				<tr><td><a>8</a></td> <td class="description">AT24C256</td></tr>
+				<tr><td><a>9</a></td> <td class="description">AT24C512</td></tr>
+				<tr><td><a>10</a></td> <td class="description">AT24C1024</td></tr>
+             </table>
+
+            <h2>Boot option</h2>
+            <p>Use this option to specify if you want the downloaded program to be bootable (Only for AT91SAM9 devices with external memory boot feature).<br>
+               To be used with dataflash, serialflash, nandflash or eeprom flashloaders.</p>
+            <table>
+				<tr>
+                    <td><a>--boot </a></td>
+                    <td class="description">Optional boot file support.<br>
+                        When --boot is given, the flash loader replaces the sixth word of the binary file with the size of the program to download.<br>
+                        This allows the program to be executed by the ROM code at boot time.<br>
+                        By default, Nand flash,Dataflash,Serialflash and Eeprom have the --boot option.</td>
+				</tr>
+				<tr>
+                    <td><a>--no-boot </a></td>
+                    <td class="description">Disable boot file support.<br>
+                        When --no-boot is given, the flash loader disables boot option.</td>
+				</tr>
+            </table>
+
+            <h2>Example</h2>
+            <p>
+                This small example shows how to use the Nandflash flash loader for bootstrap and getting started projects on a AT91SAM9263-EK board.<br>
+                This will result in two programs in Nandflash ready to be executed automatically when the board in powered on.
+                <br>
+                at91bootstrap project :<br>
+                Open at91bootstrap-at91sam9263-ek EWARM workspace.<br>
+                Select nandflash2sdram configuration.<br>
+                Choose Project->Options.<br>
+                Choose the Debugger category and click the Setup tab.<br>
+                Select the J-Link/J-Trace option in driver box.<br>
+                Choose the J-Link/J-Trace category and configure it.<br>
+                Choose the Debugger category and click the Download tab.<br>
+                Select the Use Flash loader(s) option.<br>
+                Use the button labeled '..' to select at91sam9263-nandflashboot.board. <br>
+                If no such file is available, you can create a new file<br>
+                Select Project->Download and Debug to program.<br>
+                The figure below shows the Flash Loader Configuration dialog box for the bootstrap project. <br>
+                <img src="./BootStrap_Nand_FL.JPG" alt="Nandflash flashloader on at91sam9263 for project at91bootstrap">
+                <br>
+                Getting Started project :<br>
+                Open getting-started-project workspace.<br>
+                Choose Project->Options.<br>
+                Choose the Debugger category and click the Setup tab.<br>
+                Select the J-Link/J-Trace option in driver box.<br>
+                Choose the J-Link/J-Trace category and configure it.<br>
+                Choose the Debugger category and click the Download tab.<br>
+                Select the Use Flash loader(s) option.<br>
+                Use the button labeled '..' to select at91sam9263-nandflash.board. <br>
+                If no such file is available, you can create a new file<br>
+                Select Project->Download and Debug to program.<br>
+                Start a new power up sequence to reset the board<br>
+                The figure below shows the Flash Loader Configuration dialog box for the getting started project You can see that the no-boot option is set to disable boot.
+                <img src="./GettingStarted_Nand_FL.JPG" alt="Nandflash flashloader on at91sam9263 for project getting started">
+            </p>
+        </div>
+    </body>
+
+</html>

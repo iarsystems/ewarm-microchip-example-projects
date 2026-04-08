@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - BOARD_ConfigureNandFlash</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">BOARD_ConfigureNandFlash</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../boards0',this)" class="pathLink">boards</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','at91sam3umi_ek0',this)" class="pathLink">at91sam3u-ek</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">BOARD_ConfigureNandFlash</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','BOARD_ConfigureNandFlash2593655934','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','BOARD_ConfigureNandFlash2593655934','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 50</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','../at91sam9xe-ek/BOARD_ConfigureNandFlash2593655934',this); ">BOARD_ConfigureNandFlash</a>(unsigned char busWidth)
+{
+#if defined(CHIP_NAND_CTRL)
+    AT91PS_HSMC4 pHSMC4 = AT91C_BASE_HSMC4;    
+#endif
+    AT91PS_HSMC4_CS pSMC = AT91C_BASE_HSMC4_CS1;
+
+    // Open EBI clock
+    AT91C_BASE_PMC-&gt;PMC_PCER = (1&lt;&lt; AT91C_ID_HSMC4);
+ 
+#if defined(CHIP_NAND_CTRL)
+    // Enable the Nand Flash Controller
+    pHSMC4 -&gt;HSMC4_CTRL = AT91C_HSMC4_NFCEN;
+#endif
+    
+    pSMC-&gt;HSMC4_SETUP = 0
+                    | ((0 &lt;&lt;  0) &amp; AT91C_HSMC4_NWE_SETUP)
+                    | ((1 &lt;&lt;  8) &amp; AT91C_HSMC4_NCS_WR_SETUP)
+                    | ((0 &lt;&lt; 16) &amp; AT91C_HSMC4_NRD_SETUP)
+                    | ((1 &lt;&lt; 24) &amp; AT91C_HSMC4_NCS_RD_SETUP);
+
+    pSMC-&gt;HSMC4_PULSE = 0
+                    | ((2 &lt;&lt;  0) &amp; AT91C_HSMC4_NWE_PULSE)
+                    | ((3 &lt;&lt;  8) &amp; AT91C_HSMC4_NCS_WR_PULSE)
+                    | ((3 &lt;&lt; 16) &amp; AT91C_HSMC4_NRD_PULSE)
+                    | ((4 &lt;&lt; 24) &amp; AT91C_HSMC4_NCS_RD_PULSE);
+
+    pSMC-&gt;HSMC4_CYCLE = 0
+                  | ((4 &lt;&lt;  0) &amp; AT91C_HSMC4_NWE_CYCLE)
+                  | ((7 &lt;&lt; 16) &amp; AT91C_HSMC4_NRD_CYCLE);
+
+    pSMC-&gt;HSMC4_TIMINGS = 0
+                    | ((1 &lt;&lt;  0) &amp; AT91C_HSMC4_TCLR) // CLE to REN
+                    | ((2 &lt;&lt;  4) &amp; AT91C_HSMC4_TADL) // ALE to Data
+                    | ((1 &lt;&lt;  8) &amp; AT91C_HSMC4_TAR)  // ALE to REN
+                    | ((1 &lt;&lt; 16) &amp; AT91C_HSMC4_TRR)  // Ready to REN
+                    | ((2 &lt;&lt; 24) &amp; AT91C_HSMC4_TWB)  // WEN to REN
+                    | (7&lt;&lt;28)
+                    |(AT91C_HSMC4_NFSEL)              // Nand Flash Timing
+                    ;
+    
+        
+    if (busWidth == 8) {
+        pSMC-&gt;HSMC4_MODE = AT91C_HSMC4_DBW_WIDTH_EIGTH_BITS | AT91C_HSMC4_READ_MODE | AT91C_HSMC4_WRITE_MODE;
+    }
+    else if (busWidth == 16) {
+        pSMC-&gt;HSMC4_MODE = AT91C_HSMC4_DBW_WIDTH_SIXTEEN_BITS | AT91C_HSMC4_READ_MODE | AT91C_HSMC4_WRITE_MODE;
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

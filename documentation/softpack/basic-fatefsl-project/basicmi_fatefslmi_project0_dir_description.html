@@ -1,0 +1,112 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - basic-fatefsl-project</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">basic-fatefsl-project</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">basic-fatefsl-project</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("divID73960","aID73960","headerLeftMenuActive","leftMenuLinkHeadActive");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_dir','basicmi_fatefslmi_project0','_description',this)" class="tabLinkActive">Description</a></span>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_dir','basicmi_fatefslmi_project0','_dirgraph',this)" class="tabLinkInActive">Graph</a></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<span class="paragraph1">basic-fatefsl-project</span>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="padding"><div class="userParagraph1">Purpose</div>
+The Basic-fatefsl-project will help you to get familiar with filesystem on AT91SAM microcontrollers. This demo is based on Open Source FAT filesystem EFSL (Embedded Filesystem Library). It supplies sample code of <a href="#" OnMouseOver="link('_dir','../at91lib/usb/common/common0',this)">common</a> operations of a filesystem through a External RAM based filesystem. It <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> also help you to configure the filesystem according to your own needs, which <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> be used for fast implementation of your own filesystem and other applications related.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">See</div>
+ <a href="http://sourceforge.net/projects/efsl/">SourceForge project of EFSL FAT</a> <a href="../../../external_libs/fat/efsl/docs/manual.pdf">EFSL Embedded Filesystem Library </a><br>
+<br>
+</div>
+<div class="padding">You <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> find following information depends on your needs:<ul>
+<li>External RAM initialize sample code</li>
+<li>Supply a set of file system interface for user to do file related work, e.g:<ul>
+<li>mount a disk</li>
+<li>initialize a disk</li>
+<li>create/open a file</li>
+<li>write/read a file</li>
+<li>etc This <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> be used on different physical <a href="#" OnMouseOver="link('_member','../basic-safe-secure-project/medias0',this)">medias</a>, such as External RAM, SD card.</li>
+</ul>
+
+</li>
+<li>Supply a set of disk level interface for user's reference, which is called by filesystem level</li>
+<li>Teaches user how to use these interfaces through sample code</li>
+<li>Configuration of a filesystem</li>
+</ul>
+
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Requirements</div>
+ This package <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> be used with all Atmel evaluation kits that have EBI interface and External RAM <a href="#" OnMouseOver="link('_dir','../at91lib/usb/device/device0',this)">device</a><br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Description</div>
+ Open HyperTerminal before running this program, use SAM-BA to download this program to SRAM or External RAM, make the program run, the HyperTerminal will give out the test results.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Usage</div>
+<ol>
+<li>Build the program and download it inside the evaluation board. Please refer to the <a href="http://www.atmel.com/dyn/resources/prod_documents/doc6224.pdf">SAM-BA User Guide</a>, the <a href="http://www.atmel.com/dyn/resources/prod_documents/doc6310.pdf">GNU-Based Software Development</a> application note or to the <a href="ftp://ftp.iar.se/WWWfiles/arm/Guides/EWARM_UserGuide.ENU.pdf">IAR EWARM User Guide</a>, depending on your chosen solution.</li>
+<li>On the computer, open and configure a terminal application (e.g. HyperTerminal on Microsoft Windows) with these settings:<ul>
+<li>115200 bauds</li>
+<li>8 bits of <a href="#" OnMouseOver="link('_member','../basic-fatfs-nandflash-project/data0',this)">data</a></li>
+<li>No parity</li>
+<li>1 stop bit</li>
+<li>No flow control</li>
+</ul>
+
+</li>
+<li>Start the application</li>
+<li>Upon startup, the application will output the following lines on the DBGU.   <table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+  <TR VALIGN="top">
+  <TD class="paddingHeadMultiColumn2">
+<pre class="codeExamples">
+-- Basic Fat EFSL Project xxx --
+-- AT91xxxxxx-xx
+-- Compiled: xxx xx xxxx xx:xx:xx --
+-- AT91SAMxxxx-xx
+-- Compiled: xxxxxx --
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- FAT init
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- xxx init (xxx depends on different physical medias)
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- External RAM already initialized
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- Could not init filesystem.
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- creating an empty filesystem
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- Filesystem is created
+</pre>  </TD>
+  </TR>
+  </TABLE>
+</li>
+</ol>
+
+</div>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="paragraph2">Source</div>
+<div class="paddingMembers">The documentation for this Directory was generated from the following files:</div>
+<div class="paddingMembers"><LI>main.c<br></div>
+<div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_dir','_description');
+</script>

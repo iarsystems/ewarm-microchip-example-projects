@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - EMAC_Send</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">EMAC_Send</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','emac0',this)" class="pathLink">emac</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">EMAC_Send</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','EMAC_Send816763769','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','EMAC_Send816763769','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 607</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','EMAC_Send816763769',this); ">EMAC_Send</a>(void *pBuffer, unsigned int size, EMAC_TxCallback fEMAC_TxCallback)
+{
+    volatile <a href="#" onMouseOver="link('_class','_EmacTxTDescriptor0',this); ">EmacTxTDescriptor</a> *pTxTd;
+    volatile <a href="#" onMouseOver="link('_member','EMAC_TxCallback0',this); ">EMAC_TxCallback</a>   *pTxCb;
+
+    //TRACE_DEBUG("EMAC_Send\n\r");
+
+    // Check parameter
+    if (size &gt; EMAC_TX_UNITSIZE) {
+
+        TRACE_ERROR("EMAC driver does not split send packets.");
+        TRACE_ERROR(" It can send %d bytes max in one packet (%d bytes requested)\n\r",
+            EMAC_TX_UNITSIZE, size);
+        return EMAC_TX_INVALID_PACKET;
+    }
+
+    // If no free TxTd, buffer can't be sent, schedule the wakeup callback
+    if( CIRC_SPACE(txTd.head, txTd.tail, TX_BUFFERS) == 0) {
+        return EMAC_TX_BUFFER_BUSY;
+
+    }
+
+    // Pointers to the current TxTd
+    pTxTd = txTd.td + txTd.head;
+    pTxCb = txTd.txCb + txTd.head;
+
+    // Sanity check
+    ASSERT((pTxTd-&gt;status &amp; EMAC_TX_USED_BIT) != 0, 
+        "-F- Buffer is still under EMAC control\n\r");
+
+    // Setup/Copy data to transmition buffer
+    if (<a href="#" onMouseOver="link('_member','../../../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a> &amp;&amp; size) {
+        // Driver manage the ring buffer
+        <a href="#" onMouseOver="link('_member','../../utility/memcpy1713522179',this); ">memcpy</a>((void *)pTxTd-&gt;addr, pBuffer, size);
+    }
+    
+    // Tx Callback
+    *pTxCb = fEMAC_TxCallback;
+
+    // Update TD status
+    // The buffer size defined is length of ethernet frame
+    // so it's always the last buffer of the frame.
+    if (txTd.head == <a href="#" onMouseOver="link('_member','TX_BUFFERS3367907525',this); ">TX_BUFFERS</a>-1) {
+        pTxTd-&gt;status = 
+            (size &amp; EMAC_LENGTH_FRAME) | EMAC_TX_LAST_BUFFER_BIT | EMAC_TX_WRAP_BIT;
+    }
+    else {
+        pTxTd-&gt;status = (size &amp; EMAC_LENGTH_FRAME) | EMAC_TX_LAST_BUFFER_BIT;
+    }
+    
+    CIRC_INC(txTd.head, TX_BUFFERS)
+
+    // Tx packets count
+    EmacStatistics.tx_packets++;
+
+    // Now start to transmit if it is not already done
+    AT91C_BASE_EMAC-&gt;EMAC_NCR |= AT91C_EMAC_TSTART;
+
+    return <a href="#" onMouseOver="link('_member','EMAC_TX_OK3367907525',this); ">EMAC_TX_OK</a>;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

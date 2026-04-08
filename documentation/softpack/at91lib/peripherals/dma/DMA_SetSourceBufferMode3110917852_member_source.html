@@ -1,0 +1,73 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - DMA_SetSourceBufferMode</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">DMA_SetSourceBufferMode</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','dma0',this)" class="pathLink">dma</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">DMA_SetSourceBufferMode</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','DMA_SetSourceBufferMode3110917852','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','DMA_SetSourceBufferMode3110917852','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 227</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','DMA_SetSourceBufferMode3110917852',this); ">DMA_SetSourceBufferMode</a>(unsigned char channel, unsigned char transferMode, unsigned char addressingType)
+{
+    unsigned int value;
+    
+    ASSERT(channel &lt; DMA_CHANNEL_NUM, "channel %d does not exist", channel);
+    
+    value = AT91C_BASE_HDMA-&gt;HDMA_CH[channel].HDMA_CTRLB;
+    value &amp;= ~ (AT91C_SRC_DSCR | AT91C_SRC_INCR | 1&lt;&lt;31);
+    switch(transferMode){
+        case DMA_TRANSFER_SINGLE:
+             value |= AT91C_SRC_DSCR | addressingType &lt;&lt; 24;
+             break;
+        case DMA_TRANSFER_LLI:
+             value |= addressingType &lt;&lt; 24;
+             break;
+        case DMA_TRANSFER_RELOAD:
+        case DMA_TRANSFER_CONTIGUOUS:
+             value |= AT91C_SRC_DSCR | addressingType &lt;&lt; 24 | 1&lt;&lt;31;
+             break;
+    }             
+    AT91C_BASE_HDMA-&gt;HDMA_CH[channel].HDMA_CTRLB = value;
+    
+    if(transferMode == DMA_TRANSFER_RELOAD || transferMode == DMA_TRANSFER_CONTIGUOUS){
+        value = AT91C_BASE_HDMA-&gt;HDMA_CH[channel].HDMA_CFG;
+        #if defined(AT91C_SRC_REP)
+        value &amp;= ~ (AT91C_SRC_REP);
+        // When automatic mode is activated, the source address and the control register are reloaded from previous transfer.
+        if(transferMode == DMA_TRANSFER_RELOAD) {
+            value |= AT91C_SRC_REP;
+        }
+        #endif
+        AT91C_BASE_HDMA-&gt;HDMA_CH[channel].HDMA_CFG = value;
+    }
+    else {
+        AT91C_BASE_HDMA-&gt;HDMA_CH[channel].HDMA_CFG = 0;
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

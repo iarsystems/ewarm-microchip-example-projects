@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - LUN_Read</TITLE>
+<script type="text/javascript" src="../../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../../common/";
+ var relPathToHelpDir = "../../../../../common/help/";
+ var toSearchPage     = "_search','../../../../../search";
+ Body1();
+</script>
+<div class="headerPage">LUN_Read</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../usb0',this)" class="pathLink">usb</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../device0',this)" class="pathLink">device</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','massstorage0',this)" class="pathLink">massstorage</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">LUN_Read</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','LUN_Read2313779510','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','LUN_Read2313779510','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 321</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','LUN_Read2313779510',this); ">LUN_Read</a>(<a href="#" onMouseOver="link('_class','MSDLun0',this); ">MSDLun</a> *lun, unsigned int blockAddress, void *data, unsigned int length, TransferCallback callback, void *argument)
+{
+    unsigned int medBlk, medLen;
+    unsigned char status;
+
+    // Check that the data is not too big
+    if ((length + blockAddress) * lun-&gt;<a href="#" onMouseOver="link('_member','blockSize37150',this); ">blockSize</a> &gt; lun-&gt;<a href="#" onMouseOver="link('_member','size37150',this); ">size</a>) {
+
+        TRACE_WARNING("LUN_Read: Area: (%d + %d)*%d &gt; %d\n\r",
+                      length, blockAddress, lun-&gt;<a href="#" onMouseOver="link('_member','blockSize37150',this); ">blockSize</a>, lun-&gt;<a href="#" onMouseOver="link('_member','size37150',this); ">size</a>);
+        status = <a href="#" onMouseOver="link('_member','../core/USBD_STATUS_ABORTED2292695961',this); ">USBD_STATUS_ABORTED</a>;
+    }
+    else if (lun-&gt;<a href="#" onMouseOver="link('_member','media37150',this); ">media</a> == 0 || lun-&gt;<a href="#" onMouseOver="link('_member','status37150',this); ">status</a> != <a href="#" onMouseOver="link('_member','LUN_READY425422660',this); ">LUN_READY</a>) {
+
+        TRACE_WARNING("LUN_Read: Media not present\n\r");
+        status = <a href="#" onMouseOver="link('_member','../core/USBD_STATUS_ABORTED2292695961',this); ">USBD_STATUS_ABORTED</a>;
+    }
+    else {
+
+        TRACE_INFO_WP("LUNRead(%u) ", blockAddress);
+
+        // Compute read start address
+        medBlk = lun-&gt;<a href="#" onMouseOver="link('_member','baseAddress37150',this); ">baseAddress</a> + (blockAddress * lun-&gt;<a href="#" onMouseOver="link('_member','blockSize37150',this); ">blockSize</a>);
+        medLen = length * lun-&gt;<a href="#" onMouseOver="link('_member','blockSize37150',this); ">blockSize</a>;
+
+        // Start write operation
+        status = MED_Read(lun-&gt;<a href="#" onMouseOver="link('_member','media37150',this); ">media</a>,
+                          medBlk,
+                          data,
+                          medLen,
+                          (MediaCallback) callback,
+                          argument);
+
+        // Check result code
+        if (status == <a href="#" onMouseOver="link('_member','../../../memories/MED_STATUS_SUCCESS3460198363',this); ">MED_STATUS_SUCCESS</a>) {
+
+            status = <a href="#" onMouseOver="link('_member','../core/USBD_STATUS_SUCCESS2292695961',this); ">USBD_STATUS_SUCCESS</a>;
+        }
+        else {
+
+            TRACE_WARNING("LUN_Read: Cannot read media\n\r");
+            status = <a href="#" onMouseOver="link('_member','../core/USBD_STATUS_ABORTED2292695961',this); ">USBD_STATUS_ABORTED</a>;
+        }
+    }
+
+    return status;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

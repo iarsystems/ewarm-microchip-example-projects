@@ -1,0 +1,131 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - EMAC_Init</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">EMAC_Init</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','emac0',this)" class="pathLink">emac</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">EMAC_Init</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','EMAC_Init3090784994','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','EMAC_Init3090784994','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 466</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','EMAC_Init3090784994',this); ">EMAC_Init</a>(unsigned char id, const unsigned char *pMacAddress, unsigned char enableCAF, unsigned char enableNBC)
+{
+    int Index;
+    unsigned int Address;
+
+    // Check parameters
+    ASSERT(RX_BUFFERS * EMAC_RX_UNITSIZE &gt; EMAC_FRAME_LENTGH_MAX,
+           "E: RX buffers too small\n\r");
+
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("EMAC_Init\n\r");
+
+    // Power ON
+    AT91C_BASE_PMC-&gt;PMC_PCER = 1 &lt;&lt; id;
+
+    // Disable TX &amp; RX and more
+    AT91C_BASE_EMAC-&gt;EMAC_NCR = 0;
+
+    // disable 
+    AT91C_BASE_EMAC-&gt;EMAC_IDR = ~0;
+
+    rxTd.idx = 0;
+    CIRC_CLEAR(&amp;txTd);
+
+    // Setup the RX descriptors.
+    for(Index = 0; Index &lt; <a href="#" onMouseOver="link('_member','RX_BUFFERS3367907525',this); ">RX_BUFFERS</a>; Index++) {
+
+        Address = (unsigned int)(&amp;(pRxBuffer[Index * <a href="#" onMouseOver="link('_member','EMAC_RX_UNITSIZE3367907525',this); ">EMAC_RX_UNITSIZE</a>]));
+        // Remove EMAC_RX_OWNERSHIP_BIT and EMAC_RX_WRAP_BIT
+        rxTd.td[Index].addr = Address &amp; <a href="#" onMouseOver="link('_member','EMAC_ADDRESS_MASK3367907539',this); ">EMAC_ADDRESS_MASK</a>;
+        rxTd.td[Index].status = 0;
+    }
+    rxTd.td[<a href="#" onMouseOver="link('_member','RX_BUFFERS3367907525',this); ">RX_BUFFERS</a> - 1].addr |= EMAC_RX_WRAP_BIT;
+
+    // Setup the TX descriptors.
+    for(Index = 0; Index &lt; <a href="#" onMouseOver="link('_member','TX_BUFFERS3367907525',this); ">TX_BUFFERS</a>; Index++) {
+
+        Address = (unsigned int)(&amp;(pTxBuffer[Index * EMAC_TX_UNITSIZE]));
+        txTd.td[Index].addr = Address;
+        txTd.td[Index].status = EMAC_TX_USED_BIT;
+    }
+    txTd.td[<a href="#" onMouseOver="link('_member','TX_BUFFERS3367907525',this); ">TX_BUFFERS</a> - 1].status = EMAC_TX_USED_BIT | EMAC_TX_WRAP_BIT;
+
+    // Set the MAC address
+    if( pMacAddress != (unsigned char *)0 ) {
+        AT91C_BASE_EMAC-&gt;EMAC_SA1L = ( ((unsigned int)pMacAddress[3] &lt;&lt; 24)
+                                     | ((unsigned int)pMacAddress[2] &lt;&lt; 16)
+                                     | ((unsigned int)pMacAddress[1] &lt;&lt; 8 )
+                                     |                pMacAddress[0] );
+
+        AT91C_BASE_EMAC-&gt;EMAC_SA1H = ( ((unsigned int)pMacAddress[5] &lt;&lt; 8 )
+                                     |                pMacAddress[4] );
+    }
+    // Now setup the descriptors
+    // Receive Buffer Queue Pointer Register
+    AT91C_BASE_EMAC-&gt;EMAC_RBQP = (unsigned int) (rxTd.td);
+    // Transmit Buffer Queue Pointer Register
+    AT91C_BASE_EMAC-&gt;EMAC_TBQP = (unsigned int) (txTd.td);
+
+    AT91C_BASE_EMAC-&gt;EMAC_NCR = AT91C_EMAC_CLRSTAT;
+
+    // Clear all status bits in the receive status register.
+    AT91C_BASE_EMAC-&gt;EMAC_RSR = (AT91C_EMAC_OVR | AT91C_EMAC_REC | AT91C_EMAC_BNA);
+
+    // Clear all status bits in the transmit status register
+    AT91C_BASE_EMAC-&gt;EMAC_TSR = ( AT91C_EMAC_UBR | AT91C_EMAC_COL | AT91C_EMAC_RLES
+                                | AT91C_EMAC_BEX | AT91C_EMAC_COMP
+                                | AT91C_EMAC_UND );
+
+    // Clear interrupts
+    AT91C_BASE_EMAC-&gt;EMAC_ISR;
+
+    // Enable the copy of data into the buffers
+    // ignore broadcasts, and don't copy FCS.
+    AT91C_BASE_EMAC-&gt;EMAC_NCFGR |= (AT91C_EMAC_DRFCS | AT91C_EMAC_PAE);
+
+    if( enableCAF == EMAC_CAF_ENABLE ) {
+        AT91C_BASE_EMAC-&gt;EMAC_NCFGR |= AT91C_EMAC_CAF;
+    }
+    if( enableNBC == EMAC_NBC_ENABLE ) {
+        AT91C_BASE_EMAC-&gt;EMAC_NCFGR |= AT91C_EMAC_NBC;
+    }
+
+    // Enable Rx and Tx, plus the stats register.
+    AT91C_BASE_EMAC-&gt;EMAC_NCR |= (AT91C_EMAC_TE | AT91C_EMAC_RE | AT91C_EMAC_WESTAT);
+
+    // Setup the interrupts for TX (and errors)
+    AT91C_BASE_EMAC-&gt;EMAC_IER = AT91C_EMAC_RXUBR
+                              | AT91C_EMAC_TUNDR
+                              | AT91C_EMAC_RLEX
+                              | AT91C_EMAC_TXERR
+                              | AT91C_EMAC_TCOMP
+                              | AT91C_EMAC_ROVR
+                              | AT91C_EMAC_HRESP;
+
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

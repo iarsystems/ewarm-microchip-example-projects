@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - Test4</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">Test4</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_canmi_project0',this)" class="pathLink">basic-can-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">Test4</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','Test453616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','Test453616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 293</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','Test453616',this); ">Test4</a>(void)
+{
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/can/CAN_ResetAllMailbox53616',this); ">CAN_ResetAllMailbox</a>();
+
+    TRACE_INFO("With Interrupt ");
+    TRACE_INFO("CAN0 Mailbox 3 asking for CAN1 Mailbox 3 transmission\n\r");
+    // Init CAN0 Mailbox 3, consumer mailbox
+    // Sends a remote frame and waits for an answer
+    // Init CAN1 Mailbox 15, reception with overwrite
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/can/CAN_ResetTransfer2610120733',this); ">CAN_ResetTransfer</a>( &amp;canTransfer2 );
+    canTransfer2.can_number = 1;
+    canTransfer2.mailbox_number = 3;
+    canTransfer2.mode_reg = AT91C_CAN_MOT_PRODUCER | AT91C_CAN_PRIOR;
+    canTransfer2.acceptance_mask_reg = 0;
+    canTransfer2.identifier = AT91C_CAN_MIDvA &amp; (0x0B&lt;&lt;18);     // ID 11
+    canTransfer2.data_low_reg = 0xEEDDFF00;
+    canTransfer2.data_high_reg = 0x34560022;
+    canTransfer2.control_reg = (AT91C_CAN_MDLC &amp; (0x8&lt;&lt;16));
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/can/CAN_InitMailboxRegisters2610120733',this); ">CAN_InitMailboxRegisters</a>( &amp;canTransfer2 );
+
+    // Init CAN0 Mailbox 1, transmit
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/can/CAN_ResetTransfer2610120733',this); ">CAN_ResetTransfer</a>( &amp;canTransfer1 );
+    canTransfer1.can_number = 0;
+    canTransfer1.mailbox_number = 3;
+    canTransfer1.mode_reg = AT91C_CAN_MOT_CONSUMER | AT91C_CAN_PRIOR;
+    canTransfer1.acceptance_mask_reg = AT91C_CAN_MIDvA | AT91C_CAN_MIDvB;
+    canTransfer1.identifier = AT91C_CAN_MIDvA &amp; (0x0B&lt;&lt;18);     // ID 11
+    canTransfer1.data_low_reg = 0x00000000;
+    canTransfer1.data_high_reg = 0x00000000;
+    canTransfer1.control_reg = 0x00000000;
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/can/CAN_InitMailboxRegisters2610120733',this); ">CAN_InitMailboxRegisters</a>( &amp;canTransfer1 );
+
+    while( CAN_STATUS_SUCCESS !=  <a href="#" onMouseOver="link('_member','../at91lib/peripherals/can/CAN_Write2610120733',this); ">CAN_Write</a>( &amp;canTransfer2 ) ){}
+    while( CAN_STATUS_SUCCESS !=  <a href="#" onMouseOver="link('_member','../at91lib/peripherals/can/CAN_Write2610120733',this); ">CAN_Write</a>( &amp;canTransfer1 ) ){}
+    // wait answer
+    while( <a href="#" onMouseOver="link('_member','../at91lib/peripherals/can/CAN_IsInIdle2610120733',this); ">CAN_IsInIdle</a>(&amp;canTransfer1) ) {}
+    while( <a href="#" onMouseOver="link('_member','../at91lib/peripherals/can/CAN_IsInIdle2610120733',this); ">CAN_IsInIdle</a>(&amp;canTransfer2) ) {}
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("canTransfer2.data_low_reg 0x%X\n\r", canTransfer2.data_low_reg);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("canTransfer2.data_high_reg 0x%X\n\r", canTransfer2.data_high_reg);
+    if( (canTransfer2.data_low_reg == 0xEEDDFF00)
+      &amp;&amp;(canTransfer2.data_high_reg == 0x34560022) ) {
+        TRACE_INFO("Test passed\n\r");
+    }
+    else {
+        TRACE_INFO("Test ERROR\n\r");
+    }
+
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

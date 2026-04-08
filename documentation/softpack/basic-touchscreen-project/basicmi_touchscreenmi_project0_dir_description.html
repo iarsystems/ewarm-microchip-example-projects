@@ -1,0 +1,104 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - basic-touchscreen-project</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">basic-touchscreen-project</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">basic-touchscreen-project</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("divID73977","aID73977","headerLeftMenuActive","leftMenuLinkHeadActive");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_dir','basicmi_touchscreenmi_project0','_description',this)" class="tabLinkActive">Description</a></span>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_dir','basicmi_touchscreenmi_project0','_dirgraph',this)" class="tabLinkInActive">Graph</a></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<span class="paragraph1">basic-touchscreen-project</span>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="padding"><div class="userParagraph1">Purpose</div>
+The Basic-touchscreen-project will help you to get familiar with touchscreen controller on AT91SAM microcontrollers. It <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> also help you to get familiar with the touchscreen configurations and usage, which <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> be used for fast implementation of your own touchscreen driver and other applications related<br>
+<br>
+</div>
+<div class="padding">You <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> find following information depends on your needs:<ul>
+<li>Touchscreen controller configurations</li>
+<li>PIT module configurations for SAM7/SAM9 or System tick configurations fo SAM3</li>
+<li>LCD initialize sequence</li>
+<li>Sample code of drawing LCD</li>
+<li>Sample code of calibrating Touchscreen</li>
+<li>The method to sample <a href="#" OnMouseOver="link('_member','../basic-fatfs-nandflash-project/data0',this)">data</a> from touchscreen interface</li>
+<li>Sample code to calculate slopes</li>
+</ul>
+
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">See</div>
+<ul>
+<li><a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/lcd/lcd0',this)">lcd</a> : <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/lcd/lcd0',this)">lcd</a> peripheral driver.</li>
+<li><a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/tsadcc/tsadcc0',this)">tsadcc</a> : touchscreen controller driver for AT91SAM peripheral</li>
+<li><a href="#" OnMouseOver="link('_dir','../at91lib/components/ads7843/ads78430',this)">ads7843</a> : touchscreen controller driver for ADS7843</li>
+</ul>
+
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Requirements</div>
+ This package <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> be used with all Atmel evaluation kits that have touchscreen interface.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Description</div>
+ Open HyperTerminal before running this program, use SAM-BA to download this program to the evaluation board, make the program run, the HyperTerminal will give out the test results.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Usage</div>
+<ol>
+<li>Build the program and download it inside the evaluation board. Please refer to the <a href="http://www.atmel.com/dyn/resources/prod_documents/doc6224.pdf">SAM-BA User Guide</a>, the <a href="http://www.atmel.com/dyn/resources/prod_documents/doc6310.pdf">GNU-Based Software Development</a> application note or to the <a href="ftp://ftp.iar.se/WWWfiles/arm/Guides/EWARM_UserGuide.ENU.pdf">IAR EWARM User Guide</a>, depending on your chosen solution.</li>
+<li>On the computer, open and configure a terminal application (e.g. HyperTerminal on Microsoft Windows) with these settings:<ul>
+<li>115200 bauds</li>
+<li>8 bits of <a href="#" OnMouseOver="link('_member','../basic-fatfs-nandflash-project/data0',this)">data</a></li>
+<li>No parity</li>
+<li>1 stop bit</li>
+<li>No flow control</li>
+</ul>
+
+</li>
+<li>Start the application</li>
+<li>In HyperTerminal, it will show something like   <table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+  <TR VALIGN="top">
+  <TD class="paddingHeadMultiColumn2">
+<pre class="codeExamples">
+-- Basic Touchscreen Project xxx --
+-- AT91xxxxxx-xx
+-- Compiled: xxx xx xxxx xx:xx:xx --
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- Calibration successful !
+</pre>  </TD>
+  </TR>
+  </TABLE>
+</li>
+</ol>
+
+</div>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="paragraph2">Source</div>
+<div class="paddingMembers">The documentation for this Directory was generated from the following files:</div>
+<div class="paddingMembers"><LI>main.c<br></div>
+<div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_dir','_description');
+</script>

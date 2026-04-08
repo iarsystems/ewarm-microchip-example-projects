@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - MEDRamDisk_Initialize</TITLE>
+<script type="text/javascript" src="../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../common/";
+ var relPathToHelpDir = "../../../common/help/";
+ var toSearchPage     = "_search','../../../search";
+ Body1();
+</script>
+<div class="headerPage">MEDRamDisk_Initialize</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','memories0',this)" class="pathLink">memories</A><img src="../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">MEDRamDisk_Initialize</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','MEDRamDisk_Initialize632766353','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','MEDRamDisk_Initialize632766353','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 226</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','MEDRamDisk_Initialize632766353',this); ">MEDRamDisk_Initialize</a>(Media *media, unsigned int blockSize, unsigned int baseAddress, unsigned int size)
+{
+    unsigned int bak_val;
+    unsigned int baseInBytes = baseAddress * blockSize;
+    unsigned int sizeInBytes = size * blockSize;
+
+    TRACE_INFO("RAM Disk init\n\r");
+
+    // If the address Initialized ?
+    bak_val = *((volatile unsigned int *) (baseInBytes));
+    *((volatile unsigned int *) (baseInBytes)) = 0xDEADBEEF;
+    if (*((volatile unsigned int *) baseInBytes) == 0xDEADBEEF) {
+
+        *((volatile unsigned int *) baseInBytes) = bak_val;
+    }
+    else {
+
+        TRACE_ERROR("Un-configured memory area %x ...\n\r", baseInBytes);
+        return 0;
+    }
+
+    baseInBytes += sizeInBytes - 4;
+    bak_val = *((volatile unsigned int *) (baseInBytes));
+    *((volatile unsigned int *) (baseInBytes)) = 0xAECDBE9F;
+    if (*((volatile unsigned int *)(baseInBytes)) == 0xAECDBE9F) {
+
+        *((volatile unsigned int *)(baseInBytes)) = bak_val;
+    }
+    else {
+
+        TRACE_ERROR("Un-configured memory area %x ...\n\r", baseInBytes);
+        return 0;
+    }
+
+    // Initialize media fields
+    media-&gt;write = MEDRamDisk_Write;
+    media-&gt;read = MEDRamDisk_Read;
+    media-&gt;lock = 0;
+    media-&gt;unlock = 0;
+    media-&gt;handler = 0;
+    media-&gt;flush = 0;
+
+    media-&gt;blockSize = blockSize;
+    media-&gt;baseAddress = baseAddress;
+    media-&gt;size = size;
+
+    media-&gt;mappedRD  = 0;
+    media-&gt;mappedWR  = 0;
+    media-&gt;protected = 0;
+    media-&gt;removable = 0;
+    media-&gt;state = <a href="#" onMouseOver="link('_member','MED_STATE_READY3460198363',this); ">MED_STATE_READY</a>;
+
+    media-&gt;transfer.data = 0;
+    media-&gt;transfer.address = 0;
+    media-&gt;transfer.length = 0;
+    media-&gt;transfer.callback = 0;
+    media-&gt;transfer.argument = 0;
+    
+    return 1;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

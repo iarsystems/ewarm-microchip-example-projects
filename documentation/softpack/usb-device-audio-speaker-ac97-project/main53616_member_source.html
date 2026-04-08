@@ -1,0 +1,118 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','usbmi_devicemi_audiomi_speakermi_ac97mi_project0',this)" class="pathLink">usb-device-audio-speaker-ac97-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 661</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>()
+{
+    unsigned int vendorId;
+
+    // Initialize traces
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_CONFIGURE1432879529',this); ">TRACE_CONFIGURE</a>(DBGU_STANDARD, 115200, BOARD_MCK);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- USB Device Audio Speaker AC97 Project %s --\n\r", SOFTPACK_VERSION);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- %s\n\r", BOARD_NAME);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
+
+    // If they are present, configure Vbus &amp; Wake-up pins
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_InitializeInterrupts171142247',this); ">PIO_InitializeInterrupts</a>(0);
+
+    // If there is on board power, switch it off
+  #ifdef PIN_USB_POWER_ENB
+  { const <a href="#" onMouseOver="link('_class','../at91lib/peripherals/pio/Pin0',this); ">Pin</a> pinUsbPwr = PIN_USB_POWER_ENB;
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(&amp;pinUsbPwr, 1);
+  }
+  #endif
+
+    // AC97 Audio driver &amp; pins initialize
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(pinsAc97, <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_LISTSIZE2758449565',this); ">PIO_LISTSIZE</a>(pinsAc97));
+
+    // Initialize AC97 driver
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/ac97c/AC97C_Configure53616',this); ">AC97C_Configure</a>();
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/ac97c/AC97C_AssignOutputSlots361150951',this); ">AC97C_AssignOutputSlots</a>(AC97C_CHANNEL_A, (1 &lt;&lt; 3) | (1 &lt;&lt; 4));
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/ac97c/AC97C_ConfigureChannel361150951',this); ">AC97C_ConfigureChannel</a>(AC97C_CHANNEL_A, AT91C_AC97C_CEN);
+
+    // Check that the codec is present by reading the vendor ID
+    vendorId = <a href="#" onMouseOver="link('_member','../at91lib/peripherals/ac97c/AC97C_ReadCodec2593655934',this); ">AC97C_ReadCodec</a>(AD1981B_VENDOR_ID1);
+    ASSERT(vendorId == AD1981B_ID_1,
+        "-F- Codec probe: Wrong AD1981B_ID1 value.\n\r");
+    
+    vendorId = <a href="#" onMouseOver="link('_member','../at91lib/peripherals/ac97c/AC97C_ReadCodec2593655934',this); ">AC97C_ReadCodec</a>(AD1981B_VENDOR_ID2);
+    ASSERT(vendorId == AD1981B_ID_2,
+        "-F- Codec probe: Wrong AD1981B_ID2 value.\n\r");
+    
+    TRACE_INFO("Codec probed correctly\r\n");
+
+    // Initialize the codec
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/ac97c/AC97C_Transfer2274623386',this); ">AC97C_Transfer</a>(AC97C_CODEC_TRANSFER,
+                   (unsigned char *) pInitBuffer,
+                   sizeof(pInitBuffer)/sizeof(int),
+                   0,
+                   0);
+    while (!<a href="#" onMouseOver="link('_member','../at91lib/peripherals/ac97c/AC97C_IsFinished2593655934',this); ">AC97C_IsFinished</a>(AC97C_CODEC_TRANSFER));
+
+    // Change channel size to 16 bits
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/ac97c/AC97C_SetChannelSize898012104',this); ">AC97C_SetChannelSize</a>(AC97C_CHANNEL_A, AUDDSpeakerDriver_BYTESPERSAMPLE&lt;&lt;3);
+
+    // Set sample rate
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/ac97c/AC97C_WriteCodec92704744',this); ">AC97C_WriteCodec</a>(AD1981B_PMC_DAC, AUDDSpeakerDriver_SAMPLERATE);
+
+    // USB audio driver initialization
+    <a href="#" onMouseOver="link('_member','../at91lib/usb/device/audio-speaker/AUDDSpeakerDriver_Initialize122',this); ">AUDDSpeakerDriver_Initialize</a>();
+
+    // connect if needed
+    <a href="#" onMouseOver="link('_member','../usb-device-ccid-project/VBUS_CONFIGURE3880171460',this); ">VBUS_CONFIGURE</a>();
+    while (<a href="#" onMouseOver="link('_member','../at91lib/usb/device/core/USBD_GetState53616',this); ">USBD_GetState</a>() &lt; <a href="#" onMouseOver="link('_member','../at91lib/usb/device/core/USBD_STATE_CONFIGURED2292695961',this); ">USBD_STATE_CONFIGURED</a>);
+
+    // Infinite loop
+    while (1) {
+
+        if( <a href="#" onMouseOver="link('_member','USBState0',this); ">USBState</a> == <a href="#" onMouseOver="link('_member','STATE_SUSPEND2762171834',this); ">STATE_SUSPEND</a> ) {
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("suspend  !\n\r");
+            <a href="#" onMouseOver="link('_member','../usb-device-cdc-serial-project/LowPowerMode53616',this); ">LowPowerMode</a>();
+            <a href="#" onMouseOver="link('_member','USBState0',this); ">USBState</a> = <a href="#" onMouseOver="link('_member','../at91lib/components/sensors/ms5540b/STATE_IDLE791864008',this); ">STATE_IDLE</a>;
+        }
+        if( <a href="#" onMouseOver="link('_member','USBState0',this); ">USBState</a> == <a href="#" onMouseOver="link('_member','STATE_RESUME2762171834',this); ">STATE_RESUME</a> ) {
+            // Return in normal MODE
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("resume !\n\r");
+            <a href="#" onMouseOver="link('_member','../usb-device-cdc-serial-project/NormalPowerMode53616',this); ">NormalPowerMode</a>();
+            <a href="#" onMouseOver="link('_member','USBState0',this); ">USBState</a> = <a href="#" onMouseOver="link('_member','../at91lib/components/sensors/ms5540b/STATE_IDLE791864008',this); ">STATE_IDLE</a>;
+        }
+    
+        // Read the incoming audio stream
+        <a href="#" onMouseOver="link('_member','../at91lib/usb/device/composite/AUDDSpeakerDriver_Read1390444857',this); ">AUDDSpeakerDriver_Read</a>(buffers[inBufferIndex],
+                       AUDDSpeakerDriver_BYTESPERFRAME,
+                       (TransferCallback) FrameReceived,
+                       0); // No optional argument
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

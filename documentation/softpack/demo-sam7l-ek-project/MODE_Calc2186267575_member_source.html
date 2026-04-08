@@ -1,0 +1,304 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - MODE_Calc</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">MODE_Calc</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','demomi_sam7lmi_ekmi_project0',this)" class="pathLink">demo-sam7l-ek-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">MODE_Calc</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','MODE_Calc2186267575','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','MODE_Calc2186267575','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 91</div>
+<pre class="codeExamples">
+void * <a href="#" onMouseOver="link('_member','MODE_Calc2186267575',this); ">MODE_Calc</a>(signed char key, unsigned char refresh)
+{
+    unsigned char code = <a href="#" onMouseOver="link('_member','KBD_GetNaturalKeyCode2593655934',this); ">KBD_GetNaturalKeyCode</a>(key);
+    char <a href="#" onMouseOver="link('_member','../basic-usart-hw-handshaking-project/pString0',this); ">pString</a>[2 * <a href="#" onMouseOver="link('_member','../basic-calculator-project/MAX_OPERAND_SIZE3114221955',this); ">MAX_OPERAND_SIZE</a>];
+    unsigned int num = 0;
+
+    // Restart
+    if (refresh == <a href="#" onMouseOver="link('_member','MODE_REFRESH_RESTART1927943960',this); ">MODE_REFRESH_RESTART</a>) {
+
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("Calculator mode refresh\n\r");
+
+        <a href="#" onMouseOver="link('_member','SLCD_PutSymbol1905373196',this); ">SLCD_PutSymbol</a>(S7LEKLCD_CALC, 1);
+    }
+
+    // Process key events
+    if (key &gt;= 0) {
+
+        // Return to menu mode
+        if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_MODE3152668919',this); ">S7LEKKBM_MODE</a>) {
+
+            <a href="#" onMouseOver="link('_member','SLCD_PutSymbol1905373196',this); ">SLCD_PutSymbol</a>(S7LEKLCD_CALC, 0);
+            return <a href="#" onMouseOver="link('_member','MODE_Menu2186267575',this); ">MODE_Menu</a>;
+        }
+        // Return to default mode
+        else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_ESCAPE3152668919',this); ">S7LEKKBM_ESCAPE</a>) {
+
+            <a href="#" onMouseOver="link('_member','SLCD_PutSymbol1905373196',this); ">SLCD_PutSymbol</a>(S7LEKLCD_CALC, 0);
+            return <a href="#" onMouseOver="link('_member','MODE_Default2186267575',this); ">MODE_Default</a>;
+        }
+        // Clear
+        else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_DELETE3152668919',this); ">S7LEKKBM_DELETE</a>) {
+
+            <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_FIRSTOPERAND1267389947',this); ">STATE_FIRSTOPERAND</a>;
+            <a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a> = 0;
+            <a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a> = 0;
+        }
+        // State machine
+        else {
+
+            // Display result
+            if (<a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> == <a href="#" onMouseOver="link('_member','STATE_RESULT_DISPLAY1267389947',this); ">STATE_RESULT_DISPLAY</a>) {
+
+                // Operator
+                if ((code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_PLUS3152668919',this); ">S7LEKKBM_PLUS</a>) || (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_MINUS3152668919',this); ">S7LEKKBM_MINUS</a>)
+                    || (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_MULTIPLY3152668919',this); ">S7LEKKBM_MULTIPLY</a>) || (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_DIVIDE3152668919',this); ">S7LEKKBM_DIVIDE</a>)) {
+
+                    <a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a> = <a href="#" onMouseOver="link('_member','gCalcResult0',this); ">gCalcResult</a>;
+                    <a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a> = 0;
+                    <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_OPERATOR1267389947',this); ">STATE_OPERATOR</a>;
+                }
+                // Number
+                else if ((code &gt;= '0') &amp;&amp; (code &lt;= '9')) {
+
+                    <a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a> = 0;
+                    <a href="#" onMouseOver="link('_member','gCalcOperator0',this); ">gCalcOperator</a> = <a href="#" onMouseOver="link('_member','../basic-calculator-project/OPERATOR_NONE3114221955',this); ">OPERATOR_NONE</a>;
+                    <a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a> = 0;
+                    <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_FIRSTOPERAND1267389947',this); ">STATE_FIRSTOPERAND</a>;
+                }
+                // Sign
+                else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_SIGN3152668919',this); ">S7LEKKBM_SIGN</a>) {
+
+                    <a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a> = <a href="#" onMouseOver="link('_member','gCalcResult0',this); ">gCalcResult</a>;
+                    <a href="#" onMouseOver="link('_member','gCalcOperator0',this); ">gCalcOperator</a> = <a href="#" onMouseOver="link('_member','../basic-calculator-project/OPERATOR_NONE3114221955',this); ">OPERATOR_NONE</a>;
+                    <a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a> = 0;
+                    <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_FIRSTOPERAND1267389947',this); ">STATE_FIRSTOPERAND</a>;
+                }
+                // Equal
+                else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_EQUAL3152668919',this); ">S7LEKKBM_EQUAL</a>) {
+
+                    <a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a> = <a href="#" onMouseOver="link('_member','gCalcResult0',this); ">gCalcResult</a>;
+                    <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_RESULT_COMPUTE1267389947',this); ">STATE_RESULT_COMPUTE</a>;
+                }
+            }
+
+            // First operand integer part
+            if (<a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> == <a href="#" onMouseOver="link('_member','STATE_FIRSTOPERAND1267389947',this); ">STATE_FIRSTOPERAND</a>) {
+
+                // Compute current size of operand
+                num = <a href="#" onMouseOver="link('_member','../at91lib/utility/sprintf413156383',this); ">sprintf</a>(pString, "%d", gCalcOperand1);
+
+                // Number
+                if ((code &gt;= '0') &amp;&amp; (code &lt;= '9')) {
+                    if (num &lt; <a href="#" onMouseOver="link('_member','../basic-calculator-project/MAX_OPERAND_SIZE3114221955',this); ">MAX_OPERAND_SIZE</a>) {
+
+                        if (<a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a> &gt;= 0) {
+
+                            <a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a> = <a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a> * 10 + code - '0';
+                        }
+                        else {
+
+                            <a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a> = <a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a> * 10 - code + '0';
+                        }
+                    }
+                }
+                // Sign
+                else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_SIGN3152668919',this); ">S7LEKKBM_SIGN</a>) {
+
+                    <a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a> = -<a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a>;
+                }
+                // Operator
+                else if ((code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_PLUS3152668919',this); ">S7LEKKBM_PLUS</a>) || (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_MINUS3152668919',this); ">S7LEKKBM_MINUS</a>)
+                         || (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_MULTIPLY3152668919',this); ">S7LEKKBM_MULTIPLY</a>) || (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_DIVIDE3152668919',this); ">S7LEKKBM_DIVIDE</a>)) {
+    
+                    <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_OPERATOR1267389947',this); ">STATE_OPERATOR</a>;
+                }
+                // Result
+                else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_EQUAL3152668919',this); ">S7LEKKBM_EQUAL</a>) {
+
+                    <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_RESULT_COMPUTE1267389947',this); ">STATE_RESULT_COMPUTE</a>;
+                }
+            }
+
+            // Operator
+            if (<a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> == <a href="#" onMouseOver="link('_member','STATE_OPERATOR1267389947',this); ">STATE_OPERATOR</a>) {
+
+                // Plus
+                if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_PLUS3152668919',this); ">S7LEKKBM_PLUS</a>) {
+
+                    <a href="#" onMouseOver="link('_member','gCalcOperator0',this); ">gCalcOperator</a> = <a href="#" onMouseOver="link('_member','../basic-calculator-project/OPERATOR_PLUS3114221955',this); ">OPERATOR_PLUS</a>;
+                }
+                // Minus
+                else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_MINUS3152668919',this); ">S7LEKKBM_MINUS</a>) {
+
+                    <a href="#" onMouseOver="link('_member','gCalcOperator0',this); ">gCalcOperator</a> = <a href="#" onMouseOver="link('_member','../basic-calculator-project/OPERATOR_MINUS3114221955',this); ">OPERATOR_MINUS</a>;
+                }
+                // Multiply
+                else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_MULTIPLY3152668919',this); ">S7LEKKBM_MULTIPLY</a>) {
+
+                    <a href="#" onMouseOver="link('_member','gCalcOperator0',this); ">gCalcOperator</a> = <a href="#" onMouseOver="link('_member','../basic-calculator-project/OPERATOR_MULTIPLY3114221955',this); ">OPERATOR_MULTIPLY</a>;
+                }
+                // Divide
+                else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_DIVIDE3152668919',this); ">S7LEKKBM_DIVIDE</a>) {
+
+                    <a href="#" onMouseOver="link('_member','gCalcOperator0',this); ">gCalcOperator</a> = <a href="#" onMouseOver="link('_member','../basic-calculator-project/OPERATOR_DIVIDE3114221955',this); ">OPERATOR_DIVIDE</a>;
+                }
+                // Number
+                if ((code &gt;= '0') &amp;&amp; (code &lt;= '9')) {
+                    
+                    <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_SECONDOPERAND1267389947',this); ">STATE_SECONDOPERAND</a>;
+                }
+            }
+
+            // Second operand integer part
+            if (<a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> == <a href="#" onMouseOver="link('_member','STATE_SECONDOPERAND1267389947',this); ">STATE_SECONDOPERAND</a>) {
+
+                // Compute current size of operand
+                num = <a href="#" onMouseOver="link('_member','../at91lib/utility/sprintf413156383',this); ">sprintf</a>(pString, "%d", gCalcOperand2);
+
+                // Number
+                if ((code &gt;= '0') &amp;&amp; (code &lt;= '9')) {
+                    if (num &lt; <a href="#" onMouseOver="link('_member','../basic-calculator-project/MAX_OPERAND_SIZE3114221955',this); ">MAX_OPERAND_SIZE</a>) {
+
+                        if (<a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a> &gt;= 0) {
+                            
+                            <a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a> = <a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a> * 10 + code - '0';
+                        }
+                        else {
+
+                            <a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a> = <a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a> * 10 - code + '0';
+                        }
+                    }
+                }
+                // Sign
+                else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_SIGN3152668919',this); ">S7LEKKBM_SIGN</a>) {
+
+                    <a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a> = -<a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a>;
+                }
+                // Result
+                else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_EQUAL3152668919',this); ">S7LEKKBM_EQUAL</a>) {
+
+                    <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_RESULT_COMPUTE1267389947',this); ">STATE_RESULT_COMPUTE</a>;
+                }
+            }
+
+            // Compute result
+            if (<a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> == <a href="#" onMouseOver="link('_member','STATE_RESULT_COMPUTE1267389947',this); ">STATE_RESULT_COMPUTE</a>) {
+
+                switch (<a href="#" onMouseOver="link('_member','gCalcOperator0',this); ">gCalcOperator</a>) {
+
+                    case <a href="#" onMouseOver="link('_member','../basic-calculator-project/OPERATOR_NONE3114221955',this); ">OPERATOR_NONE</a>:
+                        <a href="#" onMouseOver="link('_member','gCalcResult0',this); ">gCalcResult</a> = <a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a>;
+                        <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_RESULT_DISPLAY1267389947',this); ">STATE_RESULT_DISPLAY</a>;
+                        break;
+
+                    case <a href="#" onMouseOver="link('_member','../basic-calculator-project/OPERATOR_PLUS3114221955',this); ">OPERATOR_PLUS</a>:
+                        <a href="#" onMouseOver="link('_member','gCalcResult0',this); ">gCalcResult</a> = <a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a> + <a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a>;
+                        num = <a href="#" onMouseOver="link('_member','../at91lib/utility/sprintf413156383',this); ">sprintf</a>(pString, "%d", gCalcResult);
+                        if (num &gt; <a href="#" onMouseOver="link('_member','../basic-calculator-project/MAX_OPERAND_SIZE3114221955',this); ">MAX_OPERAND_SIZE</a>) {
+
+                            <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_OVERFLOW1267389947',this); ">STATE_OVERFLOW</a>;
+                        }
+                        else {
+
+                            <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_RESULT_DISPLAY1267389947',this); ">STATE_RESULT_DISPLAY</a>;
+                        }
+                        break;
+
+                    case <a href="#" onMouseOver="link('_member','../basic-calculator-project/OPERATOR_MINUS3114221955',this); ">OPERATOR_MINUS</a>:
+                        <a href="#" onMouseOver="link('_member','gCalcResult0',this); ">gCalcResult</a> = <a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a> - <a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a>;
+                        num = <a href="#" onMouseOver="link('_member','../at91lib/utility/sprintf413156383',this); ">sprintf</a>(pString, "%d", gCalcResult);
+                        if (num &gt; <a href="#" onMouseOver="link('_member','../basic-calculator-project/MAX_OPERAND_SIZE3114221955',this); ">MAX_OPERAND_SIZE</a>) {
+
+                            <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_OVERFLOW1267389947',this); ">STATE_OVERFLOW</a>;
+                        }
+                        else {
+
+                            <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_RESULT_DISPLAY1267389947',this); ">STATE_RESULT_DISPLAY</a>;
+                        }
+                        break;
+
+                    case <a href="#" onMouseOver="link('_member','../basic-calculator-project/OPERATOR_MULTIPLY3114221955',this); ">OPERATOR_MULTIPLY</a>:
+                        num = <a href="#" onMouseOver="link('_member','../at91lib/utility/sprintf413156383',this); ">sprintf</a>(pString, "%d", gCalcOperand1 * gCalcOperand2);
+                        if (num &gt; <a href="#" onMouseOver="link('_member','../basic-calculator-project/MAX_OPERAND_SIZE3114221955',this); ">MAX_OPERAND_SIZE</a>) {
+
+                            <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_OVERFLOW1267389947',this); ">STATE_OVERFLOW</a>;
+                        }
+                        else {
+
+                            <a href="#" onMouseOver="link('_member','gCalcResult0',this); ">gCalcResult</a> = <a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a> * <a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a>;
+                            <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_RESULT_DISPLAY1267389947',this); ">STATE_RESULT_DISPLAY</a>;
+                        }
+                        break;
+
+                    case <a href="#" onMouseOver="link('_member','../basic-calculator-project/OPERATOR_DIVIDE3114221955',this); ">OPERATOR_DIVIDE</a>:
+
+                        if (<a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a> == 0) {
+
+                            <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_DIVBY01267389947',this); ">STATE_DIVBY0</a>;
+                        }
+                        else {
+
+                            <a href="#" onMouseOver="link('_member','gCalcResult0',this); ">gCalcResult</a> = <a href="#" onMouseOver="link('_member','gCalcOperand10',this); ">gCalcOperand1</a> / <a href="#" onMouseOver="link('_member','gCalcOperand20',this); ">gCalcOperand2</a>;
+                            <a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a> = <a href="#" onMouseOver="link('_member','STATE_RESULT_DISPLAY1267389947',this); ">STATE_RESULT_DISPLAY</a>;
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
+    // Refresh string
+    switch (<a href="#" onMouseOver="link('_member','gCalcState0',this); ">gCalcState</a>) {
+
+        case <a href="#" onMouseOver="link('_member','STATE_FIRSTOPERAND1267389947',this); ">STATE_FIRSTOPERAND</a>:
+        case <a href="#" onMouseOver="link('_member','STATE_OPERATOR1267389947',this); ">STATE_OPERATOR</a>:
+            num = <a href="#" onMouseOver="link('_member','../at91lib/utility/sprintf413156383',this); ">sprintf</a>(pString, "%d", gCalcOperand1);
+            break;
+    
+        case <a href="#" onMouseOver="link('_member','STATE_SECONDOPERAND1267389947',this); ">STATE_SECONDOPERAND</a>:
+            num = <a href="#" onMouseOver="link('_member','../at91lib/utility/sprintf413156383',this); ">sprintf</a>(pString, "%d", gCalcOperand2);
+            break;
+
+        case <a href="#" onMouseOver="link('_member','STATE_RESULT_DISPLAY1267389947',this); ">STATE_RESULT_DISPLAY</a>:
+            num = <a href="#" onMouseOver="link('_member','../at91lib/utility/sprintf413156383',this); ">sprintf</a>(pString, "%d", gCalcResult);
+            break;
+
+        case <a href="#" onMouseOver="link('_member','STATE_OVERFLOW1267389947',this); ">STATE_OVERFLOW</a>:
+            num = <a href="#" onMouseOver="link('_member','../at91lib/utility/sprintf413156383',this); ">sprintf</a>(pString, "-OVERFLOW-");
+            break;
+
+        case <a href="#" onMouseOver="link('_member','STATE_DIVBY01267389947',this); ">STATE_DIVBY0</a>:
+            num = <a href="#" onMouseOver="link('_member','../at91lib/utility/sprintf413156383',this); ">sprintf</a>(pString, "-DIV BY 0-");
+            break;
+    }
+    <a href="#" onMouseOver="link('_member','SLCD_PutString3372848885',this); ">SLCD_PutString</a>(pString, S7LEKLCD_MAX_CHARS - num - 1);
+
+    return <a href="#" onMouseOver="link('_member','MODE_Calc2186267575',this); ">MODE_Calc</a>;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

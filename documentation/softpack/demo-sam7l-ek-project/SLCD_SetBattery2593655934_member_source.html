@@ -1,0 +1,63 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - SLCD_SetBattery</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">SLCD_SetBattery</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','demomi_sam7lmi_ekmi_project0',this)" class="pathLink">demo-sam7l-ek-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">SLCD_SetBattery</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','SLCD_SetBattery2593655934','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','SLCD_SetBattery2593655934','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 469</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','SLCD_SetBattery2593655934',this); ">SLCD_SetBattery</a>(unsigned char level)
+{
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("SLCD_SetBattery()\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/SANITY_CHECK407576460',this); ">SANITY_CHECK</a>(level &lt;= 4);
+
+    // If a blinkmask is set, switch to normal mode first
+    if (blinkmask &gt; 0) {
+
+        AT91C_BASE_SLCDC-&gt;SLCDC_DR = 0;
+        <a href="#" onMouseOver="link('_member','../at91lib/peripherals/slcdc/SLCDC_EnableInterrupts171142247',this); ">SLCDC_EnableInterrupts</a>(AT91C_SLCDC_ENDFRAME);
+        while (endframe &lt; 2);
+        <a href="#" onMouseOver="link('_member','../at91lib/peripherals/slcdc/SLCDC_DisableInterrupts171142247',this); ">SLCDC_DisableInterrupts</a>(AT91C_SLCDC_ENDFRAME);
+    }
+
+    // Display battery
+    <a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/S7LEKLCD_Symbol1905373196',this); ">S7LEKLCD_Symbol</a>(S7LEKLCD_Q0, 1);
+    <a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/S7LEKLCD_Symbol1905373196',this); ">S7LEKLCD_Symbol</a>(S7LEKLCD_Q1, level &gt;= 1);
+    <a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/S7LEKLCD_Symbol1905373196',this); ">S7LEKLCD_Symbol</a>(S7LEKLCD_Q2, level &gt;= 2);
+    <a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/S7LEKLCD_Symbol1905373196',this); ">S7LEKLCD_Symbol</a>(S7LEKLCD_Q3, level &gt;= 3);
+    <a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/S7LEKLCD_Symbol1905373196',this); ">S7LEKLCD_Symbol</a>(S7LEKLCD_Q4, level &gt;= 4);
+
+    // Display blinked string
+    if (blinkmask) {
+
+        <a href="#" onMouseOver="link('_member','SLCD_SetBlinking171142247',this); ">SLCD_SetBlinking</a>(blinkmask);
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

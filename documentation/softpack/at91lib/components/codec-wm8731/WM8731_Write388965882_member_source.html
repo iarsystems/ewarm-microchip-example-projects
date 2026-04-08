@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - WM8731_Write</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">WM8731_Write</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../components0',this)" class="pathLink">components</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','codecmi_wm87310',this)" class="pathLink">codec-wm8731</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">WM8731_Write</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','WM8731_Write388965882','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','WM8731_Write388965882','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 89</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','WM8731_Write388965882',this); ">WM8731_Write</a>(<a href="#" onMouseOver="link('_class','../../drivers/twi/_Twid0',this); ">Twid</a> *pTwid, unsigned int device, unsigned int register, unsigned short data)
+{
+    unsigned char tmpData[2];
+    unsigned short tmp;
+    tmp = ((regAddr &amp; 0x7f) &lt;&lt; 9) | (<a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a> &amp; 0x1ff);
+
+    tmpData[0] = (tmp &amp; 0xff00) &gt;&gt; 8;
+    tmpData[1] = tmp &amp; 0xff;
+    <a href="#" onMouseOver="link('_member','../../drivers/twi/TWID_Write311571722',this); ">TWID_Write</a>(pTwid, device, regAddr, 0, tmpData, 2, 0);
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

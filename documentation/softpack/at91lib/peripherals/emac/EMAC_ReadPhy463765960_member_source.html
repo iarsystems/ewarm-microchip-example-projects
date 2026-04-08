@@ -1,0 +1,52 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - EMAC_ReadPhy</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">EMAC_ReadPhy</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','emac0',this)" class="pathLink">emac</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">EMAC_ReadPhy</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','EMAC_ReadPhy463765960','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','EMAC_ReadPhy463765960','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 279</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','EMAC_ReadPhy463765960',this); ">EMAC_ReadPhy</a>(unsigned char PhyAddress, unsigned char Address, unsigned int *pValue, unsigned int retry)
+{
+    AT91C_BASE_EMAC-&gt;EMAC_MAN = (AT91C_EMAC_SOF &amp; (0x01 &lt;&lt; 30))
+                              | (AT91C_EMAC_CODE &amp; (2 &lt;&lt; 16))
+                              | (AT91C_EMAC_RW &amp; (2 &lt;&lt; 28))
+                              | (AT91C_EMAC_PHYA &amp; ((PhyAddress &amp; 0x1f) &lt;&lt; 23))
+                              | (AT91C_EMAC_REGA &amp; (Address &lt;&lt; 18));
+
+    if ( EMAC_WaitPhy(retry) == 0 ) {
+
+        TRACE_ERROR("TimeOut EMAC_ReadPhy\n\r");
+        return 0;
+    }
+    *pValue = ( AT91C_BASE_EMAC-&gt;EMAC_MAN &amp; 0x0000ffff );
+    return 1;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

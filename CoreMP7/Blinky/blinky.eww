@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<workspace>
+  <project>
+    <path>$WS_DIR$/blinky.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$/blinky1.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$/blinky2.ewp</path>
+  </project>
+  <batchBuild>
+    <batchDefinition>
+      <name>All</name>
+      <member>
+        <project>blinky</project>
+        <configuration>Debug RAM</configuration>
+      </member>
+      <member>
+        <project>blinky1</project>
+        <configuration>Debug RAM</configuration>
+      </member>
+      <member>
+        <project>blinky2</project>
+        <configuration>Debug RAM</configuration>
+      </member>
+    </batchDefinition>
+  </batchBuild>
+</workspace>

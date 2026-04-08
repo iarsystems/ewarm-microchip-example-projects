@@ -1,0 +1,102 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - IRQ_ConfigureIT</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">IRQ_ConfigureIT</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','irq0',this)" class="pathLink">irq</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">IRQ_ConfigureIT</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','IRQ_ConfigureIT3223024299','_description',this)" class="tabLinkActive">Description</a></span>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','IRQ_ConfigureIT3223024299','_source',this)" class="tabLinkInActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<span class="paragraph1">IRQ_ConfigureIT</span>
+<div class="paragraph2">Configures an interrupt in the NVIC.<br>
+</div>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="paragraph2"><span id="descFunSynExpSpan" style="display:none;visibility:hidden"><a href="javascript:showElement( 'descFunSynColSpan' );javascript:hideElement( 'descFunSynExpSpan' );javascript:showElement( 'descFunSyn' );javascript:setMyCookie( cookieName, 'descFunSyn', 'show' );"><img src="../../../../common/expand.gif" border=0></a></span><span id="descFunSynColSpan"><a href="javascript:showElement( 'descFunSynExpSpan' );javascript:hideElement( 'descFunSynColSpan' );javascript:hideElement( 'descFunSyn' );javascript:setMyCookie( cookieName, 'descFunSyn', 'hide' );"><img src="../../../../common/collapse.gif" border=0></a></span>
+Syntax / parameters</div>
+<div id="descFunSyn" class="paddingMembersTableDiv"><table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+<TR VALIGN="top"><TD class="paddingHeadMultiColumn2"><span class="codeFont">void <a href="#" OnMouseOver="link('_member','IRQ_ConfigureIT3223024299',this)">IRQ_ConfigureIT</a> (unsigned int source, unsigned int priority, <a href="#" OnMouseOver="link('_member','../../boards/at91sam3u-ek/IntFunc0',this)">IntFunc</a> handler)<br>
+</span></TD></TR></TABLE>
+<br><table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+<TR VALIGN="top">
+<TD class="paddingHeadMultiColumn1"><span class="" align=left>Name</TD>
+<TD class="paddingHeadMultiColumn1"><span class="" align=left>Type</TD>
+<TD class="paddingHeadMultiColumn1"><span class="" align=left>Default</TD>
+<TD class="paddingHeadMultiColumn2"><span class="" align=left>Description</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>source</TD>
+<TD class="paddingNormal1"><span class="codeFont" >unsigned int <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" >Interrupt source to configure.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>priority</TD>
+<TD class="paddingNormal1"><span class="codeFont" >unsigned int <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" >Pre-emption priority (<a href="#" OnMouseOver="link('_member','../../components/slcd/s7leklcd/B2322502027',this)">B</a>[15:8] )+ subPriority (<a href="#" OnMouseOver="link('_member','../../components/slcd/s7leklcd/B2322502027',this)">B</a>[7:0])<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>handler</TD>
+<TD class="paddingNormal1"><span class="codeFont" ><a href="#" OnMouseOver="link('_member','../../boards/at91sam3u-ek/IntFunc0',this)">IntFunc</a> <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" >Interrupt handler function.<br>
+</TD>
+</TR>
+</table>
+</div>
+<div class="paragraph2">Description</div>
+<div id="descDesc" class="paddingMembers">Configures an interrupt in the NVIC.<br>
+The interrupt is identified by its source (AT91C_ID_xxx) and is configured to a specified priority and interrupt handler function. priority is the value that will be put in NVIC_IPRx and the function address will be set in "ExceptionTable". The parameter priority will include the preemptionPriority and the subPriority, where the subPriority defined in the <a href="#" OnMouseOver="link('_member','../../components/slcd/s7leklcd/B2322502027',this)">B</a>[7:0] of the parameter "priority", and the preemptionPriority defined in the <a href="#" OnMouseOver="link('_member','../../components/slcd/s7leklcd/B2322502027',this)">B</a>[15:8] of the parameter "priority". The interrupt is disabled before configuration, so it is useless to do it before calling this function. When NVIC_ConfigureIT returns, the interrupt will always be disabled and cleared; it must be enabled by a call to NVIC_EnableIT().<br>
+</div>
+<div class="paragraph2"><span id="descOverLExpSpan" style="display:none;visibility:hidden"><a href="javascript:showElement( 'descOverLColSpan' );javascript:hideElement( 'descOverLExpSpan' );javascript:showElement( 'descOverL' );javascript:setMyCookie( cookieName, 'descOverL', 'show' );"><img src="../../../../common/expand.gif" border=0></a></span><span id="descOverLColSpan"><a href="javascript:showElement( 'descOverLExpSpan' );javascript:hideElement( 'descOverLColSpan' );javascript:hideElement( 'descOverL' );javascript:setMyCookie( cookieName, 'descOverL', 'hide' );"><img src="../../../../common/collapse.gif" border=0></a></span>
+Variants</div>
+<div id="descOverL" class="paddingMembersTableDiv"><table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+<TR VALIGN="top">
+<TD class="paddingHeadMultiColumn1"><span class="" align=left>Variants</TD>
+<TD class="paddingHeadMultiColumn2"><span class="" align=left>Brief description</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="" align=left><a href="#" onMouseOver="link('_member','IRQ_ConfigureIT1035508632',this); ">(unsigned int, unsigned int, void(*)(void))</a></TD>
+<TD class="paddingNormal2"><span class="" >Configures an interrupt in the AIC.<br>
+</TD>
+</TR>
+</table>
+</div>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="paragraph2">Source</div>
+<div class="paddingMembers">The documentation for this Member was generated from the following file:</div>
+<div class="paddingMembers"><LI>nvic.c<br></div>
+<div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_description');
+</script>

@@ -1,0 +1,13 @@
+
+execUserPreload()
+{
+  // Use this macro to enable the trace port on the AT91RM9200-DK evaluation board.
+  //
+  // Set EWARM: Trace port mode: Normal, Half-rate clocking
+
+  __message "ETM_Init\n";
+
+  __writeMemory32( 0x0FFFFF80, 0xFFFFFA04, "Memory" );  // PIO_D_PDR 
+  __writeMemory32( 0x0FFFFF80, 0xFFFFFA60, "Memory" );  // PIO_D_PUDR
+  __writeMemory32( 0x0FFFFF80, 0xFFFFFA74, "Memory" );  // PIO_D_BSR
+}

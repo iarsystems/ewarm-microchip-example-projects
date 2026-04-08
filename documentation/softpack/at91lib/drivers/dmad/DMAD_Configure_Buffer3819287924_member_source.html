@@ -1,0 +1,69 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - DMAD_Configure_Buffer</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">DMAD_Configure_Buffer</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../drivers0',this)" class="pathLink">drivers</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','dmad0',this)" class="pathLink">dmad</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">DMAD_Configure_Buffer</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','DMAD_Configure_Buffer3819287924','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','DMAD_Configure_Buffer3819287924','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 168</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','DMAD_Configure_Buffer3819287924',this); ">DMAD_Configure_Buffer</a>(unsigned char channel, unsigned char sourceTransferMode, unsigned char destTransferMode, <a href="#" onMouseOver="link('_class','_DmaLinkList0',this); ">DmaLinkList</a> *lli, <a href="#" onMouseOver="link('_class','_PictureInPicture0',this); ">PictureInPicture</a> *pip)
+{
+    <a href="#" onMouseOver="link('_class','_DmaTransfer0',this); ">DmaTransfer</a> *pTransfer = &amp;(dmad.transfers[channel]);
+    // Check that no transfer is pending on the channel
+    if (pTransfer-&gt; transferSize &gt; 0 ) {
+        TRACE_ERROR("DAM transfer is already pending\n\r");
+        return <a href="#" onMouseOver="link('_member','DMAD_ERROR_BUSY2524030203',this); ">DMAD_ERROR_BUSY</a>;
+    }
+    // Configure source transfer mode.
+    <a href="#" onMouseOver="link('_member','../../peripherals/dma/DMA_SetSourceBufferMode3110917852',this); ">DMA_SetSourceBufferMode</a>(channel, sourceTransferMode, 0);
+    
+    // Configure destination transfer mode.
+    <a href="#" onMouseOver="link('_member','../../peripherals/dma/DMA_SetDestBufferMode3110917852',this); ">DMA_SetDestBufferMode</a>(channel, destTransferMode, 0);
+    
+    if(lli){
+        <a href="#" onMouseOver="link('_member','../../peripherals/dma/DMA_SetDescriptorAddr361150951',this); ">DMA_SetDescriptorAddr</a>(channel, (unsigned int)(&amp;lli[0]));
+    }
+    else {
+        <a href="#" onMouseOver="link('_member','../../peripherals/dma/DMA_SetDescriptorAddr361150951',this); ">DMA_SetDescriptorAddr</a>(channel, 0);
+    }
+    
+    if(pip){
+        // If source picture-in-picture mode is enabled, program the DMAC_SPIP.
+        if(pip-&gt;<a href="#" onMouseOver="link('_member','pipSourceBoundarySize1504178726',this); ">pipSourceBoundarySize</a>){
+        // If destination picture-in-picture mode is enabled, program the DMAC_DPIP.
+            DMA_SPIPconfiguration(channel, pip-&gt;<a href="#" onMouseOver="link('_member','pipSourceHoleSize1504178726',this); ">pipSourceHoleSize</a>, pip-&gt;<a href="#" onMouseOver="link('_member','pipSourceBoundarySize1504178726',this); ">pipSourceBoundarySize</a>);
+        }
+        if(pip-&gt;<a href="#" onMouseOver="link('_member','pipDestBoundarySize1504178726',this); ">pipDestBoundarySize</a>){
+            DMA_DPIPconfiguration(channel, pip-&gt;<a href="#" onMouseOver="link('_member','pipDestHoleSize1504178726',this); ">pipDestHoleSize</a>, pip-&gt;<a href="#" onMouseOver="link('_member','pipDestBoundarySize1504178726',this); ">pipDestBoundarySize</a>);
+        }
+    }
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

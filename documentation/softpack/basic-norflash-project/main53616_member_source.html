@@ -1,0 +1,154 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_norflashmi_project0',this)" class="pathLink">basic-norflash-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 161</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>(void)
+{
+    unsigned int blockNumber, block, blockSize, blockAddress, pageSize, packetSize, i;
+    unsigned char testFailed;
+    const unsigned char busWidth[3] = {<a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/FLASH_CHIP_WIDTH_8BITS2466962216',this); ">FLASH_CHIP_WIDTH_8BITS</a>, <a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/FLASH_CHIP_WIDTH_16BITS2466962216',this); ">FLASH_CHIP_WIDTH_16BITS</a>, <a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/FLASH_CHIP_WIDTH_32BITS2466962216',this); ">FLASH_CHIP_WIDTH_32BITS</a>};
+
+    // Configure pins and DBGU
+#ifdef PINS_NORFLASH
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(pPins, <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_LISTSIZE2758449565',this); ">PIO_LISTSIZE</a>(pPins));
+#endif
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_CONFIGURE1432879529',this); ">TRACE_CONFIGURE</a>(DBGU_STANDARD, 115200, BOARD_MCK);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Basic NorFlash Project %s --\n\r", SOFTPACK_VERSION);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- %s\n\r", BOARD_NAME);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
+
+    norFlash.norFlashInfo.baseAddress = <a href="#" onMouseOver="link('_member','../at91lib/boards/at91cap9-dk/BOARD_NORFLASH_ADDR3857385940',this); ">BOARD_NORFLASH_ADDR</a>;
+    // Check device CFI and get Vendor setting from it.
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- \t Common Flash Interface detecting...\n\r");
+    for (i = 0; i &lt; 3; i++) {
+        // Configure SMC for Norflash accesses 
+        TRACE_INFO("\t Try bus width %d bits\n\r", busWidth[i] * 8);
+        #if !defined(at91sam9m10ek) &amp;&amp; !defined(at91sam9g45ek)
+        <a href="#" onMouseOver="link('_member','../at91lib/boards/at91sam7se-ek/BOARD_ConfigureNorFlash48MHz1746799197',this); ">BOARD_ConfigureNorFlash48MHz</a>(busWidth[i] * 8);
+        #else
+        <a href="#" onMouseOver="link('_member','../at91lib/boards/at91sam9xe-ek/BOARD_ConfigureNorFlash2593655934',this); ">BOARD_ConfigureNorFlash</a>(busWidth[i] * 8);
+        #endif
+        if(! <a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/NorFlash_CFI_Detect1922247933',this); ">NorFlash_CFI_Detect</a>(&amp;norFlash, busWidth[i])) break;
+    }
+
+    if (norFlash.norFlashInfo.cfiCompatible == 0) {
+        TRACE_ERROR("Device Unknown\n\r");
+        testFailed = 1;
+        goto exit;
+    }
+       
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- \t CFI detected and driver initialized\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- \t manufactureID : 0x%08x, deviceID : 0x%08x\n\r",
+            <a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/NORFLASH_ReadManufactoryID863130501',this); ">NORFLASH_ReadManufactoryID</a>(&amp;norFlash),
+            <a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/NORFLASH_ReadDeviceID863130501',this); ">NORFLASH_ReadDeviceID</a>(&amp;norFlash));
+
+    // Test all pages
+      testFailed = 0;
+    block = 0;
+    blockNumber = <a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/NorFlash_GetDeviceNumOfBlocks3904423740',this); ">NorFlash_GetDeviceNumOfBlocks</a>(&amp;(norFlash.norFlashInfo));
+    pageSize = <a href="#" onMouseOver="link('_member','../at91lib/utility/min3363666690',this); ">min</a>(<a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/NorFlash_GetDeviceMinBlockSize3904423740',this); ">NorFlash_GetDeviceMinBlockSize</a>(&amp;(norFlash.norFlashInfo)), 1024);
+
+    while (!testFailed &amp;&amp; (block &lt; blockNumber)) {
+
+        TRACE_INFO("Test in progress on block: %6d\r", block);
+        // Erase block
+        <a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/NORFLASH_EraseSector1882410306',this); ">NORFLASH_EraseSector</a>(&amp;norFlash, <a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/NorFlash_GetDeviceSectorAddress3806251491',this); ">NorFlash_GetDeviceSectorAddress</a>(&amp;(norFlash.norFlashInfo), block));
+        
+        blockSize =  <a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/NorFlash_GetDeviceBlockSize3806251491',this); ">NorFlash_GetDeviceBlockSize</a>(&amp;(norFlash.norFlashInfo), block);
+        blockAddress = <a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/NorFlash_GetDeviceSectorAddress3806251491',this); ">NorFlash_GetDeviceSectorAddress</a>(&amp;(norFlash.norFlashInfo), block);
+        packetSize = pageSize;
+        
+        while (blockSize) {
+            // Verify that page has been erased correctly
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/memset3684796183',this); ">memset</a>(pBuffer, 0, packetSize);
+            <a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/NORFLASH_ReadData2267191262',this); ">NORFLASH_ReadData</a>(&amp;norFlash, blockAddress, pBuffer, packetSize);
+            for (i=0; i &lt; packetSize; i++) {
+            
+                if (<a href="#" onMouseOver="link('_member','../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a>[i] != 0xFF) {
+                    TRACE_ERROR("Could not erase block %d\n\r", block);
+                    testFailed = 1;
+                    goto exit;
+                }
+            }
+            
+            blockAddress += packetSize;
+            blockSize -= packetSize;
+            if (blockSize &lt; pageSize) {
+                 packetSize = blockSize;
+            }
+        }
+        
+        blockSize =  <a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/NorFlash_GetDeviceBlockSize3806251491',this); ">NorFlash_GetDeviceBlockSize</a>(&amp;(norFlash.norFlashInfo), block);
+        blockAddress = <a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/NorFlash_GetDeviceSectorAddress3806251491',this); ">NorFlash_GetDeviceSectorAddress</a>(&amp;(norFlash.norFlashInfo), block);
+        packetSize = pageSize;
+        
+        while (blockSize) {
+            // Write page
+            for (i = 0; i &lt; packetSize; i++) {
+                <a href="#" onMouseOver="link('_member','../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a>[i] = i &amp; 0xFF;
+            }
+            <a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/NORFLASH_WriteData2267191262',this); ">NORFLASH_WriteData</a>(&amp;norFlash, blockAddress, pBuffer, packetSize);
+            // Check that data has been written correctly                    
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/memset3684796183',this); ">memset</a>(pBuffer, 0, packetSize);
+            <a href="#" onMouseOver="link('_member','../at91lib/memories/norflash/NORFLASH_ReadData2267191262',this); ">NORFLASH_ReadData</a>(&amp;norFlash, blockAddress, pBuffer, packetSize);
+        
+            for (i = 0; i &lt; packetSize; i++) {
+                if (<a href="#" onMouseOver="link('_member','../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a>[i] != (i &amp; 0xFF)) {
+                    TRACE_ERROR("Could not write block %d\n\r", block);
+                    testFailed = 1;
+                    goto exit;
+                }
+            }
+            blockAddress += packetSize;
+            blockSize -= packetSize;
+            if (blockSize &lt; pageSize) {
+                 packetSize = blockSize;
+            }
+        }
+        block++;    
+    }
+    exit:
+    // Display test result
+    if (testFailed) {
+    
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-E- Test failed.\n\r");
+    }
+    else {
+    
+         <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r-I- Test passed.\n\r");
+    }
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

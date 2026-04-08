@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.w3.org/MarkUp/SCHEMA/xhtml11.xsd"
+     xml:lang="en">
+  <head>
+    <title>Information Center for ARM</title>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" media="all" href="file://$TOOLKIT_DIR$/doc/infocenter/style/ewic.css" />
+  </head>
+  <body>
+  <div id="topbanner"></div>
+  <div id="titlebanner_small">
+    <h2>Information Center for ARM</h2>
+  </div>
+  <div class="breadcrumb"><a href="$TOOLKIT_DIR$/doc/infocenter/index.JPN.html">Information Center for ARM</a> | EXAMPLES</div>
+  <div class="mainblock">
+   <h2>Example description</h2>
+   <pre>
+TC Capture Waveform Example for SAM.
+
+DESCRIPTION
+===========
+  This example indicates how to use the Timer Counter in capture mode and
+  waveform mode in order to measure the pulse frequency and count the total
+  pulse number of an external signal injected into the device's TIOA pin.
+
+  It generates a waveform on the Timer Counter pin PIN_TC_WAVEFORM,
+  and it captures a waveform from pin PIN_TC_CAPTURE. Refer to the
+  respective device evaluation kit's board file (conf_board.h) in order
+  to examine these #defines.
+
+  This example shows how to configure the Timer Counter in both waveform and
+  capture operating modes. In capture mode, a pulse signal (output from PIN_TC_WAVEFORM)
+  is connected to PIN_TC_CAPTURE, and Register A (RA) and Register B (RB) will be loaded
+  when their programmed event occurs.
+
+  When the Timer Counter interrupt occurs, its interrupt handler reads the RA
+  and RB register values (for computing pulse frequency) and also increases the total
+  pulse count number. The current pulse frequency and total pulse count number are
+  both output via the debug UART.
+
+  The code can be roughly broken down as follows:
+
+  - Select pre-defined waveform frequency and duty cycle to be generated
+  - Configure TC_CHANNEL_WAVEFORM as waveform output
+  - Configure TC_CHANNEL_CAPTURE as a capture input
+  - Configure capture Register A (RA) to be loaded when a rising edge on TIOA occurs
+  - Configure capture Register B (RB) to be loaded when a falling edge on TIOA occurs
+  - Configure a Timer Counter interrupt and enable the RB load interrupt
+  - Pressing 'c' in the terminal window, starts capture
+  - Pressing 's' in the terminal window, stops capture and dumps the information captured so far
+
+COMPATIBILITY
+=============
+  The example project is compatible with Microchip SAM4L-EK evaluation board.
+
+CONFIGURATION
+=============
+  Debug   - The configuration runs the example from the internal flash memory.
+  Release - The configuration runs the example from the internal flash memory 
+            with no debug info.
+
+  For test the example we need:
+  1. Connect pin 3 and pin 7 on J4.
+  2. Remove jumper on J600, J601 (disconnect from board monitor)
+  3. Remove jumper on J200, J203 (disconnect from RS485)
+ 
+  Please set the following settings in your terminal software:
+
+  Baud rate : 115200
+  Data bits : 8
+  Parity    : none
+  Stop bits : 1
+
+  Use the virtual JLink CDC UART Port number, when configuring the COM port.
+
+GETTING STARTED
+===============
+  1) Choose a confguration.
+  2) Build the example.
+  3) Open the JLink CDC UART Port with a terminal program on your PC.
+  4) Download and run the example.
+
+</pre>
+  </div>
+  </body>
+</html>

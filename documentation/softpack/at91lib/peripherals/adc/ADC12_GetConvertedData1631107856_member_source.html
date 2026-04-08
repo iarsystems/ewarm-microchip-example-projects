@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - ADC12_GetConvertedData</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">ADC12_GetConvertedData</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','adc0',this)" class="pathLink">adc</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">ADC12_GetConvertedData</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','ADC12_GetConvertedData1631107856','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','ADC12_GetConvertedData1631107856','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 129</div>
+<pre class="codeExamples">
+unsigned int <a href="#" onMouseOver="link('_member','ADC12_GetConvertedData1631107856',this); ">ADC12_GetConvertedData</a>(AT91S_ADC12B *pAdc, unsigned int channel)
+{
+    unsigned int <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a>=0;
+    
+    ASSERT(channel &lt; 8, "ADC channel %u not exist", channel);
+    
+    switch(channel) {
+        case 0: <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a> = pAdc-&gt;ADC12B_CDR[0]; break;
+        case 1: <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a> = pAdc-&gt;ADC12B_CDR[1]; break;
+        case 2: <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a> = pAdc-&gt;ADC12B_CDR[2]; break;
+        case 3: <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a> = pAdc-&gt;ADC12B_CDR[3]; break;
+        case 4: <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a> = pAdc-&gt;ADC12B_CDR[4]; break;
+        case 5: <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a> = pAdc-&gt;ADC12B_CDR[5]; break;
+        case 6: <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a> = pAdc-&gt;ADC12B_CDR[6]; break;
+        case 7: <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a> = pAdc-&gt;ADC12B_CDR[7]; break;    
+        default: <a href="#" onMouseOver="link('_member','../../utility/printf186537041',this); ">printf</a>("\n\r Channel is not available!\n\r");
+              
+    }
+    return <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a>;    
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

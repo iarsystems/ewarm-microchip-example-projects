@@ -1,0 +1,63 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - sdcard sd mode read</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">sdcard sd mode read</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','sdmmc0',this)" class="pathLink">sdmmc</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">sdcard sd mode read</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("divID73676","aID73676","LeftMenuActive","leftMenuLinkActive");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_page','sdcardsdmoderead0','_description',this)" class="tabLinkActive">Description</a></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<span class="paragraph1">sdmmc_mci.h::sdcard sd mode read</span>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="padding"><div class="userParagraph3">Purpose</div>
+sdcard sd mode read process<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Description</div>
+<ul>
+<li>Make sure sdcard is under "transfer state", if the sdcard is under other <a href="#" OnMouseOver="link('_member','../../../basic-rtt-project/state0',this)">state</a>, host will send Cmd12 to stop the current operation and to transit sdcard to "stand-by state".</li>
+<li>Host sends Cmd13 to check sdcard's status, to make sure sdcard is "ready-for-data".</li>
+<li>Host sends Cmd18 to do multiple blocks read, the address here is different between high capacity sdcard and normal sdcard, the address of SDHC is equal to the block number, while normal sdcard's address is equal to block number times 512.</li>
+</ul>
+
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Read Optimization</div>
+<ul>
+<li>To optimize the read multiple blocks, try to keep the sdcard in the "data state" as long as possible. after send READ_MULTIPLE_BLOCK command, set the block number in the MCI_BLKR as 0, each time a new read start, do not re-send the READ_MULTIPLE_BLOCK command, just re-configure the PDC. In this case, host does not have to send STOP_TRANSMISSION to transfer the sdcard's <a href="#" OnMouseOver="link('_member','../../../basic-rtt-project/state0',this)">state</a> and the performance is optimized.</li>
+<li>MoveToTransferState will check the <a href="#" OnMouseOver="link('_member','../../../basic-rtt-project/state0',this)">state</a> of the sdcard, and send STOP_TRANSMISSION if need to transfer <a href="#" OnMouseOver="link('_member','../../../basic-rtt-project/state0',this)">state</a>. Normally this function is called between the <a href="#" OnMouseOver="link('_member','../../../basic-rtt-project/state0',this)">state</a> tranfer.</li>
+<li>ContinuousRead will be called if READ_MULTIPLE_BLOCK already been sent and this function will not re-send the read command, but will re-configure PDC accordingly.</li>
+</ul>
+
+</div>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="paragraph2">Source</div>
+<div class="paddingMembers">The documentation for this Page was generated from the following file:</div>
+<div class="paddingMembers"><LI>sdmmc_mci.h<br></div>
+<div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_page','_description');
+</script>

@@ -1,0 +1,105 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - ManagedNandFlash_CopyPage</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">ManagedNandFlash_CopyPage</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">ManagedNandFlash_CopyPage</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','ManagedNandFlash_CopyPage4015554445','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','ManagedNandFlash_CopyPage4015554445','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 587</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','ManagedNandFlash_CopyPage4015554445',this); ">ManagedNandFlash_CopyPage</a>(const struct <a href="#" onMouseOver="link('_class','ManagedNandFlash0',this); ">ManagedNandFlash</a> *managed, unsigned short sourceBlock, unsigned short sourcePage, unsigned short destBlock, unsigned short destPage)
+{
+    unsigned char error;
+
+    ASSERT((sourcePage &amp; 1) == (destPage &amp; 1),
+           "ManagedNandFlash_CopyPage: source &amp; dest pages must have the same parity\n\r");
+
+    TRACE_INFO("ManagedNandFlash_CopyPage(B#%d:P#%d -&gt; B#%d:P#%d)\n\r",
+              sourceBlock, sourcePage, destBlock, destPage);
+
+    // Check block statuses
+    if ((managed-&gt;blockStatuses[sourceBlock].status != NandBlockStatus_LIVE)
+         &amp;&amp; (managed-&gt;blockStatuses[sourceBlock].status != NandBlockStatus_DIRTY)) {
+
+        TRACE_ERROR("ManagedNandFlash_CopyPage: Source block must be LIVE or DIRTY.\n\r");
+        return <a href="#" onMouseOver="link('_member','NandCommon_ERROR_WRONGSTATUS3454457112',this); ">NandCommon_ERROR_WRONGSTATUS</a>;
+    }
+    if (managed-&gt;blockStatuses[destBlock].status != NandBlockStatus_LIVE) {
+
+        TRACE_ERROR("ManagedNandFlash_CopyPage: Destination block must be LIVE.\n\r");
+        return <a href="#" onMouseOver="link('_member','NandCommon_ERROR_WRONGSTATUS3454457112',this); ">NandCommon_ERROR_WRONGSTATUS</a>;
+    }
+
+    // If destination page is page #0, block status information must not be
+    // overwritten
+    if (destPage == 0) {
+
+        unsigned char <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a>[<a href="#" onMouseOver="link('_member','NandCommon_MAXPAGEDATASIZE3454457112',this); ">NandCommon_MAXPAGEDATASIZE</a>];
+        unsigned char spare[<a href="#" onMouseOver="link('_member','NandCommon_MAXPAGESPARESIZE3454457112',this); ">NandCommon_MAXPAGESPARESIZE</a>];
+
+        // Read data &amp; spare to copy
+        error = <a href="#" onMouseOver="link('_member','EccNandFlash_ReadPage1401430344',this); ">EccNandFlash_ReadPage</a>(ECC(managed),
+                                      managed-&gt;baseBlock + sourceBlock,
+                                      sourcePage,
+                                      data, spare);
+        if (error) {
+
+            return error;
+        }
+
+        // Write destination block status information in spare
+        <a href="#" onMouseOver="link('_member','NandSpareScheme_WriteExtra2343717958',this); ">NandSpareScheme_WriteExtra</a>(<a href="#" onMouseOver="link('_member','NandFlashModel_GetScheme4019471155',this); ">NandFlashModel_GetScheme</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(managed)),
+                                   spare,
+                                   &amp;(managed-&gt;blockStatuses[destBlock]),
+                                   4,
+                                   0);
+
+        // Write page
+        error = <a href="#" onMouseOver="link('_member','RawNandFlash_WritePage596140380',this); ">RawNandFlash_WritePage</a>(RAW(managed),
+                                       managed-&gt;baseBlock + destBlock,
+                                       destPage,
+                                       data, spare);
+        if (error) {
+
+            return error;
+        }
+    }
+    // Otherwise, a normal copy can be done
+    else {
+
+        return <a href="#" onMouseOver="link('_member','RawNandFlash_CopyPage1887239782',this); ">RawNandFlash_CopyPage</a>(RAW(managed),
+                                     managed-&gt;baseBlock + sourceBlock,
+                                     sourcePage,
+                                     managed-&gt;baseBlock + destBlock,
+                                     destPage);
+    }
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

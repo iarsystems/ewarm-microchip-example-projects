@@ -1,0 +1,75 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - MappedNandFlash_Map</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">MappedNandFlash_Map</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">MappedNandFlash_Map</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','MappedNandFlash_Map2171900932','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','MappedNandFlash_Map2171900932','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 413</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','MappedNandFlash_Map2171900932',this); ">MappedNandFlash_Map</a>(struct <a href="#" onMouseOver="link('_class','MappedNandFlash0',this); ">MappedNandFlash</a> *mapped, unsigned short logicalBlock, unsigned short physicalBlock)
+{
+    unsigned char error;
+    signed short oldPhysicalBlock;
+
+    TRACE_INFO("MappedNandFlash_Map(LB#%d -&gt; PB#%d)\n\r",
+               logicalBlock, physicalBlock);
+    ASSERT(
+       logicalBlock &lt; <a href="#" onMouseOver="link('_member','ManagedNandFlash_GetDeviceSizeInBlocks528270051',this); ">ManagedNandFlash_GetDeviceSizeInBlocks</a>(<a href="#" onMouseOver="link('_member','MANAGED1005205562',this); ">MANAGED</a>(mapped)),
+       "MappedNandFlash_Map: logicalBlock out-of-range\n\r");
+    ASSERT(
+       physicalBlock &lt; <a href="#" onMouseOver="link('_member','ManagedNandFlash_GetDeviceSizeInBlocks528270051',this); ">ManagedNandFlash_GetDeviceSizeInBlocks</a>(<a href="#" onMouseOver="link('_member','MANAGED1005205562',this); ">MANAGED</a>(mapped)),
+       "MappedNandFlash_Map: physicalBlock out-of-range\n\r");
+
+    // Allocate physical block
+    error = <a href="#" onMouseOver="link('_member','ManagedNandFlash_AllocateBlock1127007682',this); ">ManagedNandFlash_AllocateBlock</a>(<a href="#" onMouseOver="link('_member','MANAGED1005205562',this); ">MANAGED</a>(mapped), physicalBlock);
+    if (error) {
+
+        return error;
+    }
+
+    // Release currently mapped block (if any)
+    oldPhysicalBlock = mapped-&gt;logicalMapping[logicalBlock];
+    if (oldPhysicalBlock != -1) {
+
+        error =
+            <a href="#" onMouseOver="link('_member','ManagedNandFlash_ReleaseBlock1127007682',this); ">ManagedNandFlash_ReleaseBlock</a>(<a href="#" onMouseOver="link('_member','MANAGED1005205562',this); ">MANAGED</a>(mapped), oldPhysicalBlock);
+        if (error) {
+
+            return error;
+        }                                      
+    }
+
+    // Set mapping
+    mapped-&gt;logicalMapping[logicalBlock] = physicalBlock;
+    mapped-&gt;mappingModified = 1;
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

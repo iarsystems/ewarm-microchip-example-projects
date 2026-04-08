@@ -1,0 +1,145 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_fsmi_project0',this)" class="pathLink">basic-fs-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 867</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>(void)
+{
+    <a href="#" onMouseOver="link('_class','_FSFunctions0',this); ">FSFunctions</a> ff;
+    unsigned char isFsValid = 0;
+    unsigned char isMsdConnected = 0;
+    unsigned char doFsTest = 0, delayUsbInit = 0;
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_CONFIGURE1432879529',this); ">TRACE_CONFIGURE</a>(DBGU_STANDARD, 115200, BOARD_MCK);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Basic File System Project %s --\n\r", SOFTPACK_VERSION);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- %s\n\r", BOARD_NAME);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
+
+    // If they are present, configure Vbus pins
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_InitializeInterrupts171142247',this); ">PIO_InitializeInterrupts</a>(0);
+
+    // Configure PIO for time ticks
+    ConfigurePit();
+
+    // If there is on board power, switch it off
+  #ifdef PIN_USB_POWER_ENB
+  { const <a href="#" onMouseOver="link('_class','../at91lib/peripherals/pio/Pin0',this); ">Pin</a> pinUsbPwr = PIN_USB_POWER_ENB;
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(&amp;pinUsbPwr, 1);
+  }
+  #endif
+
+    // Confirm that the USB disconnected
+    MSDStart(0);
+
+    // Initialize memories (disks)
+    MemoryInitialization();
+
+    ASSERT(numMedias &gt; 0, "Error: No media defined.\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("%u medias defined\n\r", numMedias);
+
+    // We use EFSL in intialization
+    isFsValid = FileSystemSelect(&amp;ff, 0);
+
+    if (!isFsValid) {
+
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("No Valid Disk!\n\r");
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Please format the disk with PC through MSD!\n\r");
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Waiting connection from PC ...\n\r");
+
+        MSDStart(1);
+    }
+    else {
+
+        doFsTest = 1;
+        delayUsbInit = 1;
+    }
+
+    // Infinite loop
+    while (1) {
+
+        if (<a href="#" onMouseOver="link('_member','../at91lib/usb/device/core/USBD_GetState53616',this); ">USBD_GetState</a>() &gt;= <a href="#" onMouseOver="link('_member','../at91lib/usb/device/core/USBD_STATE_CONFIGURED2292695961',this); ">USBD_STATE_CONFIGURED</a>) {
+
+            if (isMsdConnected == 0) {
+
+                isMsdConnected = 1;
+            }
+
+            // Mass storage state machine
+            <a href="#" onMouseOver="link('_member','../at91lib/usb/device/massstorage/MSDDriver_StateMachine53616',this); ">MSDDriver_StateMachine</a>();
+        }
+        else {
+
+            if (isMsdConnected) {
+
+                isMsdConnected = 0;
+                doFsTest = 1;
+            }
+
+        }
+
+        if (<a href="#" onMouseOver="link('_member','../at91lib/peripherals/dbgu/DBGU_IsRxReady53616',this); ">DBGU_IsRxReady</a>()) {
+
+            switch(<a href="#" onMouseOver="link('_member','../at91lib/peripherals/dbgu/DBGU_GetChar53616',this); ">DBGU_GetChar</a>()) {
+
+            case 'R': case 'r':
+                doFsTest = 1;
+                break;
+
+            case 'F': case 'f':
+                FileSystemSelect(&amp;ff, 0xFF);
+                break;
+            
+            case 'M': case 'm':
+                FormatDisk(&amp;ff);
+                break;
+            }
+        }
+
+        if (doFsTest) {
+
+            doFsTest = 0;
+
+            // Do File System Test
+            FileSystemTest(&amp;ff);
+
+            if (delayUsbInit) {
+
+                delayUsbInit = 0;
+
+                // Start Mass Storage so that we can connect the disk
+                MSDStart(1);
+            }
+        }
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

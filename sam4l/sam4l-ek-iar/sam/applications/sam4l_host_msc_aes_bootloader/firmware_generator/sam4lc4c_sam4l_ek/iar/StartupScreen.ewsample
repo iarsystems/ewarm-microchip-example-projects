@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<exampleInfo>
+  <copyDir>..\..\..\..\..\..\common\boards</copyDir>
+  <copyDir>..\..\..\..\..\..\common\services</copyDir>
+  <copyDir>..\..\..\..\..\..\common\utils</copyDir>
+  <copyDir>..\..\..\..\..\..\thirdparty\fatfs</copyDir>
+  <copyDir>..\..\..\..\..\applications\sam4l_host_msc_aes_bootloader\firmware_generator</copyDir>
+  <copyDir>..\..\..\..\..\boards</copyDir>
+  <copyDir>..\..\..\..\..\drivers</copyDir>
+  <copyDir>..\..\..\..\..\utils</copyDir>
+</exampleInfo>

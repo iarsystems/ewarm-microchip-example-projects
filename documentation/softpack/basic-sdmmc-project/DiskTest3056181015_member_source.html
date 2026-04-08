@@ -1,0 +1,192 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - DiskTest</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">DiskTest</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_sdmmcmi_project0',this)" class="pathLink">basic-sdmmc-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">DiskTest</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','DiskTest3056181015','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','DiskTest3056181015','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 653</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','../basic-sdmmc-test-project/DiskTest3056181015',this); ">DiskTest</a>(unsigned char slot, unsigned char clr, unsigned char wr, unsigned char rd)
+{
+    unsigned char error = 0;
+    unsigned int i, errcnt = 0;
+    unsigned int multiBlock, block, splitMulti;
+
+    DumpSeperator();
+
+    // Perform tests on each block
+    multiBlock = 0;
+    for (block = <a href="#" onMouseOver="link('_member','TEST_BLOCK_START1584368743',this); ">TEST_BLOCK_START</a>;
+         block &lt; TEST_BLOCK_END;
+         block += multiBlock) {
+
+        // Perform different single or multiple bloc operations
+        if (++multiBlock &gt; <a href="#" onMouseOver="link('_member','NB_MULTI_BLOCKS1584368743',this); ">NB_MULTI_BLOCKS</a>)
+            multiBlock = 1;
+
+        // Multi-block adjustment
+        if (block + multiBlock &gt; TEST_BLOCK_END) {
+            multiBlock = TEST_BLOCK_END - block;
+        }
+
+        // ** Perform single block or multi block transfer
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\r-I- Testing block [%6u - %6u] ...",
+               block, (block + multiBlock -1));
+
+        if (clr) {
+            // - Clear the block
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/memset3684796183',this); ">memset</a>(pBuffer, 0, SD_BLOCK_SIZE * multiBlock);
+            for (i=0; i &lt; <a href="#" onMouseOver="link('_member','../at91lib/memories/sdmmc/SD_BLOCK_SIZE3525570445',this); ">SD_BLOCK_SIZE</a> * multiBlock; i++) {
+                if (<a href="#" onMouseOver="link('_member','../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a>[i] != 0) {
+                    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r-E- Data @ %u for write : 0x00 &lt;&gt; 0x%02x\n\r",
+                           i, pBuffer[i]);
+                    if(<a href="#" onMouseOver="link('_member','../basic-sdcard-project/MaxErrorBreak53616',this); ">MaxErrorBreak</a>(0)) return;
+                    // Only find first verify error.
+                    continue;
+                }
+            }
+            error = <a href="#" onMouseOver="link('_member','../at91lib/memories/sdmmc/SD_WriteBlock3234235813',this); ">SD_WriteBlock</a>(&amp;sdDrv, block, multiBlock, pBuffer);
+            if (error) {
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r-E- 1. Write block (%d) #%u\n\r", error, block);
+                if(<a href="#" onMouseOver="link('_member','../basic-sdcard-project/MaxErrorBreak53616',this); ">MaxErrorBreak</a>(0)) return;
+                // Skip following test
+                continue;
+            }
+            // - Read back the data to check the write operation
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/memset3684796183',this); ">memset</a>(pBuffer, 0xFF, SD_BLOCK_SIZE * multiBlock);
+            error = <a href="#" onMouseOver="link('_member','../at91lib/memories/sdmmc/SD_ReadBlock2145053675',this); ">SD_ReadBlock</a>(&amp;sdDrv, block, multiBlock, pBuffer);
+            if (error) {
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r-E- 1. Read block (%d) #%u\n\r", error, block);
+                if(<a href="#" onMouseOver="link('_member','../basic-sdcard-project/MaxErrorBreak53616',this); ">MaxErrorBreak</a>(0)) return;
+                // Skip following test
+                continue;
+            }
+            for (i=0; i &lt; <a href="#" onMouseOver="link('_member','../at91lib/memories/sdmmc/SD_BLOCK_SIZE3525570445',this); ">SD_BLOCK_SIZE</a> * multiBlock; i++) {
+                if (<a href="#" onMouseOver="link('_member','../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a>[i] != 0) {
+                    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r-E- 1. B%u.D[%u] : 0 &lt;&gt; 0x%02X\n\r",
+                           block,
+                           i, pBuffer[i]);
+                    if(<a href="#" onMouseOver="link('_member','../basic-sdcard-project/MaxErrorBreak53616',this); ">MaxErrorBreak</a>(0)) return;
+                    // Only find first verify error.
+                    break;
+                }
+            }
+        }
+
+        if (wr) {
+            // - Write a checkerboard pattern on the block
+            for (i=0; i &lt; <a href="#" onMouseOver="link('_member','../at91lib/memories/sdmmc/SD_BLOCK_SIZE3525570445',this); ">SD_BLOCK_SIZE</a> * multiBlock; i++) {
+                if ((i &amp; 1) == 0)  <a href="#" onMouseOver="link('_member','../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a>[i] = (i &amp; 0x55);
+                else               <a href="#" onMouseOver="link('_member','../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a>[i] = (i &amp; 0xAA);
+            }
+            for (i = 0; i &lt; multiBlock; ) {
+                splitMulti = ((multiBlock - i) &gt; <a href="#" onMouseOver="link('_member','NB_SPLIT_MULTI1584368743',this); ">NB_SPLIT_MULTI</a>) ?
+                                        <a href="#" onMouseOver="link('_member','NB_SPLIT_MULTI1584368743',this); ">NB_SPLIT_MULTI</a> : (multiBlock - i);
+                error = <a href="#" onMouseOver="link('_member','../at91lib/memories/sdmmc/SD_WriteBlock3234235813',this); ">SD_WriteBlock</a>(&amp;sdDrv,
+                                      block + i,
+                                      splitMulti,
+                                      &amp;pBuffer[i * SD_BLOCK_SIZE]);
+                if (error) break;
+                i += splitMulti;
+            }
+            ASSERT(i == multiBlock, "Unexpected W, %u!", i);
+            if (error) {
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r-E- 2. Write block #%u(%u+%u)\n\r",
+                       block+i, block, i);
+                if(<a href="#" onMouseOver="link('_member','../basic-sdcard-project/MaxErrorBreak53616',this); ">MaxErrorBreak</a>(0)) return;
+                // Skip Following Test
+                continue;
+            }
+        }
+
+        if (rd) {
+            // - Read back the data to check the write operation
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/memset3684796183',this); ">memset</a>(pBuffer, 0, SD_BLOCK_SIZE * multiBlock);
+            for (i = 0; i &lt; multiBlock; ) {
+                splitMulti = ((multiBlock - i) &gt; <a href="#" onMouseOver="link('_member','NB_SPLIT_MULTI1584368743',this); ">NB_SPLIT_MULTI</a>) ?
+                                        <a href="#" onMouseOver="link('_member','NB_SPLIT_MULTI1584368743',this); ">NB_SPLIT_MULTI</a> : (multiBlock - i);
+                error = <a href="#" onMouseOver="link('_member','../at91lib/memories/sdmmc/SD_ReadBlock2145053675',this); ">SD_ReadBlock</a>(&amp;sdDrv,
+                                     block + i,
+                                     splitMulti,
+                                     &amp;pBuffer[i * SD_BLOCK_SIZE]);
+                if (error) break;
+                i += splitMulti;
+            }
+            ASSERT(i == multiBlock, "Unexpected R, %u!", i);
+            if (error) {
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r-E- 2. Read block #%u(%u+%u)\n\r",
+                       block + i, block, i);
+                if(<a href="#" onMouseOver="link('_member','../basic-sdcard-project/MaxErrorBreak53616',this); ">MaxErrorBreak</a>(0)) return;
+                // Skip Following Test
+                continue;
+            }
+            errcnt = 0;
+            for (i=0; i &lt; <a href="#" onMouseOver="link('_member','../at91lib/memories/sdmmc/SD_BLOCK_SIZE3525570445',this); ">SD_BLOCK_SIZE</a> * multiBlock; i++) {
+
+                if (!(((i &amp; 1) == 0) &amp;&amp; (<a href="#" onMouseOver="link('_member','../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a>[i] == (i &amp; 0x55))) &amp;&amp;
+                    !(((i &amp; 1) != 0) &amp;&amp; (<a href="#" onMouseOver="link('_member','../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a>[i] == (i &amp; 0xAA))) ) {
+                    unsigned int j, js;
+                    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r-E- 2.%d. Data @ %u (0x%x)\n\r", errcnt, i, i);
+                    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("  -Src:");
+                    js = (i &gt; 8) ? (i - 8) : 0;
+                    for (j = js; j &lt; i + 8; j ++)
+                        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" %02x", ((j &amp; 1)!= 0) ? (j &amp; 0xAA):(j &amp; 0x55));
+                    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r  -Dat:");
+                    for (j = js; j &lt; i + 8; j ++)
+                        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("%c%02x", (i == j) ? '!' : ' ', pBuffer[j]);
+                    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+                    if(<a href="#" onMouseOver="link('_member','../basic-sdcard-project/MaxErrorBreak53616',this); ">MaxErrorBreak</a>(0)) return;
+                    // Only find first 3 verify error.
+                    if (errcnt ++ &gt;= 3)
+                        break;
+                }
+            }
+        }
+
+        if (<a href="#" onMouseOver="link('_member','../at91lib/peripherals/dbgu/DBGU_IsRxReady53616',this); ">DBGU_IsRxReady</a>()) {
+            switch(<a href="#" onMouseOver="link('_member','../at91lib/peripherals/dbgu/DBGU_GetChar53616',this); ">DBGU_GetChar</a>()) {
+                // Skip 100M
+                case 'k':
+                    block += TEST_BLOCK_SKIP;
+                    if (block &gt; TEST_BLOCK_END) {
+                        block -= 5 + multiBlock;
+                    }
+                    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+                    break;
+                // Cancel
+                case 'c':
+                    return;
+            }
+        }
+    }
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("All block tested!\n\r");
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

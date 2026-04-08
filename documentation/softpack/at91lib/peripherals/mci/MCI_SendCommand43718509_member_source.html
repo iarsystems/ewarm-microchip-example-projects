@@ -1,0 +1,170 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - MCI_SendCommand</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">MCI_SendCommand</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','mci0',this)" class="pathLink">mci</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">MCI_SendCommand</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','MCI_SendCommand43718509','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','MCI_SendCommand43718509','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 625</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','MCI_SendCommand43718509',this); ">MCI_SendCommand</a>(<a href="#" onMouseOver="link('_class','Mci0',this); ">Mci</a> *pMci, <a href="#" onMouseOver="link('_class','_MciCmd0',this); ">MciCmd</a> *pCommand)
+{
+    AT91PS_MCI pMciHw = pMci-&gt;<a href="#" onMouseOver="link('_member','pMciHw1563',this); ">pMciHw</a>;
+    unsigned int mciIer, mciMr;
+    unsigned int transSize;
+    unsigned int mciBlkr;
+
+  #if defined(MCI_DMA_ENABLE)
+    unsigned int mciDma;
+  #endif
+
+    <a href="#" onMouseOver="link('_member','../../utility/SANITY_CHECK407576460',this); ">SANITY_CHECK</a>(pMci);
+    <a href="#" onMouseOver="link('_member','../../utility/SANITY_CHECK407576460',this); ">SANITY_CHECK</a>(pMciHw);
+    <a href="#" onMouseOver="link('_member','../../utility/SANITY_CHECK407576460',this); ">SANITY_CHECK</a>(pCommand);
+
+    // Try to acquire the MCI semaphore
+    if (pMci-&gt;<a href="#" onMouseOver="link('_member','semaphore1563',this); ">semaphore</a> == 0) {
+
+        return <a href="#" onMouseOver="link('_member','MCI_ERROR_LOCK3382611622',this); ">MCI_ERROR_LOCK</a>;
+    }
+    pMci-&gt;<a href="#" onMouseOver="link('_member','semaphore1563',this); ">semaphore</a>--;
+
+    // Command is now being executed
+    pMci-&gt;<a href="#" onMouseOver="link('_member','pCommand1563',this); ">pCommand</a> = pCommand;
+    pCommand-&gt;<a href="#" onMouseOver="link('_member','status432406',this); ">status</a> = <a href="#" onMouseOver="link('_member','MCI_STATUS_PENDING3382611622',this); ">MCI_STATUS_PENDING</a>;
+
+    // Enable the MCI peripheral clock
+    <a href="#" onMouseOver="link('_member','../../memories/spi-flash/WRITE_PMC3278099456',this); ">WRITE_PMC</a>(AT91C_BASE_PMC, PMC_PCER, (1 &lt;&lt; pMci-&gt;<a href="#" onMouseOver="link('_member','mciId1563',this); ">mciId</a>));
+
+    // Disable MCI clock, for multi-block data transfer
+    <a href="#" onMouseOver="link('_member','MCICK_DISABLE2077272269',this); ">MCICK_DISABLE</a>(pMciHw);
+
+    // Set Default Mode register value
+    mciMr = <a href="#" onMouseOver="link('_member','READ_MCI99495805',this); ">READ_MCI</a>(pMciHw, MCI_MR) &amp; (~( <a href="#" onMouseOver="link('_member','AT91C_MCI_WRPROOF3385233062',this); ">AT91C_MCI_WRPROOF</a>
+                                          |AT91C_MCI_RDPROOF
+                                          |AT91C_MCI_BLKLEN));
+    // Command with DATA stage
+    if (pCommand-&gt;<a href="#" onMouseOver="link('_member','blockSize432406',this); ">blockSize</a> &amp;&amp; pCommand-&gt;<a href="#" onMouseOver="link('_member','nbBlock432406',this); ">nbBlock</a>) {
+        // Enable dma
+      #if defined(MCI_DMA_ENABLE)
+        perChunkSize = 1;
+        //if ((pCommand-&gt;blockSize % 16) == 0) perChunkSize = 4;
+        mciDma = <a href="#" onMouseOver="link('_member','READ_MCI99495805',this); ">READ_MCI</a>(pMciHw, MCI_DMA) | AT91C_MCI_DMAEN_ENABLE;
+        <a href="#" onMouseOver="link('_member','WRITE_MCI1065429349',this); ">WRITE_MCI</a>(pMciHw, MCI_DMA, mciDma);
+      #endif
+
+        // New transfer
+        if(pCommand-&gt;<a href="#" onMouseOver="link('_member','tranType432406',this); ">tranType</a> == <a href="#" onMouseOver="link('_member','MCI_NEW_TRANSFER3382611622',this); ">MCI_NEW_TRANSFER</a>) {
+
+            // Set block size
+            <a href="#" onMouseOver="link('_member','WRITE_MCI1065429349',this); ">WRITE_MCI</a>(pMciHw, MCI_MR, mciMr | AT91C_MCI_RDPROOF
+                                            | AT91C_MCI_WRPROOF
+                                            |(pCommand-&gt;<a href="#" onMouseOver="link('_member','blockSize432406',this); ">blockSize</a> &lt;&lt; 16));
+
+            mciBlkr = <a href="#" onMouseOver="link('_member','READ_MCI99495805',this); ">READ_MCI</a>(pMciHw, MCI_BLKR) &amp; (~AT91C_MCI_BCNT);
+            <a href="#" onMouseOver="link('_member','WRITE_MCI1065429349',this); ">WRITE_MCI</a>(pMciHw, MCI_BLKR, mciBlkr | pCommand-&gt;<a href="#" onMouseOver="link('_member','nbBlock432406',this); ">nbBlock</a>);
+        }
+
+        transSize = (pCommand-&gt;<a href="#" onMouseOver="link('_member','nbBlock432406',this); ">nbBlock</a> * pCommand-&gt;<a href="#" onMouseOver="link('_member','blockSize432406',this); ">blockSize</a>) / 4;
+        if ((pCommand-&gt;<a href="#" onMouseOver="link('_member','blockSize432406',this); ">blockSize</a> &amp; 0x3) != 0)
+            transSize++;
+
+        // DATA transfer from card to host
+        if (pCommand-&gt;<a href="#" onMouseOver="link('_member','isRead432406',this); ">isRead</a>) {
+            
+          #if defined(MCI_DMA_ENABLE)
+            DMACH_MCI_P2M(BOARD_MCI_DMA_CHANNEL,
+                          (unsigned int*)&amp;pMciHw-&gt;MCI_FIFO,
+                          (unsigned int*) pCommand-&gt;<a href="#" onMouseOver="link('_member','pData432406',this); ">pData</a>,
+                          transSize, 1);
+            DMACH_EnableIt(pMciHw, BOARD_MCI_DMA_CHANNEL);
+            <a href="#" onMouseOver="link('_member','../dma/DMA_EnableChannel171142247',this); ">DMA_EnableChannel</a>(BOARD_MCI_DMA_CHANNEL);
+            mciIer = AT91C_MCI_DMADONE | STATUS_ERRORS;
+          #else 
+            mciIer = AT91C_MCI_CMDRDY | STATUS_ERRORS;
+          #endif
+        }
+        // DATA transfer from host to card
+        else {
+
+          #if defined(MCI_DMA_ENABLE)
+            DMACH_MCI_M2P(BOARD_MCI_DMA_CHANNEL,
+                          (unsigned int*) pCommand-&gt;<a href="#" onMouseOver="link('_member','pData432406',this); ">pData</a>,
+                          (unsigned int*)&amp;pMciHw-&gt;MCI_FIFO,
+                          transSize, 1);
+            DMACH_EnableIt(pMciHw, BOARD_MCI_DMA_CHANNEL);
+            <a href="#" onMouseOver="link('_member','../dma/DMA_EnableChannel171142247',this); ">DMA_EnableChannel</a>(BOARD_MCI_DMA_CHANNEL);
+            mciIer = AT91C_MCI_DMADONE | STATUS_ERRORS;
+          #else
+            mciIer = AT91C_MCI_CMDRDY | STATUS_ERRORS;
+          #endif
+        }
+    }
+    // Start an infinite block transfer (but no data in current command)
+    else if (pCommand-&gt;<a href="#" onMouseOver="link('_member','dataTran432406',this); ">dataTran</a>) {
+        // Set block size
+        <a href="#" onMouseOver="link('_member','WRITE_MCI1065429349',this); ">WRITE_MCI</a>(pMciHw, MCI_MR, mciMr | AT91C_MCI_RDPROOF
+                                        | AT91C_MCI_WRPROOF
+                                        |(pCommand-&gt;<a href="#" onMouseOver="link('_member','blockSize432406',this); ">blockSize</a> &lt;&lt; 16));
+        // Set data length: 0
+        mciBlkr = <a href="#" onMouseOver="link('_member','READ_MCI99495805',this); ">READ_MCI</a>(pMciHw, MCI_BLKR) &amp; (~AT91C_MCI_BCNT);
+        <a href="#" onMouseOver="link('_member','WRITE_MCI1065429349',this); ">WRITE_MCI</a>(pMciHw, MCI_BLKR, mciBlkr);
+        mciIer = AT91C_MCI_CMDRDY | STATUS_ERRORS;
+    }
+    // No data transfer: stop at the end of the command
+    else{
+        <a href="#" onMouseOver="link('_member','WRITE_MCI1065429349',this); ">WRITE_MCI</a>(pMciHw, MCI_MR, mciMr);
+        mciIer = AT91C_MCI_CMDRDY | STATUS_ERRORS;
+    }
+
+    // Enable MCI clock
+    <a href="#" onMouseOver="link('_member','MCICK_ENABLE2077272269',this); ">MCICK_ENABLE</a>(pMciHw);
+
+    // Send the command
+    if((pCommand-&gt;<a href="#" onMouseOver="link('_member','tranType432406',this); ">tranType</a> != <a href="#" onMouseOver="link('_member','MCI_CONTINUE_TRANSFER3382611622',this); ">MCI_CONTINUE_TRANSFER</a>)
+        || (pCommand-&gt;<a href="#" onMouseOver="link('_member','blockSize432406',this); ">blockSize</a> == 0)) {
+
+        <a href="#" onMouseOver="link('_member','WRITE_MCI1065429349',this); ">WRITE_MCI</a>(pMciHw, MCI_ARGR, pCommand-&gt;<a href="#" onMouseOver="link('_member','arg432406',this); ">arg</a>);
+        <a href="#" onMouseOver="link('_member','WRITE_MCI1065429349',this); ">WRITE_MCI</a>(pMciHw, MCI_CMDR, pCommand-&gt;<a href="#" onMouseOver="link('_member','cmd432406',this); ">cmd</a>);
+    }
+
+    // Ignore data error
+    mciIer &amp;= ~(  AT91C_MCI_UNRE
+                | AT91C_MCI_OVRE
+                | AT91C_MCI_DTOE
+                | AT91C_MCI_DCRCE
+                | AT91C_MCI_BLKOVRE
+                | AT91C_MCI_CSTOE);
+
+    // Interrupt enable shall be done after PDC TXTEN and RXTEN
+    <a href="#" onMouseOver="link('_member','WRITE_MCI1065429349',this); ">WRITE_MCI</a>(pMciHw, MCI_IER, mciIer);
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

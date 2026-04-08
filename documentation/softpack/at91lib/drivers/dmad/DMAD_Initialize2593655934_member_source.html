@@ -1,0 +1,66 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - DMAD_Initialize</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">DMAD_Initialize</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../drivers0',this)" class="pathLink">drivers</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','dmad0',this)" class="pathLink">dmad</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">DMAD_Initialize</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','DMAD_Initialize2593655934','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','DMAD_Initialize2593655934','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 123</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','DMAD_Initialize2593655934',this); ">DMAD_Initialize</a>(unsigned char channel)
+{
+    unsigned int status;
+    unsigned int flag;
+     
+    // Enable peripheral clock
+#if !defined(at91sam9rl64)    
+    AT91C_BASE_PMC-&gt;PMC_PCER = 1 &lt;&lt; AT91C_ID_HDMA;    
+#endif    
+    
+    // Read the channel handler status to ensure the channel is a free channel.
+    status = <a href="#" onMouseOver="link('_member','../../peripherals/dma/DMA_GetChannelStatus53616',this); ">DMA_GetChannelStatus</a>();
+    TRACE_INFO ("DMAD_Initialize channel %x  \n\r", channel);
+    <a href="#" onMouseOver="link('_member','../../utility/SANITY_CHECK407576460',this); ">SANITY_CHECK</a>(!(status &amp; (1 &lt;&lt; channel)));
+    // Clear any pending interrupts on the channel.
+    <a href="#" onMouseOver="link('_member','../../peripherals/dma/DMA_GetStatus53616',this); ">DMA_GetStatus</a>();
+    // Disble the channel.
+    <a href="#" onMouseOver="link('_member','../../peripherals/dma/DMA_DisableChannel171142247',this); ">DMA_DisableChannel</a>(channel);
+    // Disable the interrupt
+    flag = 0xffffff;
+    <a href="#" onMouseOver="link('_member','../../peripherals/dma/DMA_DisableIt171142247',this); ">DMA_DisableIt</a>(flag);
+    // Enable DMA.
+    <a href="#" onMouseOver="link('_member','../../peripherals/dma/DMA_Enable53616',this); ">DMA_Enable</a>();
+#if !defined(cortexm3)
+    <a href="#" onMouseOver="link('_member','../../peripherals/irq/IRQ_ConfigureIT3223024299',this); ">IRQ_ConfigureIT</a>(AT91C_ID_HDMA, 0, DMAD_Handler);
+    <a href="#" onMouseOver="link('_member','../../peripherals/irq/IRQ_EnableIT171142247',this); ">IRQ_EnableIT</a>(AT91C_ID_HDMA);
+#endif
+    // Initialize transfer instance.
+    dmad.transfers[channel].transferSize = 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

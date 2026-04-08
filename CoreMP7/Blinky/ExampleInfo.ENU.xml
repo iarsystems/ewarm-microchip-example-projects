@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<infocenter_data version="1.0">
+  <iar_name>LED blink</iar_name>
+  <iar_description>Blink the 8 leds in different patters</iar_description>
+  <iar_curdir>$CUR_DIR$</iar_curdir>
+</infocenter_data>

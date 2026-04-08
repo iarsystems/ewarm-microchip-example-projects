@@ -1,0 +1,53 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - TranslatedNandFlash_Initialize</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">TranslatedNandFlash_Initialize</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">TranslatedNandFlash_Initialize</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','TranslatedNandFlash_Initialize1216165800','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','TranslatedNandFlash_Initialize1216165800','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 245</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','TranslatedNandFlash_Initialize1216165800',this); ">TranslatedNandFlash_Initialize</a>(struct <a href="#" onMouseOver="link('_class','TranslatedNandFlash0',this); ">TranslatedNandFlash</a> *translated, const struct <a href="#" onMouseOver="link('_class','NandFlashModel0',this); ">NandFlashModel</a> *model, unsigned int commandAddress, unsigned int addressAddress, unsigned int dataAddress, const <a href="#" onMouseOver="link('_class','../../peripherals/pio/Pin0',this); ">Pin</a> pinChipEnable, const <a href="#" onMouseOver="link('_class','../../peripherals/pio/Pin0',this); ">Pin</a> pinReadyBusy, unsigned short baseBlock, unsigned short sizeInBlocks)
+{
+    translated-&gt;currentLogicalBlock = -1;
+    translated-&gt;previousPhysicalBlock = -1;
+    MarkAllPagesClean(translated);
+
+    // Initialize MappedNandFlash
+    return <a href="#" onMouseOver="link('_member','MappedNandFlash_Initialize2228500190',this); ">MappedNandFlash_Initialize</a>(<a href="#" onMouseOver="link('_member','MAPPED1010416926',this); ">MAPPED</a>(translated),
+                                      model,
+                                      commandAddress,
+                                      addressAddress,
+                                      dataAddress,
+                                      pinChipEnable,
+                                      pinReadyBusy,
+                                      baseBlock,
+                                      sizeInBlocks);
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

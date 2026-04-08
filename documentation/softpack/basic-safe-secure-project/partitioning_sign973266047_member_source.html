@@ -1,0 +1,75 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - partitioning_sign</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">partitioning_sign</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_safemi_securemi_project0',this)" class="pathLink">basic-safe-secure-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">partitioning_sign</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','partitioning_sign973266047','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','partitioning_sign973266047','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 61</div>
+<pre class="codeExamples">
+unsigned int <a href="#" onMouseOver="link('_member','partitioning_sign973266047',this); ">partitioning_sign</a>(void *pAddress, unsigned int length)
+{
+    unsigned char *pCurrent;
+    unsigned int lowerByte;
+    unsigned int upperByte;
+    unsigned int count;
+
+    pCurrent = (unsigned char *)pAddress;
+    lowerByte = 1;
+    upperByte = 0;
+
+    // Calculate CRC
+    while (length) {
+        if (length &gt; 5550) {
+            count = 5550;
+        }
+        else {
+            count = length;
+        }
+        length -= count;
+        while (count != 0) {
+            lowerByte += *pCurrent;
+            upperByte += lowerByte;
+            pCurrent++;
+            count--;
+        }
+        lowerByte = (lowerByte &amp; 0xffff) + (lowerByte &gt;&gt; 16) * 15;
+        upperByte = (upperByte &amp; 0xffff) + (upperByte &gt;&gt; 16) * 15;
+    }
+    if (lowerByte &gt;= 65521) {
+        lowerByte -= 65521;
+    }
+    upperByte = (upperByte &amp; 0xffff) + (upperByte &gt;&gt; 16) * 15;
+    if (upperByte &gt;= 65521) {
+        upperByte -= 65521;
+    }
+    // Output signature
+    return (upperByte &lt;&lt; 16) | lowerByte;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

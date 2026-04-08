@@ -1,0 +1,38 @@
+
+
+AT91RM9200_Clock( )
+{
+  /* enable main clock */
+  if( 0x00000001 != ( __readMemory32( 0xFFFFFC30, "Memory" ) & 0x00000003 ) )
+    {  /* does not run on main clock */
+    /*  enable main clock */
+    __writeMemory32( 0x0000FF01, 0xFFFFFC20, "Memory" ) ;
+    while( !( __readMemory32( 0xFFFFFC68, "Memory" ) & 0x00000001 ) )
+      {  /* wait for main clock ready */
+      }
+    /* select main clock */
+    __writeMemory32( 0x00000001, 0xFFFFFC30, "Memory" ) ;
+    __message "switched to main clock" ;
+    }
+}
+
+
+AT91RM9200_AIC( )
+{
+  /* set protected mode */
+  __writeMemory32( 0x00000001, 0xFFFFF138, "Memory" ) ;
+  __message "AIC protected mode enabled" ;
+}
+
+
+AT91RM9200_Init( )
+{
+  AT91RM9200_Clock( ) ;
+  AT91RM9200_AIC( ) ;
+}
+
+
+execUserPreload( )
+{
+  AT91RM9200_Init( ) ;
+}

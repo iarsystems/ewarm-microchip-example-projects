@@ -1,0 +1,66 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - SD_Read</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">SD_Read</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','sdmmc0',this)" class="pathLink">sdmmc</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">SD_Read</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','SD_Read1322886192','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','SD_Read1322886192','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 2061</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','SD_Read1322886192',this); ">SD_Read</a>(<a href="#" onMouseOver="link('_class','_SdCard0',this); ">SdCard</a> *pSd, unsigned int address, void *pData, unsigned short length, SdCallback pCallback, void *pArgs)
+{
+    unsigned char error;
+
+    // If callback is defined, performe none blocked reading
+    if (pCallback) {
+        <a href="#" onMouseOver="link('_class','_SdCmd0',this); ">SdCmd</a> *pCommand = &amp;(pSd-&gt;<a href="#" onMouseOver="link('_member','command446104',this); ">command</a>);
+        if (<a href="#" onMouseOver="link('_member','../../peripherals/mci/MCI_IsTxComplete67554123',this); ">MCI_IsTxComplete</a>((<a href="#" onMouseOver="link('_class','../../peripherals/mci/_MciCmd0',this); ">MciCmd</a> *)pCommand) == 0) {
+            return <a href="#" onMouseOver="link('_member','SD_ERROR_BUSY3525570445',this); ">SD_ERROR_BUSY</a>;
+        }
+    }
+
+    if (   pSd-&gt;<a href="#" onMouseOver="link('_member','state446104',this); ">state</a> != SD_STATE_READ
+        || pSd-&gt;<a href="#" onMouseOver="link('_member','preBlock446104',this); ">preBlock</a> + 1 != address ) {
+        // Start infinite block reading
+        error = MoveToTransferState(pSd, address, 0, 0, 1);
+    }
+    else    error = 0;
+    if (!error) {
+        pSd-&gt;<a href="#" onMouseOver="link('_member','state446104',this); ">state</a> = SD_STATE_READ;
+        pSd-&gt;<a href="#" onMouseOver="link('_member','preBlock446104',this); ">preBlock</a> = address + (length - 1);
+        error = ContinuousRead(pSd,
+                               length,
+                               pData,
+                               pCallback, pArgs);
+    }
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("SDrd(%u,%u):%u\n\r", address, length, error);
+
+    return 0;    
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

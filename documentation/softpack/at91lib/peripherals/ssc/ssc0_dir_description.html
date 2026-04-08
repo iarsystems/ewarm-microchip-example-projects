@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - ssc</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">ssc</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">ssc</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("divID73916","aID73916","headerLeftMenuActive","leftMenuLinkHeadActive");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_dir','ssc0','_description',this)" class="tabLinkActive">Description</a></span>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_dir','ssc0','_dirgraph',this)" class="tabLinkInActive">Graph</a></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<span class="paragraph1">ssc</span>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="padding"><div class="userParagraph3">Purpose</div>
+Set of functions and definition for using a SSC peripheral.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Usage</div>
+<ol>
+<li>Enable the SSC interface <a href="#" OnMouseOver="link('_member','../../../basic-usart-hw-handshaking-project/pins0',this)">pins</a> (see <a href="#" OnMouseOver="link('_dir','../pio/pio0',this)">pio</a> &amp; <a href="#" OnMouseOver="link('_unit','../../boards/at91sam9xe-ek/board_h0',this)">board.h</a>).</li>
+<li>Configure the SSC to operate at a specific frequency by calling <a href="#" OnMouseOver="link('_member','SSC_Configure2938382758',this)">SSC_Configure()</a>. This function enables the peripheral clock of the SSC, but not its PIOs.</li>
+<li>Configure the transmitter and/or the receiver using the <a href="#" OnMouseOver="link('_member','SSC_ConfigureTransmitter1665713027',this)">SSC_ConfigureTransmitter()</a> and SSC_ConfigureEmitter() functions.</li>
+<li>Enable the PIOs or the transmitter and/or the received.</li>
+<li>Enable the transmitter and/or the receiver using <a href="#" OnMouseOver="link('_member','SSC_EnableTransmitter140839829',this)">SSC_EnableTransmitter()</a> and <a href="#" OnMouseOver="link('_member','SSC_EnableReceiver140839829',this)">SSC_EnableReceiver()</a></li>
+<li>Send <a href="#" OnMouseOver="link('_member','../../../basic-fatfs-nandflash-project/data0',this)">data</a> through the transmitter using <a href="#" OnMouseOver="link('_member','SSC_Write1655488696',this)">SSC_Write()</a> and <a href="#" OnMouseOver="link('_member','SSC_WriteBuffer897673695',this)">SSC_WriteBuffer()</a></li>
+<li>Receive <a href="#" OnMouseOver="link('_member','../../../basic-fatfs-nandflash-project/data0',this)">data</a> from the receiver using <a href="#" OnMouseOver="link('_member','SSC_Read140839829',this)">SSC_Read()</a> and <a href="#" OnMouseOver="link('_member','SSC_ReadBuffer897673695',this)">SSC_ReadBuffer()</a></li>
+<li>Disable the transmitter and/or the receiver using <a href="#" OnMouseOver="link('_member','SSC_DisableTransmitter140839829',this)">SSC_DisableTransmitter()</a> and <a href="#" OnMouseOver="link('_member','SSC_DisableReceiver140839829',this)">SSC_DisableReceiver()</a></li>
+</ol>
+
+</div>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="paragraph2">Source</div>
+<div class="paddingMembers">The documentation for this Directory was generated from the following files:</div>
+<div class="paddingMembers"><LI>ssc.h<br></div>
+<div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_dir','_description');
+</script>

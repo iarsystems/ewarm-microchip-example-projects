@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - MEDSdcard_Initialize</TITLE>
+<script type="text/javascript" src="../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../common/";
+ var relPathToHelpDir = "../../../common/help/";
+ var toSearchPage     = "_search','../../../search";
+ Body1();
+</script>
+<div class="headerPage">MEDSdcard_Initialize</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','memories0',this)" class="pathLink">memories</A><img src="../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">MEDSdcard_Initialize</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','MEDSdcard_Initialize1640456132','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','MEDSdcard_Initialize1640456132','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 327</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','MEDSdcard_Initialize1640456132',this); ">MEDSdcard_Initialize</a>(Media *media, <a href="#" onMouseOver="link('_class','sdmmc/_SdCard0',this); ">SdCard</a> *sdDrv, unsigned char protected)
+{    
+    TRACE_INFO("MEDSdcard init\n\r");
+
+    // Initialize SDcard: Should have been done before media interface init
+    //--------------------------------------------------------------------------
+
+    // Initialize media fields
+    //--------------------------------------------------------------------------
+    media-&gt;interface = sdDrv;
+    media-&gt;write = MEDSdmmc_Write;
+    media-&gt;read = MEDSdmmc_Read;
+    media-&gt;cancelIo = 0;
+    media-&gt;lock = 0;
+    media-&gt;unlock = 0;
+    media-&gt;handler = 0;
+    media-&gt;flush = 0;
+
+    media-&gt;baseAddress = 0;
+    if (SD_TOTAL_SIZE(sdDrv) == 0xFFFFFFFF) {
+        media-&gt;blockSize = <a href="#" onMouseOver="link('_member','sdmmc/SD_BLOCK_SIZE3525570445',this); ">SD_BLOCK_SIZE</a>;
+        media-&gt;size = SD_TOTAL_BLOCK(sdDrv);
+    }
+    else {
+        media-&gt;blockSize = SD_TOTAL_SIZE(sdDrv) / SD_TOTAL_BLOCK(sdDrv);
+        if (media-&gt;blockSize != <a href="#" onMouseOver="link('_member','sdmmc/SD_BLOCK_SIZE3525570445',this); ">SD_BLOCK_SIZE</a>) {
+            media-&gt;blockSize = <a href="#" onMouseOver="link('_member','sdmmc/SD_BLOCK_SIZE3525570445',this); ">SD_BLOCK_SIZE</a>;
+            media-&gt;size = SD_TOTAL_SIZE(sdDrv) / <a href="#" onMouseOver="link('_member','sdmmc/SD_BLOCK_SIZE3525570445',this); ">SD_BLOCK_SIZE</a>;
+        }
+        else {
+            media-&gt;size = SD_TOTAL_BLOCK(sdDrv);
+        }
+    }
+
+    media-&gt;mappedRD  = 0;
+    media-&gt;mappedWR  = 0;
+    media-&gt;protected = protected;
+    media-&gt;removable = 1;
+
+    media-&gt;state = <a href="#" onMouseOver="link('_member','MED_STATE_READY3460198363',this); ">MED_STATE_READY</a>;
+
+    media-&gt;transfer.data = 0;
+    media-&gt;transfer.address = 0;
+    media-&gt;transfer.length = 0;
+    media-&gt;transfer.callback = 0;
+    media-&gt;transfer.argument = 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

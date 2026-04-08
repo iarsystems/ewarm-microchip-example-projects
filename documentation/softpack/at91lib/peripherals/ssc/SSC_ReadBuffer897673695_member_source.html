@@ -1,0 +1,58 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - SSC_ReadBuffer</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">SSC_ReadBuffer</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','ssc0',this)" class="pathLink">ssc</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">SSC_ReadBuffer</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','SSC_ReadBuffer897673695','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','SSC_ReadBuffer897673695','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 358</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','SSC_ReadBuffer897673695',this); ">SSC_ReadBuffer</a>(AT91S_SSC *ssc, void *buffer, unsigned int length)
+{
+#if !defined(CHIP_SSC_DMA)
+    // Check if the first bank is free
+    if (ssc-&gt;SSC_RCR == 0) {
+
+        ssc-&gt;SSC_RPR = (unsigned int) buffer;
+        ssc-&gt;SSC_RCR = length;
+        ssc-&gt;SSC_PTCR = AT91C_PDC_RXTEN;
+        return 1;
+    }
+    // Check if second bank is free
+    else if (ssc-&gt;SSC_RNCR == 0) {
+
+        ssc-&gt;SSC_RNPR = (unsigned int) buffer;
+        ssc-&gt;SSC_RNCR = length;
+        return 1;
+    }
+#endif
+    // No free bank
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

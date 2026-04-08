@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - CheckWavFile</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">CheckWavFile</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_sscmi_i2smi_wm8731mi_project0',this)" class="pathLink">basic-ssc-i2s-wm8731-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">CheckWavFile</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','CheckWavFile122','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','CheckWavFile122','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 376</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','CheckWavFile122',this); ">CheckWavFile</a>()
+{
+    FRESULT res;
+    FATFS <a href="#" onMouseOver="link('_member','../demo-multimedia-project/fs0',this); ">fs</a>;             // File system object
+    FIL FileObject;
+
+    unsigned int numRead, pcmSize;
+
+    // Init Disk
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- Init media Sdcard\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/memories/MEDSdcard_Initialize1640456132',this); ">MEDSdcard_Initialize</a>(&amp;medias[ID_DRV], MCI_ID);
+
+    // Mount disk
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- Mount disk %d\n\r", ID_DRV);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/memset3684796183',this); ">memset</a>(&amp;fs, 0, sizeof(FATFS));        // Clear file system object
+    res = f_mount(ID_DRV, &amp;fs);
+    if( res != FR_OK ) {
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-E- f_mount pb: 0x%X (%s)\n\r", res, FF_GetStrResult(res));
+        return 0;
+    }
+
+    res = f_open(&amp;FileObject, FileName, FA_OPEN_EXISTING|FA_READ);
+    if (res == FR_OK) {
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- File Found!\n\r");
+        //f_close(&amp;FileObject);
+        //    FilePlay();
+    }
+    else {
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-E- File Not Found!\n\r");
+        return 1;
+    }
+
+    // Read header
+    f_read(&amp;FileObject, (void*)userWav, sizeof(<a href="#" onMouseOver="link('_class','../at91lib/utility/_WavHeader0',this); ">WavHeader</a>), &amp;numRead);
+    DisplayWavInfo();
+
+    // Load PCM
+    pcmSize = userWav-&gt;subchunk2Size;
+    if (pcmSize &gt; <a href="#" onMouseOver="link('_member','../basic-ac97-project/MAX_WAV_SIZE4103026783',this); ">MAX_WAV_SIZE</a>) {
+        pcmSize = <a href="#" onMouseOver="link('_member','../basic-ac97-project/MAX_WAV_SIZE4103026783',this); ">MAX_WAV_SIZE</a>;
+    }
+    f_read(&amp;FileObject, (void*)WAV_FILE_ADDRESS, pcmSize, &amp;numRead);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- PCM Load to %x, size %d\n\r", WAV_FILE_ADDRESS, numRead);
+    f_close(&amp;FileObject);
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

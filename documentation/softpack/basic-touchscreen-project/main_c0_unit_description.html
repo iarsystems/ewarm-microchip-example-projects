@@ -1,0 +1,65 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main.c</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main.c</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_touchscreenmi_project0',this)" class="pathLink">basic-touchscreen-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main.c</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("divID74287","aID74287","LeftMenuActive","leftMenuLinkActive");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_unit','main_c0','_description',this)" class="tabLinkActive">Description</a></span>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_unit','main_c0','_overview',this)" class="tabLinkInActive">Overview</a></span>
+<script type="text/javascript">
+ Body4();
+</script>
+&nbsp;<br>
+<div class="paragraph2">Description</div>
+<div id="descDesc" class="paddingMembers"><div class="userParagraph3">Purpose</div>
+This file contains all the specific code for the basic-touchscreen-project<br>
+<br>
+<div class="userParagraph3">Contents</div>
+ The basic-touchscreen-project application <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> be roughly broken down as follows:<ul>
+<li>SysTick handlers and Delay function for SAM3<ul>
+<li><a href="#" OnMouseOver="link('_member','../basic-parallel-lcd-project/SysTick_Handler53616',this)">SysTick_Handler</a></li>
+<li><a href="#" OnMouseOver="link('_member','../basic-parallel-lcd-project/DelayMS171142247',this)">DelayMS</a></li>
+</ul>
+
+</li>
+<li>Callback functions for touchsreeen<ul>
+<li><a href="#" OnMouseOver="link('_member','../demo-multimedia-project/TSD_PenPressed3363666690',this)">TSD_PenPressed</a></li>
+<li><a href="#" OnMouseOver="link('_member','TSD_PenMoved3363666690',this)">TSD_PenMoved</a></li>
+<li><a href="#" OnMouseOver="link('_member','../demo-multimedia-project/TSD_PenReleased3363666690',this)">TSD_PenReleased</a></li>
+</ul>
+
+</li>
+<li>The <a href="#" OnMouseOver="link('_member','../basic-safe-secure-project/main53616',this)">main</a> function, which implements the program behavior<ul>
+<li>I/O and DBGU configuration</li>
+<li>Configure SysTick for SAM3</li>
+<li>Initialize the LCD</li>
+<li>Initialize the touchscreen</li>
+<li>Calibration with touchscreen input</li>
+</ul>
+
+</li>
+</ul>
+
+<br>
+Please refer to the list of functions in the <b>Overview</b> tab of this unit for more detailed information.<br>
+</div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_unit','_description');
+</script>

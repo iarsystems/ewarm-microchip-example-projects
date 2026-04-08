@@ -1,0 +1,57 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - partitioning_isRegionValid</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">partitioning_isRegionValid</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_safemi_securemi_project0',this)" class="pathLink">basic-safe-secure-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">partitioning_isRegionValid</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','partitioning_isRegionValid971409970','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','partitioning_isRegionValid971409970','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 167</div>
+<pre class="codeExamples">
+unsigned int <a href="#" onMouseOver="link('_member','partitioning_isRegionValid971409970',this); ">partitioning_isRegionValid</a>(void *pAddress, unsigned int signature, unsigned int length)
+{
+    unsigned int signature2;
+
+    // Check length
+    if ((length &gt; <a href="#" onMouseOver="link('_member','../basic-safe-secure-libtomcrypt-project/REGION_SIZE2357693061',this); ">REGION_SIZE</a>) || (length == 0)) {
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("Problem length = %d\n\r", length);
+        if(length &gt; <a href="#" onMouseOver="link('_member','../basic-safe-secure-libtomcrypt-project/REGION_SIZE2357693061',this); ">REGION_SIZE</a>) <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("length &gt; REGION_SIZE = %d\n\r", REGION_SIZE);
+        if(length == 0) <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("length == 0\n\r");
+        return 0;
+    }
+    // Recompute and check signature
+    signature2 = <a href="#" onMouseOver="link('_member','partitioning_sign973266047',this); ">partitioning_sign</a>(pAddress, length);
+
+    if (<a href="#" onMouseOver="link('_member','partitioning_check3363666690',this); ">partitioning_check</a>(signature, signature2) != 1) {
+        return 0;
+    }
+    else {
+        return 1;
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

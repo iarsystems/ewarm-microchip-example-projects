@@ -1,0 +1,94 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - SD_DisplayRegisterCSD</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">SD_DisplayRegisterCSD</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','sdmmc0',this)" class="pathLink">sdmmc</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">SD_DisplayRegisterCSD</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','SD_DisplayRegisterCSD67542213','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','SD_DisplayRegisterCSD67542213','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 1396</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','SD_DisplayRegisterCSD67542213',this); ">SD_DisplayRegisterCSD</a>(<a href="#" onMouseOver="link('_class','_SdCard0',this); ">SdCard</a> *pSd)
+{ 
+    TRACE_INFO("======== CSD ========");
+  #if 0
+  {
+    unsigned int i;
+    unsigned char *p = (unsigned char *)pSd-&gt;<a href="#" onMouseOver="link('_member','csd446104',this); ">csd</a>;
+    for(i = 0; i &lt; 128 / 8; i++) {
+        if ((i % 16) == 0) TRACE_INFO_WP("\n\r [%3d]:", i);
+        TRACE_INFO_WP(" %2x", p[i]);
+    }
+    TRACE_INFO_WP("\n\r");
+    TRACE_INFO("------------------------\n\r");
+  }
+  #else
+    TRACE_INFO_WP("\n\r");
+  #endif
+    TRACE_INFO(" .CSD_STRUCTURE      0x%x\r\n", <a href="#" onMouseOver="link('_member','SD_CSD_STRUCTURE968178866',this); ">SD_CSD_STRUCTURE</a>(pSd));
+    TRACE_INFO(" .SPEC_VERS          0x%x\r\n", <a href="#" onMouseOver="link('_member','SD_CSD_SPEC_VERS968178866',this); ">SD_CSD_SPEC_VERS</a>(pSd));
+    TRACE_INFO(" .TAAC               0x%X\r\n", <a href="#" onMouseOver="link('_member','SD_CSD_TAAC968178866',this); ">SD_CSD_TAAC</a>(pSd)              );
+    TRACE_INFO(" .NSAC               0x%X\r\n", <a href="#" onMouseOver="link('_member','SD_CSD_NSAC968178866',this); ">SD_CSD_NSAC</a>(pSd)              );
+    TRACE_INFO(" .TRAN_SPEED         0x%X\r\n", <a href="#" onMouseOver="link('_member','SD_CSD_TRAN_SPEED968178866',this); ">SD_CSD_TRAN_SPEED</a>(pSd)        );
+    TRACE_INFO(" .CCC                0x%X\r\n", <a href="#" onMouseOver="link('_member','SD_CSD_CCC968178866',this); ">SD_CSD_CCC</a>(pSd)               );
+    TRACE_INFO(" .READ_BL_LEN        0x%X\r\n", <a href="#" onMouseOver="link('_member','SD_CSD_READ_BL_LEN968178866',this); ">SD_CSD_READ_BL_LEN</a>(pSd)       );
+    TRACE_INFO(" .READ_BL_PARTIAL    0x%X\r\n", <a href="#" onMouseOver="link('_member','SD_CSD_READ_BL_PARTIAL968178866',this); ">SD_CSD_READ_BL_PARTIAL</a>(pSd)   );
+    TRACE_INFO(" .WRITE_BLK_MISALIGN 0x%X\r\n", <a href="#" onMouseOver="link('_member','SD_CSD_WRITE_BLK_MISALIGN968178866',this); ">SD_CSD_WRITE_BLK_MISALIGN</a>(pSd));
+    TRACE_INFO(" .READ_BLK_MISALIGN  0x%X\r\n", <a href="#" onMouseOver="link('_member','SD_CSD_READ_BLK_MISALIGN968178866',this); ">SD_CSD_READ_BLK_MISALIGN</a>(pSd) );
+    TRACE_INFO(" .DSR_IMP            0x%X\r\n", <a href="#" onMouseOver="link('_member','SD_CSD_DSR_IMP968178866',this); ">SD_CSD_DSR_IMP</a>(pSd)           );
+    TRACE_INFO(" .C_SIZE             0x%X\r\n", SD_CSD_C_SIZE(pSd)            );
+    TRACE_INFO(" .C_SIZE_HC          0x%X\r\n", <a href="#" onMouseOver="link('_member','SD_CSD_C_SIZE_HC968178866',this); ">SD_CSD_C_SIZE_HC</a>(pSd)         );
+    TRACE_INFO(" .VDD_R_CURR_MIN     0x%X\r\n", SD_CSD_VDD_R_CURR_MIN(pSd)    );
+    TRACE_INFO(" .VDD_R_CURR_MAX     0x%X\r\n", SD_CSD_VDD_R_CURR_MAX(pSd)    );
+    TRACE_INFO(" .VDD_W_CURR_MIN     0x%X\r\n", SD_CSD_VDD_W_CURR_MIN(pSd)    );
+    TRACE_INFO(" .VDD_W_CURR_MAX     0x%X\r\n", SD_CSD_VDD_W_CURR_MAX(pSd)    );
+    TRACE_INFO(" .C_SIZE_MULT        0x%X\r\n", SD_CSD_C_SIZE_MULT(pSd)       );
+    TRACE_INFO(" .ERASE_BLK_EN       0x%X\r\n", SD_CSD_ERASE_BLK_EN(pSd)      );
+    TRACE_INFO(" .SECTOR_SIZE        0x%X\r\n", SD_CSD_SECTOR_SIZE(pSd)       );
+    TRACE_INFO(" .WP_GRP_SIZE        0x%X\r\n", SD_CSD_WP_GRP_SIZE(pSd)       );
+    TRACE_INFO(" .WP_GRP_ENABLE      0x%X\r\n", SD_CSD_WP_GRP_ENABLE(pSd)     );
+    TRACE_INFO(" .R2W_FACTOR         0x%X\r\n", SD_CSD_R2W_FACTOR(pSd)        );
+    TRACE_INFO(" .WRITE_BL_LEN       0x%X\r\n", SD_CSD_WRITE_BL_LEN(pSd)      );
+    TRACE_INFO(" .WRITE_BL_PARTIAL   0x%X\r\n", SD_CSD_WRITE_BL_PARTIAL(pSd)  );
+    TRACE_INFO(" .FILE_FORMAT_GRP    0x%X\r\n", SD_CSD_FILE_FORMAT_GRP(pSd)   );
+    TRACE_INFO(" .COPY               0x%X\r\n", SD_CSD_COPY(pSd)              );
+    TRACE_INFO(" .PERM_WRITE_PROTECT 0x%X\r\n", SD_CSD_PERM_WRITE_PROTECT(pSd));
+    TRACE_INFO(" .TMP_WRITE_PROTECT  0x%X\r\n", SD_CSD_TMP_WRITE_PROTECT(pSd) );
+    TRACE_INFO(" .FILE_FORMAT        0x%X\r\n", SD_CSD_FILE_FORMAT(pSd)       );
+    TRACE_INFO(" .ECC                0x%X\r\n", SD_CSD_ECC(pSd)               );
+    TRACE_INFO(" .CRC                0x%X\r\n", SD_CSD_CRC(pSd)               );
+    TRACE_INFO(" .MULT               0x%X\r\n", SD_CSD_MULT(pSd)              );
+    TRACE_INFO(" .BLOCKNR            0x%X\r\n", SD_CSD_BLOCKNR(pSd)           );
+    TRACE_INFO(" .BLOCKNR_HC         0x%X\r\n", SD_CSD_BLOCKNR_HC(pSd)        );
+    TRACE_INFO(" .BLOCK_LEN          0x%X\r\n", SD_CSD_BLOCK_LEN(pSd)         );
+    TRACE_INFO(" .TOTAL_SIZE         0x%X\r\n", SD_CSD_TOTAL_SIZE(pSd)        );
+    TRACE_INFO(" .TOTAL_SIZE_HC      0x%X\r\n", SD_CSD_TOTAL_SIZE_HC(pSd)     );
+    TRACE_INFO(" -SD_TOTAL_SIZE      0x%X\r\n", SD_TOTAL_SIZE(pSd)            );
+    TRACE_INFO(" -SD_TOTAL_BLOCK     0x%X\r\n", SD_TOTAL_BLOCK(pSd)           );
+}   
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

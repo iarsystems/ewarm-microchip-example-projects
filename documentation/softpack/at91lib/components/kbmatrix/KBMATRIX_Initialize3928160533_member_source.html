@@ -1,0 +1,58 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - KBMATRIX_Initialize</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">KBMATRIX_Initialize</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../components0',this)" class="pathLink">components</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','kbmatrix0',this)" class="pathLink">kbmatrix</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">KBMATRIX_Initialize</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','KBMATRIX_Initialize3928160533','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','KBMATRIX_Initialize3928160533','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 267</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','KBMATRIX_Initialize3928160533',this); ">KBMATRIX_Initialize</a>(<a href="#" onMouseOver="link('_class','_KbMatrix0',this); ">KbMatrix</a> *pKbMatrix, const <a href="#" onMouseOver="link('_class','../../peripherals/pio/Pin0',this); ">Pin</a> *pRows, unsigned char numRows, const <a href="#" onMouseOver="link('_class','../../peripherals/pio/Pin0',this); ">Pin</a> *pCols, unsigned char numCols, KeyEventCallback callback)
+{
+    unsigned int i;
+
+    ASSERT(numRows * numCols &lt;= KBMATRIX_MAX_NUMKEYS,
+           "KBMATRIX_Initialize: too many keys (change KBMATRIX_MAX_NUMKEYS)\n\r");
+
+    // Initialize structure members
+    pKbMatrix-&gt;<a href="#" onMouseOver="link('_member','pRows220705392',this); ">pRows</a> = pRows;
+    pKbMatrix-&gt;<a href="#" onMouseOver="link('_member','numRows220705392',this); ">numRows</a> = numRows;
+    pKbMatrix-&gt;<a href="#" onMouseOver="link('_member','pCols220705392',this); ">pCols</a> = pCols;
+    pKbMatrix-&gt;<a href="#" onMouseOver="link('_member','numCols220705392',this); ">numCols</a> = numCols;
+    pKbMatrix-&gt;<a href="#" onMouseOver="link('_member','callback220705392',this); ">callback</a> = callback;
+
+    // Initialize key states
+    KEYSTATE_Initialize(&amp;(pKbMatrix-&gt;<a href="#" onMouseOver="link('_member','currentKeyState220705392',this); ">currentKeyState</a>));
+    for (i=0; i &lt; <a href="#" onMouseOver="link('_member','KBMATRIX_NUM_SAMPLES1413689472',this); ">KBMATRIX_NUM_SAMPLES</a>; i++) {
+
+        KEYSTATE_Initialize(&amp;(pKbMatrix-&gt;<a href="#" onMouseOver="link('_member','sampledKeyStates220705392',this); ">sampledKeyStates</a>[i]));
+    }
+    pKbMatrix-&gt;<a href="#" onMouseOver="link('_member','sample220705392',this); ">sample</a> = 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

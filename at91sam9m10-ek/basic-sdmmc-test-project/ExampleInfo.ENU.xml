@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<infocenter_data version="1.0">
+  <iar_name>basic-sdmmc-test-project</iar_name>                    <!--App-->
+  <iar_description>SD/MMC card test collections to the evaluation board. </iar_description>  <!--App short description-->
+  <iar_curdir>$CUR_DIR$</iar_curdir>
+</infocenter_data>

@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - SD_DisplayRegisterSCR</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">SD_DisplayRegisterSCR</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','sdmmc0',this)" class="pathLink">sdmmc</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">SD_DisplayRegisterSCR</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','SD_DisplayRegisterSCR67542213','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','SD_DisplayRegisterSCR67542213','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 3174</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','SD_DisplayRegisterSCR67542213',this); ">SD_DisplayRegisterSCR</a>(<a href="#" onMouseOver="link('_class','_SdCard0',this); ">SdCard</a> *pSd)
+{ 
+    if (pSd-&gt;<a href="#" onMouseOver="link('_member','cardType446104',this); ">cardType</a> &gt;= CARD_SD &amp;&amp; pSd-&gt;<a href="#" onMouseOver="link('_member','cardType446104',this); ">cardType</a> &lt;= CARD_SDHC) {}
+    else {
+        TRACE_INFO("** SCR NOT Supported!\n\r");
+        return;
+    }
+    TRACE_INFO("========== SCR ==========");
+  #if 0
+  {
+    unsigned int i;
+    unsigned char *p = (unsigned char*)pSd-&gt;<a href="#" onMouseOver="link('_member','extData446104',this); ">extData</a>;
+    //TRACE_INFO_WP("\n\r");
+    //TRACE_INFO("DATA @ 0x%X", (unsigned int)p);
+    for(i = 0; i &lt; 16; i ++) {
+        if ((i % 8) == 0) TRACE_INFO_WP("\n\r [%3d]:", i);
+        TRACE_INFO_WP(" %02x", p[i]);
+    }
+    TRACE_INFO_WP("\n\r");
+    TRACE_INFO("------------------------\n\r");
+  }
+  #else
+    TRACE_INFO_WP("\n\r");
+  #endif
+
+    TRACE_INFO(" .SCR_STRUCTURE         :0x%X\n\r",
+        SD_SCR_SCR_STRUCTURE(pSd));
+    TRACE_INFO(" .SD_SPEC               :0x%X\n\r",
+        SD_SCR_SD_SPEC(pSd));
+    TRACE_INFO(" .DATA_STAT_AFTER_ERASE :0x%X\n\r",
+        SD_SCR_DATA_STAT_AFTER_ERASE(pSd));
+    TRACE_INFO(" .SD_SECURITY           :0x%X\n\r",
+        SD_SCR_SD_SECURITY(pSd));
+    TRACE_INFO(" .SD_BUS_WIDTHS         :0x%X\n\r",
+        SD_SCR_SD_BUS_WIDTHS(pSd));
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

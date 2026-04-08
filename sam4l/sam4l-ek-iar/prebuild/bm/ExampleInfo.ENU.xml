@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<infocenter_data version="1.0">
+  <iar_name>board_monitor</iar_name>               <!--App-->
+  <iar_description>Board Monitor Update Package (contains pre-build firmware versions 1.2, 1.3 and 1.4)</iar_description>  <!--App short description-->
+  <iar_curdir>$CUR_DIR$</iar_curdir>
+</infocenter_data>

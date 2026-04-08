@@ -1,0 +1,68 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - CDCDSerialDriver_SetSerialState</TITLE>
+<script type="text/javascript" src="../../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../../common/";
+ var relPathToHelpDir = "../../../../../common/help/";
+ var toSearchPage     = "_search','../../../../../search";
+ Body1();
+</script>
+<div class="headerPage">CDCDSerialDriver_SetSerialState</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../usb0',this)" class="pathLink">usb</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../device0',this)" class="pathLink">device</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','composite0',this)" class="pathLink">composite</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">CDCDSerialDriver_SetSerialState</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','CDCDSerialDriver_SetSerialState92704744','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','CDCDSerialDriver_SetSerialState92704744','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 307</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','CDCDSerialDriver_SetSerialState92704744',this); ">CDCDSerialDriver_SetSerialState</a>(unsigned char port, unsigned short serialState)
+{
+    <a href="#" onMouseOver="link('_class','_CDCDSerialPort0',this); ">CDCDSerialPort</a> * pPort;
+    unsigned char ep;
+
+    ASSERT((serialState &amp; 0xFF80) == 0,
+           "CDCDSerialDriver_SetSerialState: Bits D7-D15 are reserved!\n\r");
+
+    if (port &gt; cdcFunDriver.numPorts)
+        return;
+
+    // If new state is different from previous one, send a notification to the
+    // host
+    pPort = &amp;cdcFunDriver.pCdcPorts[port];
+    ep = pPort-&gt;interruptInEndpoint;
+    if (pPort-&gt;serialState != serialState) {
+
+        pPort-&gt;serialState = serialState;
+        <a href="#" onMouseOver="link('_member','../core/USBD_Write1378485824',this); ">USBD_Write</a>(ep,
+                   &amp;(pPort-&gt;serialState),
+                   2,
+                   0,
+                   0);
+
+        // Reset one-time flags
+        pPort-&gt;serialState &amp;= ~(<a href="#" onMouseOver="link('_member','CDCD_STATE_OVERRUN874551801',this); ">CDCD_STATE_OVERRUN</a>
+                              | <a href="#" onMouseOver="link('_member','CDCD_STATE_PARITY874551801',this); ">CDCD_STATE_PARITY</a>
+                              | <a href="#" onMouseOver="link('_member','CDCD_STATE_FRAMING874551801',this); ">CDCD_STATE_FRAMING</a>
+                              | <a href="#" onMouseOver="link('_member','CDCD_STATE_RINGSIGNAL874551801',this); ">CDCD_STATE_RINGSIGNAL</a>
+                              | <a href="#" onMouseOver="link('_member','CDCD_STATE_BREAK874551801',this); ">CDCD_STATE_BREAK</a>);
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

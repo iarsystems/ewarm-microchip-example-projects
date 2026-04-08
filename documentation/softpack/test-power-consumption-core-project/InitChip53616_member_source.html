@@ -1,0 +1,90 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - InitChip</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">InitChip</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','testmi_powermi_consumptionmi_coremi_project0',this)" class="pathLink">test-power-consumption-core-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">InitChip</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','InitChip53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','InitChip53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 155</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','InitChip53616',this); ">InitChip</a>(void)
+{
+    // Disable all the peripheral clocks
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pmc/PMC_DisableAllPeripherals53616',this); ">PMC_DisableAllPeripherals</a>();             
+
+#if defined(at91cap9)    
+    
+    // use 32k slow clock instead of RC    
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Select 32kHz quartz for Slow Clock. Wait several seconds...\n\r");
+    SLCK_RCto32k();      
+    
+    // Disable UHP Port Clock (PMC_SCDR) 
+    AT91C_BASE_PMC-&gt;PMC_SCDR = AT91C_PMC_UHP;
+        
+    // Stop PLL B (MULB=0 -&gt; The PLL B is deactivated)
+    AT91C_BASE_CKGR-&gt;CKGR_PLLBR = 0x00003f00;   
+    
+    // Configure all PIO as output
+    // Set PIO as Output
+    AT91C_BASE_PIOA-&gt;PIO_OER = 0xFFFFFFFF;
+    AT91C_BASE_PIOB-&gt;PIO_OER = 0xFFFFFFFF;
+    AT91C_BASE_PIOC-&gt;PIO_OER = 0xFFFFFFFF;
+    AT91C_BASE_PIOD-&gt;PIO_OER = 0xFFFFFFFF;
+    // Enable PIO    
+    AT91C_BASE_PIOA-&gt;PIO_PER = 0xFFFFFFFF;     
+    AT91C_BASE_PIOB-&gt;PIO_PER = 0xFFFFFFFF;  
+    AT91C_BASE_PIOC-&gt;PIO_PER = 0xFFFFFFFF;  
+    AT91C_BASE_PIOD-&gt;PIO_PER = 0xFFFFFFFF;      
+    // reconfigure PIO for DBGU
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_CONFIGURE1432879529',this); ">TRACE_CONFIGURE</a>(DBGU_STANDARD, 119200, BOARD_MCK);    
+    
+/*    
+#elif defined(at91sam9261)    
+
+    // Disable HClocks LCD and UHP
+    AT91C_BASE_PMC-&gt;PMC_SCDR = (1 &lt;&lt; 0) &lt;&lt; 16;    
+    AT91C_BASE_PMC-&gt;PMC_SCDR = (1 &lt;&lt; 1) &lt;&lt; 16;   
+    // Disable UDP and UHP Port Clock (PMC_SCDR) 
+    AT91C_BASE_PMC-&gt;PMC_SCDR = AT91C_PMC_UDP;
+    AT91C_BASE_PMC-&gt;PMC_SCDR = AT91C_PMC_UHP;    
+    
+#elif defined(at91sam9262)
+    
+    // Disable UDP, UHP and OTG Port Clock (PMC_SCDR) 
+    AT91C_BASE_PMC-&gt;PMC_SCDR = AT91C_PMC_UDP;
+    AT91C_BASE_PMC-&gt;PMC_SCDR = AT91C_PMC_UHP;
+    AT91C_BASE_PMC-&gt;PMC_SCDR = AT91C_PMC_OTG;   
+    
+*/
+#else
+#error Chip not yet supported    
+#endif
+
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

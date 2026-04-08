@@ -1,0 +1,147 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - SSC_WriteBuffer</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">SSC_WriteBuffer</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','ssc0',this)" class="pathLink">ssc</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">SSC_WriteBuffer</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','SSC_WriteBuffer897673695','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','SSC_WriteBuffer897673695','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 226</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','SSC_WriteBuffer897673695',this); ">SSC_WriteBuffer</a>(AT91S_SSC *ssc, void *buffer, unsigned int length)
+{
+#if !defined(CHIP_SSC_DMA)
+    // Check if first bank is free
+    if (ssc-&gt;SSC_TCR == 0) {
+
+        ssc-&gt;SSC_TPR = (unsigned int) buffer;
+        ssc-&gt;SSC_TCR = length;
+        ssc-&gt;SSC_PTCR = AT91C_PDC_TXTEN;
+        return 1;
+    }
+    // Check if second bank is free
+    else if (ssc-&gt;SSC_TNCR == 0) {
+
+        ssc-&gt;SSC_TNPR = (unsigned int) buffer;
+        ssc-&gt;SSC_TNCR = length;
+        return 1;
+    }
+#else
+
+    unsigned short* startSourceAddr;
+    unsigned short* startDestAddr;
+    unsigned int srcAddress;
+    unsigned int destAddress;
+    unsigned int buffSize;
+    unsigned int LLI_rownumber = 0;
+
+    startSourceAddr = (unsigned short*)(buffer);
+    startDestAddr = (unsigned short*)(&amp;ssc-&gt;SSC_THR);
+    srcAddress  = (unsigned int)startSourceAddr;    // Set the data start address
+    destAddress = (unsigned int)startDestAddr;
+    buffSize = length;
+    if(buffSize &gt; 0x8000){
+        TRACE_WARNING("SSC DMA, size too big %d\n\r", buffSize);
+        buffSize = 0x8000;
+    }
+
+    // Set DMA channel DSCR
+    <a href="#" onMouseOver="link('_member','../dma/DMA_SetDescriptorAddr361150951',this); ">DMA_SetDescriptorAddr</a>(BOARD_SSC_DMA_CHANNEL, (unsigned int)&amp;LLI_CH[0]);
+
+    // Clear any pending interrupts
+    <a href="#" onMouseOver="link('_member','../dma/DMA_GetStatus53616',this); ">DMA_GetStatus</a>();
+
+    //Set DMA channel control B
+    <a href="#" onMouseOver="link('_member','../dma/DMA_SetSourceBufferMode3110917852',this); ">DMA_SetSourceBufferMode</a>(BOARD_SSC_DMA_CHANNEL, DMA_TRANSFER_LLI,
+                            (AT91C_HDMA_SRC_ADDRESS_MODE_INCR &gt;&gt; 24));
+    <a href="#" onMouseOver="link('_member','../dma/DMA_SetDestBufferMode3110917852',this); ">DMA_SetDestBufferMode</a>(BOARD_SSC_DMA_CHANNEL, DMA_TRANSFER_LLI,
+                            (AT91C_HDMA_DST_ADDRESS_MODE_FIXED &gt;&gt; 28));
+    <a href="#" onMouseOver="link('_member','../dma/DMA_SetFlowControl361150951',this); ">DMA_SetFlowControl</a>(BOARD_SSC_DMA_CHANNEL, AT91C_HDMA_FC_MEM2PER &gt;&gt; 21);
+
+    // Set DMA channel config
+    <a href="#" onMouseOver="link('_member','../dma/DMA_SetConfiguration361150951',this); ">DMA_SetConfiguration</a>(BOARD_SSC_DMA_CHANNEL, BOARD_SSC_DMA_HW_SRC_REQ_ID \
+                                        | BOARD_SSC_DMA_HW_DEST_REQ_ID \
+                                        | AT91C_HDMA_SRC_H2SEL_SW \
+                                        | AT91C_HDMA_DST_H2SEL_HW \
+                                        | AT91C_HDMA_SOD_DISABLE \
+                                        | AT91C_HDMA_FIFOCFG_LARGESTBURST);
+
+    // Set link list
+    while(srcAddress &lt; ((unsigned int)(startSourceAddr + buffSize)))
+    {
+        if(((unsigned int)(startSourceAddr + buffSize)) - srcAddress &lt;= (<a href="#" onMouseOver="link('_member','BOARD_SSC_DMA_FIFO_SIZE3370096730',this); ">BOARD_SSC_DMA_FIFO_SIZE</a>) )
+        {
+            AT91F_Prepare_Multiple_Transfer(BOARD_SSC_DMA_CHANNEL, LLI_rownumber, LAST_ROW,
+                                        srcAddress,
+                                        destAddress,
+                                        (((((unsigned int)(startSourceAddr + buffSize))
+                                                - srcAddress)/2)
+                                                  | AT91C_HDMA_SRC_WIDTH_HALFWORD
+                                                  | AT91C_HDMA_DST_WIDTH_HALFWORD
+                                                  | AT91C_HDMA_SCSIZE_1
+                                                  | AT91C_HDMA_DCSIZE_1
+                                                      ),
+                                        ( //| AT91C_HDMA_DST_DSCR_FETCH_FROM_MEM
+                                         AT91C_HDMA_DST_DSCR_FETCH_DISABLE
+                                        | AT91C_HDMA_DST_ADDRESS_MODE_FIXED
+                                        | AT91C_HDMA_SRC_DSCR_FETCH_FROM_MEM
+                                        //| AT91C_HDMA_SRC_DSCR_FETCH_DISABLE
+                                        | AT91C_HDMA_SRC_ADDRESS_MODE_INCR
+                                        | AT91C_HDMA_FC_MEM2PER));
+        }
+        else
+        {
+            AT91F_Prepare_Multiple_Transfer(BOARD_SSC_DMA_CHANNEL, LLI_rownumber, 0,
+                                        srcAddress,
+                                        destAddress,
+                                        ((BOARD_SSC_DMA_FIFO_SIZE)/2
+                                            | AT91C_HDMA_SRC_WIDTH_HALFWORD
+                                            | AT91C_HDMA_DST_WIDTH_HALFWORD
+                                            | AT91C_HDMA_SCSIZE_1
+                                            | AT91C_HDMA_DCSIZE_1
+                                                ),
+                                        ( //| AT91C_HDMA_DST_DSCR_FETCH_FROM_MEM
+                                        AT91C_HDMA_DST_DSCR_FETCH_DISABLE
+                                        | AT91C_HDMA_DST_ADDRESS_MODE_FIXED
+                                        | AT91C_HDMA_SRC_DSCR_FETCH_FROM_MEM
+                                        //| AT91C_HDMA_SRC_DSCR_FETCH_DISABLE
+                                        | AT91C_HDMA_SRC_ADDRESS_MODE_INCR
+                                        | AT91C_HDMA_FC_MEM2PER));
+
+        }
+
+        srcAddress += <a href="#" onMouseOver="link('_member','BOARD_SSC_DMA_FIFO_SIZE3370096730',this); ">BOARD_SSC_DMA_FIFO_SIZE</a>;
+
+        
+        LLI_rownumber++;
+    }
+#endif
+    // No free banks
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

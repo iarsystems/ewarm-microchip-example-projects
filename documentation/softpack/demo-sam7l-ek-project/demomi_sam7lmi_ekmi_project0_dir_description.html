@@ -1,0 +1,163 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - demo-sam7l-ek-project</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">demo-sam7l-ek-project</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">demo-sam7l-ek-project</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("divID74019","aID74019","headerLeftMenuActive","leftMenuLinkHeadActive");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_dir','demomi_sam7lmi_ekmi_project0','_description',this)" class="tabLinkActive">Description</a></span>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_dir','demomi_sam7lmi_ekmi_project0','_dirgraph',this)" class="tabLinkInActive">Graph</a></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<span class="paragraph1">demo-sam7l-ek-project</span>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="padding"><div class="userParagraph1">Purpose</div>
+This application demonstrates several features of the newly-introduced AT91SAM7L <a href="#" OnMouseOver="link('_dir','../at91lib/usb/device/device0',this)">device</a> family. This includes their low-power modes, the segment LCD controller, and the external keyboard matrix available on the Evaluation Kit.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Requirements</div>
+ This package <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> be used with AT91SAM7L-EK Atmel evaluation kit<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Description</div>
+ Upon startup the SLCD show display a screen with AT91SAM7L-EK written.<br>
+<br>
+</div>
+<div class="padding">This first screen shows the board name, the Atmel logo, a battery level indicator and a clock. Note that the battery and clock are actually displayed in all modes of operations.<br>
+<br>
+</div>
+<div class="padding">Pressing the 'Mode' key while on the startup screen brings up a menu with the following choice: <ul>
+<li>
+<div class="padding"><b>Revision</b>: displays the demo version number. <br>
+</div>
+</li>
+<li>
+<div class="padding"><b>Calculator</b>: enters calculator mode. <br>
+</div>
+</li>
+<li>
+<div class="padding"><b>Setup</b>: displays a sub-menu with configuration options. <ul>
+<li>
+<div class="padding"><b>Board Name</b>: edits the startup screen board name. <br>
+</div>
+</li>
+<li>
+<div class="padding"><b>LCD Contrast</b>: changes the segment LCD contrast. <br>
+</div>
+</li>
+<li>
+<div class="padding"><b>Power Save</b>: changes the idle time before <a href="#" OnMouseOver="link('_member','../at91lib/utility/power3363666690',this)">power</a> save mode is entered. <br>
+</div>
+</li>
+<li>
+<div class="padding"><b>Date</b>: edits the current date. <br>
+</div>
+</li>
+<li>
+<div class="padding"><b>Time</b>: edits the current time. <br>
+</div>
+</li>
+</ul>
+<br>
+</div>
+</li>
+</ul>
+Pressing the 'Mode' key again returns to the startup screen.<br>
+<br>
+</div>
+<div class="padding">In calculator mode, the <a href="#" OnMouseOver="link('_dir','../at91lib/usb/device/device0',this)">device</a> behave as a simple calculator. It only performs integer operations. To clear the current result, use the 'Del' key; to return to the <a href="#" OnMouseOver="link('_member','../basic-safe-secure-project/main53616',this)">main</a> menu use 'Mode', and to the startup screen 'Esc'.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Technical details</div>
+ This section briefly explains which features of the AT91SAM7L-EK are demonstrated and how.<br>
+<br>
+</div>
+<div class="padding"><b>Segment SLCD</b><br>
+ The segment LCD is used to display the user interface. The blink mode provided by the SLCD controller is demonstrated in the various edit modes (available from the Setup sub-menu).<br>
+<br>
+</div>
+<div class="padding"><b>Low-power Modes</b><br>
+ The <a href="#" OnMouseOver="link('_dir','../at91lib/usb/device/device0',this)">device</a> uses two low-power modes. The first one is used continuously whenever the user is not pressing any key; the SLCD is still enabled, and wake-up is programmed on the wake-up inputs connected to the keyboard. As soon as the clock needs to be refresh or if the user presses a key, the <a href="#" OnMouseOver="link('_dir','../at91lib/usb/device/device0',this)">device</a> enters normal mode, performs the necessary actions, and returns to backup mode.<br>
+<br>
+</div>
+<div class="padding">The second form of low-power mode, called deep backup, is entered after a sustained period of inactivity. In this case, the SLCD screen is shut down, and the <a href="#" OnMouseOver="link('_dir','../at91lib/usb/device/device0',this)">device</a> <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> only be turned back on by pressing the force wake-up button. It stills retain all the information that had been entered and will restart in the previously used mode.<br>
+<br>
+</div>
+<div class="padding"><b>Brown-out Detector</b><br>
+ The brown-out detector is used to monitor the battery life. It is configured to continuously monitor the battery, the threshold being adjusted between several pre-defined ranges.<br>
+<br>
+</div>
+<div class="padding"><b>Real-time Clock</b><br>
+ The RTC is used to display the clock on the screen, as well as indicating whenever the <a href="#" OnMouseOver="link('_dir','../at91lib/usb/device/device0',this)">device</a> shall enter deep backup mode.<br>
+<br>
+</div>
+<div class="padding"><b>Keyboard</b><br>
+ The keyboard is used to interact with the demo program. It supports multiple simultaneous key presses, and handles the 2ndF and 2ndF lock keys to toggle between the <a href="#" OnMouseOver="link('_member','../basic-safe-secure-project/main53616',this)">main</a> and alternate keyboards.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Usage</div>
+<ol>
+<li>Erase the current contents of the internal <a href="#" OnMouseOver="link('_dir','../at91lib/memories/flash/flash0',this)">flash</a> by closing the Erase jumper on the board and pressing the 'Reset' button, then the 'Wake-up' button.</li>
+<li>Remove the Erase jumper and restart the ROM code by pressing 'Reset' then 'Wake-up'.</li>
+<li>Build the program and <a href="#" OnMouseOver="link('_dir','../at91lib/memories/flash/flash0',this)">flash</a> it inside the evaluation board. Please refer to the <a href="http://www.atmel.com/dyn/resources/prod_documents/doc6224.pdf">SAM-BA User Guide</a>, the <a href="http://www.atmel.com/dyn/resources/prod_documents/doc6310.pdf">GNU-Based Software Development</a> application note or to the <a href="ftp://ftp.iar.se/WWWfiles/arm/Guides/EWARM_UserGuide.ENU.pdf">IAR EWARM User Guide</a>, depending on your chosen solution.</li>
+<li>On the computer, open and configure a terminal application (e.g. HyperTerminal on Microsoft Windows) with these settings:<ul>
+<li>115200 bauds</li>
+<li>8 bits of <a href="#" OnMouseOver="link('_member','../basic-fatfs-nandflash-project/data0',this)">data</a></li>
+<li>No parity</li>
+<li>1 stop bit</li>
+<li>No flow control</li>
+</ul>
+
+</li>
+<li>On the evaluation kit, set the following jumpers as described: J1.4: closed J106: closed J107: between <a href="#" OnMouseOver="link('_member','../basic-usart-hw-handshaking-project/pins0',this)">pins</a> 1 &amp; 2 J108: between <a href="#" OnMouseOver="link('_member','../basic-usart-hw-handshaking-project/pins0',this)">pins</a> 1 &amp; 2 J109: open</li>
+<li>Start the application by pressing the 'Reset' then 'Wake-up' buttons. The startup menu should appear after a few seconds.</li>
+<li>In the terminal window, the following text should appear:   <table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+  <TR VALIGN="top">
+  <TD class="paddingHeadMultiColumn2">
+<pre class="codeExamples">
+-- Demo SAMxxx Project xxx --
+-- AT91SAMxx-xx
+-- Compiled: xxx xx xxxx xx:xx:xx --
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- Fresh start
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- Default mode restart
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- Entering backup mode ...
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- Restarted from backup mode.
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- Default mode restart
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- Entering backup mode ...
+</pre>  </TD>
+  </TR>
+  </TABLE>
+</li>
+</ol>
+
+</div>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="paragraph2">Source</div>
+<div class="paddingMembers">The documentation for this Directory was generated from the following files:</div>
+<div class="paddingMembers"><LI>main.c<br></div>
+<div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_dir','_description');
+</script>

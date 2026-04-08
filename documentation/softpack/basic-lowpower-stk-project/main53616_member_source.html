@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_lowpowermi_stkmi_project0',this)" class="pathLink">basic-lowpower-stk-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 329</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>(void)
+{
+    unsigned int i;
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_CONFIGURE1432879529',this); ">TRACE_CONFIGURE</a>(DBGU_STANDARD, 115200, BOARD_MCK);
+
+    // Display message only at startup
+    if (currentMode == <a href="#" onMouseOver="link('_member','../basic-lowpower-project/MODE_37MHZ107912890',this); ">MODE_37MHZ</a>) {
+        
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Basic LowPower stk Project %s --\n\r", SOFTPACK_VERSION);
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- %s\n\r", BOARD_NAME);
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
+    }
+
+    while (1) {
+
+        // Initialize SLCD
+        <a href="#" onMouseOver="link('_member','../at91lib/peripherals/supc/SUPC_SetSlcdVoltage171142247',this); ">SUPC_SetSlcdVoltage</a>(0x8);
+        <a href="#" onMouseOver="link('_member','../at91lib/peripherals/supc/SUPC_EnableSlcd2593655934',this); ">SUPC_EnableSlcd</a>(AT91C_SUPC_LCDMODE_INTERNAL);
+        <a href="#" onMouseOver="link('_member','../at91lib/peripherals/slcdc/SLCDC_Disable53616',this); ">SLCDC_Disable</a>();
+        <a href="#" onMouseOver="link('_member','../at91lib/peripherals/slcdc/SLCDC_Configure2984969458',this); ">SLCDC_Configure</a>(S7LSTKLCD_NUM_COMMONS,
+                        S7LSTKLCD_NUM_SEGMENTS,
+                        AT91C_SLCDC_BIAS_1_4,
+                        AT91C_SLCDC_BUFTIME_0_percent);
+        <a href="#" onMouseOver="link('_member','../at91lib/peripherals/slcdc/SLCDC_SetFrameFreq3363666690',this); ">SLCDC_SetFrameFreq</a>(AT91C_SLCDC_PRESC_SCLK_32, AT91C_SLCDC_DIV_1);
+        <a href="#" onMouseOver="link('_member','../at91lib/peripherals/slcdc/SLCDC_Enable53616',this); ">SLCDC_Enable</a>();
+        <a href="#" onMouseOver="link('_member','../at91lib/peripherals/slcdc/SLCDC_Clear53616',this); ">SLCDC_Clear</a>();
+
+        // Initialize pushbuttons
+        <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(pPinsButtons, <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_LISTSIZE2758449565',this); ">PIO_LISTSIZE</a>(pPinsButtons));
+
+        // Scan buttons
+        for (i=0; i &lt; <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_LISTSIZE2758449565',this); ">PIO_LISTSIZE</a>(pPinsButtons); i++) {
+
+            if (!<a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Get134351097',this); ">PIO_Get</a>(&amp;pPinsButtons[i])) {
+
+                currentMode = i;
+                break;
+            }
+        }
+
+        // Run current mode
+        RunCurrentMode();
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

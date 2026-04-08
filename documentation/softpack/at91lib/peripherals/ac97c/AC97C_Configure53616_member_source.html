@@ -1,0 +1,64 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - AC97C_Configure</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">AC97C_Configure</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','ac97c0',this)" class="pathLink">ac97c</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">AC97C_Configure</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','AC97C_Configure53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','AC97C_Configure53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 510</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','AC97C_Configure53616',this); ">AC97C_Configure</a>()
+{
+    unsigned char channel;
+
+    // Enable the AC97 controller peripheral clock
+    AT91C_BASE_PMC-&gt;PMC_PCER = (1 &lt;&lt; AT91C_ID_AC97C);   
+    
+    // Enable the peripheral and variable rate adjustment
+    AT91C_BASE_AC97C-&gt;AC97C_MR = AT91C_AC97C_ENA  | AT91C_AC97C_VRA;
+
+    // Unassigns all input &amp; output slots
+    <a href="#" onMouseOver="link('_member','AC97C_AssignInputSlots361150951',this); ">AC97C_AssignInputSlots</a>(0, 0xFFFF);
+    <a href="#" onMouseOver="link('_member','AC97C_AssignOutputSlots361150951',this); ">AC97C_AssignOutputSlots</a>(0, 0xFFFF);
+
+    // Install the AC97C interrupt handler
+    AT91C_BASE_AC97C-&gt;AC97C_IDR = 0xFFFFFFFF;
+    <a href="#" onMouseOver="link('_member','../irq/IRQ_ConfigureIT3223024299',this); ">IRQ_ConfigureIT</a>(AT91C_ID_AC97C, 0, AC97C_Handler);
+    <a href="#" onMouseOver="link('_member','../irq/IRQ_EnableIT171142247',this); ">IRQ_EnableIT</a>(AT91C_ID_AC97C);  
+
+    // Disable PDC transfers
+    AT91C_BASE_AC97C-&gt;AC97C_PTCR = AT91C_PDC_TXTDIS | AT91C_PDC_RXTDIS;
+
+    // Clear channel transfers
+    for (channel = 0; channel &lt; <a href="#" onMouseOver="link('_member','AC97C_CHANNEL_B_TRANSMIT4239039939',this); ">AC97C_CHANNEL_B_TRANSMIT</a>; channel++) {
+
+        ac97c.transfers[channel].numSamples = 0;
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

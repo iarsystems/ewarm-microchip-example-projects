@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<infocenter_data version="1.0">
+  <iar_name>usb-device-cdc-serial-project</iar_name>                    <!--App-->
+  <iar_description>This software acts as a bridge between a USB and USART connections. A virtual COM port is created on the host computer, enabling simple communication over the USB. </iar_description>  <!--App short description-->
+  <iar_curdir>$CUR_DIR$</iar_curdir>
+</infocenter_data>

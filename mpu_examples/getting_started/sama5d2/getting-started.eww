@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<workspace>
-  <project>
-    <path>$WS_DIR$/getting-started_sama5d2-xplained.ewp</path>
-  </project>
-  <project>
-    <path>$WS_DIR$/getting-started_sama5d27-som1-ek.ewp</path>
-  </project>
-</workspace>

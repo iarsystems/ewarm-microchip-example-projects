@@ -296,6 +296,8 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
+          <state>$PROJ_DIR$\..\..\CMSIS\Core\Include</state>
+
           <state>$PROJ_DIR$/hal</state>
           <state>$PROJ_DIR$/hal/CortexM1</state>
           <state>$PROJ_DIR$/hal/CortexM1/EWARM</state>
@@ -1236,6 +1238,8 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
+          <state>$PROJ_DIR$\..\..\CMSIS\Core\Include</state>
+
           <state>$PROJ_DIR$/hal</state>
           <state>$PROJ_DIR$/hal/CortexM1</state>
           <state>$PROJ_DIR$/hal/CortexM1/EWARM</state>

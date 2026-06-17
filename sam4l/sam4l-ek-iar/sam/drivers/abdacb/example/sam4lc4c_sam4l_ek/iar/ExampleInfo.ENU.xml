@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>abdacb_example</iar_name>               <!--App-->
-  <iar_description>The example demonstrates how to use ABDAC driver to transfers an input buffer of audio samples to an output.</iar_description>  <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

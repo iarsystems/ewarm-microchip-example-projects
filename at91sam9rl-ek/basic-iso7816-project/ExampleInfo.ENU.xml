@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>basic-iso7816-project</iar_name>                    <!--App-->
-  <iar_description>Sends ISO 7816 commands to a smartcard connected to the evaluation kits.</iar_description>  <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

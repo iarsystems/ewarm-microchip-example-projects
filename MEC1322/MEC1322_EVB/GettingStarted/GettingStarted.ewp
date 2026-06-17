@@ -313,6 +313,8 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
+          <state>$PROJ_DIR$\..\..\..\CMSIS\Core\Include</state>
+
           <state/>
         </option>
         <option>

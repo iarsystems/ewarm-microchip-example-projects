@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>device_example</iar_name>               <!--App-->
-  <iar_description>This example shows how to implement a USB Device Mass Storage on SAM4L MCU.</iar_description>  <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

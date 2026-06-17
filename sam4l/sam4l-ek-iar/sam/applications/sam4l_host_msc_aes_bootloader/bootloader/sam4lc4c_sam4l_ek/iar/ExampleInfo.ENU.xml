@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>host_msc_boot_aes</iar_name>               <!--App-->
-  <iar_description>The USB Host Mass Storage Bootloader application is to facilitate firmware
-  upgrade using USB MSC drives.</iar_description>  <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

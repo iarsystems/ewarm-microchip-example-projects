@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>usart_rs485</iar_name>               <!--App-->
-  <iar_description>The USART RS485 Example demonstrates how to use USART in RS485 mode.</iar_description>  <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

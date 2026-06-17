@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>LED blinking</iar_name>                                                                        <!--App-->
-  <iar_description>It shows basic use of parallel I/O, timer and the interrupt controller.</iar_description>      <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

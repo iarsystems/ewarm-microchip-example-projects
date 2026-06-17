@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>getting-started</iar_name>               <!--App-->
-  <iar_description>The demonstration program makes the LED on the board blink at a fixed rate. The blinking can be stopped
-  using the push button.</iar_description>  <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-
-<infocenter_data version="1.0">
-  <iar_template_variant>A</iar_template_variant>
-  <iar_name>at91rm9200-ek </iar_name>                           <!--Board-->
-  <iar_title>Examples for  at91rm9200-ek</iar_title>            <!--Board-->
-</infocenter_data>

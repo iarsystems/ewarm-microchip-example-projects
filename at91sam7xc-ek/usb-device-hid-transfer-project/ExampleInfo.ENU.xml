@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>usb-device-hid-transfer-project</iar_name>                    <!--App-->
-  <iar_description>Creates an HID compatible device using the evaluation kit, enabling the user to do customized transfers via some PC program. </iar_description>  <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

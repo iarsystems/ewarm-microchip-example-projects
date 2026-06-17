@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>rtt</iar_name>               <!--App-->
-  <iar_description>This example demonstrates the Real-Time Timer (RTT) provided on SAM3X microcontrollers. It enables the user to set an alarm and watch it being triggered when the timer reaches the corresponding value.</iar_description>  <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

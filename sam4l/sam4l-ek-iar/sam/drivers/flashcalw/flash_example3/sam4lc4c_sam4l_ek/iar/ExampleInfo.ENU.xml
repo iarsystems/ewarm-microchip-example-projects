@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>flashcalw_example3</iar_name>               <!--App-->
-  <iar_description>Using a Fibonacci calculation, this example demonstrates how much the PicoCache feature can improve the execution speed.</iar_description>  <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

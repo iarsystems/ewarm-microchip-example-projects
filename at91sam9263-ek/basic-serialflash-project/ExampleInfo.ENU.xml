@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>basic-serialflash-project</iar_name>                    <!--App-->
-  <iar_description>Performs erase, read and write operations on an external Serial Firmware Dataflash chip connected to the board. </iar_description>  <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

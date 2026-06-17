@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>c42364a_example</iar_name>               <!--App-->
-  <iar_description>This example demonstrates how to use the C42364A LCD Glass driver with the 32 KHz oscillator crystal.</iar_description>  <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

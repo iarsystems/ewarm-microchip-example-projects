@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>hsmci_sdcard_fatfs</iar_name>               <!--App-->
-  <iar_description>The example will help you to get familiar with filesystem and sdmmc_mci interface on SAM3X. It provides sample code of common operations of a filesystem through a SD Card based filesystem.</iar_description>  <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>clock_example2</iar_name>               <!--App-->
-  <iar_description>This example shows how to initialize the clock system and output the CPU clock on a dedicated pin.</iar_description>  <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

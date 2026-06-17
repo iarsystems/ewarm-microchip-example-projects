@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>basic-ssc-i2s-wm8731-project</iar_name>                    <!--App-->
-  <iar_description>Plays sound with the SSC in I2S mode, through an on-board WM8731 Codec. </iar_description>  <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

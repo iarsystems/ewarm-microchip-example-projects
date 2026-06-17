@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<infocenter_data version="1.0">
-  <iar_name>demo-multimedia-project</iar_name>                    <!--App-->
-  <iar_description>Reads pictures from a FAT formated SD Card. Displays one of them on the LCD screen and change the current displayed picture thanks to a stylus movement on the touchscreen.</iar_description>  <!--App short description-->
-  <iar_curdir>$CUR_DIR$</iar_curdir>
-</infocenter_data>

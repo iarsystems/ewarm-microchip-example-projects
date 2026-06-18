@@ -1,0 +1,63 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - GetTransSpeedValue</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">GetTransSpeedValue</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','sdmmc0',this)" class="pathLink">sdmmc</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">GetTransSpeedValue</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','GetTransSpeedValue67542213','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','GetTransSpeedValue67542213','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 571</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','GetTransSpeedValue67542213',this); ">GetTransSpeedValue</a>(<a href="#" onMouseOver="link('_class','_SdCard0',this); ">SdCard</a> *pSd)
+{
+    unsigned int unit, value;
+    // CSD register, TRANS_SPEED bit
+    const unsigned int units[4] = {10, 100, 1000, 10000 }; // *Kbit/s 
+    const unsigned int values_emmc[16] = {0, 10, 12, 13, 15, 20,
+                                          26, 30, 35, 40, 45, 52,
+                                          55, 60, 70, 80};
+    const unsigned int values_sdmmc[16] = {0, 10, 12, 13, 15, 20,
+                                           25, 30, 35, 40, 45, 50,
+                                           55, 60, 70, 80};
+  
+    unit = (<a href="#" onMouseOver="link('_member','SD_CSD_TRAN_SPEED968178866',this); ">SD_CSD_TRAN_SPEED</a>(pSd) &amp; 0x7);
+    if(unit &lt; 4)    unit  = units[unit];
+    else            return;
+    value = (<a href="#" onMouseOver="link('_member','SD_CSD_TRAN_SPEED968178866',this); ">SD_CSD_TRAN_SPEED</a>(pSd) &gt;&gt; 3) &amp; 0xF;
+    if (value &lt; 16) {
+        if (pSd-&gt;<a href="#" onMouseOver="link('_member','cardType446104',this); ">cardType</a> &gt;= CARD_MMC &amp;&amp; <a href="#" onMouseOver="link('_member','SD_CID_BGA968178866',this); ">SD_CID_BGA</a>(pSd) == 1) {
+            value = values_emmc[value];
+        }
+        else
+            value = values_sdmmc[value];
+    }
+    else            return;
+    TRACE_WARNING_WP("-I- SD/MMC TRANS SPEED %d KBit/s\r\n", (unit * value));
+    pSd-&gt;<a href="#" onMouseOver="link('_member','transSpeed446104',this); ">transSpeed</a> = (unit * value) * 1000;  
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

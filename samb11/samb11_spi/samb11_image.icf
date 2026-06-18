@@ -1,0 +1,52 @@
+/*###ICF### Section handled by ICF editor, don't touch! ****/
+/*-Editor annotation file-*/
+/* IcfEditorFile="$TOOLKIT_DIR$\config\ide\IcfEditor\cortex_v1_0.xml" */
+/*-Specials-*/
+define symbol __ICFEDIT_intvec_start__ = 0x00000000;
+/*-Memory Regions-*/
+define symbol __ICFEDIT_region_ROM_start__ = 0x00000000;
+define symbol __ICFEDIT_region_ROM_end__   = 0x0003FFFF;
+define symbol __ICFEDIT_region_RAM_start__ = 0x00000000;
+define symbol __ICFEDIT_region_RAM_end__   = 0x00000000;
+/*-Sizes-*/
+define symbol __ICFEDIT_size_cstack__ = 0x0;
+define symbol __ICFEDIT_size_heap__   = 0x0;
+/**** End of ICF editor section. ###ICF###*/
+
+
+
+define memory mem with size = 4G;
+define region ROM_region   = mem:[from __ICFEDIT_region_ROM_start__   to __ICFEDIT_region_ROM_end__];
+
+define symbol flash_sector_size = 0x1000;
+
+/* A nested blocks are used here in order for the block to return the proper size in SIZEOF */
+
+define block Patch_Block { section Patch_Image };
+define block Patch_Alignment with alignment = flash_sector_size { };
+define block Patch_Block_Holder with fixed order { block Patch_Block, block Patch_Alignment };
+
+define block FW_Block with fixed order { section FW_Header_Start, section FW_Image, section FW_Header_End };
+define block FW_Alignment with alignment = flash_sector_size { };
+define block FW_Block_Holder with fixed order { block FW_Block, block FW_Alignment };
+
+//This dummy block aligns the user image to 4 bytes
+define block IMAGE_0_Holder with alignment = 4, fixed order { section IMAGE_0, section IMAGE_0_Holder };
+
+define block IMAGE_0_Block with fixed order { section IMAGE_0_Header_Start, block IMAGE_0_Holder, section IMAGE_0_Header_End };
+define block IMAGE_0_Alignment with alignment = flash_sector_size { };
+define block IMAGE_0_Block_Holder with fixed order { block IMAGE_0_Block, block IMAGE_0_Alignment };
+
+initialize by copy { readwrite };
+do not initialize  { section .noinit };
+
+//place at address mem:__ICFEDIT_intvec_start__ { section .intvec };
+
+place at address mem:__ICFEDIT_region_ROM_start__ { section FlashHeader0 };
+place at address mem:__ICFEDIT_region_ROM_start__ + 0x200 { section FlashHeader1 };
+
+place at address mem:__ICFEDIT_region_ROM_start__ + 0x1000 { block FW_Block_Holder };
+place at address mem:__ICFEDIT_region_ROM_start__ + 0x4000 { block Patch_Block_Holder };
+place at address mem:__ICFEDIT_region_ROM_start__ + 0x5000 { block IMAGE_0_Block_Holder };
+
+

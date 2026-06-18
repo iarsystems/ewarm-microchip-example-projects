@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<workspace>
+  <project>
+    <path>$WS_DIR$/getting-started_sam9x25-ek.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$/getting-started_sam9x35-ek.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$/getting-started_sam9g35-ek.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$/getting-started_sam9g25-ek.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$/getting-started_sam9g15-ek.ewp</path>
+  </project>
+</workspace>

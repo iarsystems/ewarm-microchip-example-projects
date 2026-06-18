@@ -1,0 +1,21 @@
+/*###ICF### Section handled by ICF editor, don't touch! ****/
+build for ram;
+
+define memory mem with size = 4G;
+
+define region RAM_region = mem:[from CONFIG_LINK_ADDR size CONFIG_BOOTSTRAP_MAXSIZE];
+
+define symbol __size_stack__   = 0x2000;
+
+define block STACK with alignment = 8, size = __size_stack__ { };
+
+initialize by copy with packing = none { readwrite };
+if (isdefinedsymbol(__USE_DLIB_PERTHREAD))
+{
+  // Required in a multi-threaded application
+  initialize by copy with packing = none { section __DLIB_PERTHREAD };
+}
+
+place at start of RAM_region  { block ROM with fixed order {readonly section .intvec, readonly}};
+
+place in RAM_region  { readwrite, block STACK};

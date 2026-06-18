@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - SetIdleMode</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">SetIdleMode</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','testmi_powermi_consumptionmi_coremi_project0',this)" class="pathLink">test-power-consumption-core-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">SetIdleMode</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','SetIdleMode53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','SetIdleMode53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 241</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','SetIdleMode53616',this); ">SetIdleMode</a>(void)
+{ 
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Enter in Idle Mode\n\r");    
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" - One interrupt configure (dbgu).\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" - Idle state (PCK stopped), waiting an interrupt.\n\r");
+       
+    // Configure DBGU Interrupt to get one IT each time a character is entered
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_ConfigureIT3223024299',this); ">IRQ_ConfigureIT</a>(AT91C_ID_SYS, 0x7, ISR_dbgu);    
+    // Enable IT
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_EnableIT171142247',this); ">IRQ_EnableIT</a>(AT91C_ID_SYS);
+    // Enable corresponding DBGU interrupt flags
+    AT91C_BASE_DBGU-&gt;DBGU_IER = AT91C_US_RXRDY;
+   
+    // Go in idle mode
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-&gt;PCK is stopped&lt;-\n\r");    
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Hit a key to exit...\n\r");    
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pmc/PMC_CPUInIdleMode53616',this); ">PMC_CPUInIdleMode</a>();
+    
+    // Interrupt received
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Interrupt received !\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Exit Idle mode\n\r");
+    
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_DisableIT171142247',this); ">IRQ_DisableIT</a>(AT91C_ID_SYS);     
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

@@ -1,0 +1,62 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - AC97C_SetChannelSize</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">AC97C_SetChannelSize</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','ac97c0',this)" class="pathLink">ac97c</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">AC97C_SetChannelSize</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','AC97C_SetChannelSize898012104','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','AC97C_SetChannelSize898012104','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 667</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','AC97C_SetChannelSize898012104',this); ">AC97C_SetChannelSize</a>(unsigned char channel, unsigned char size)
+{
+    unsigned int bits = 0;
+
+    <a href="#" onMouseOver="link('_member','../../utility/SANITY_CHECK407576460',this); ">SANITY_CHECK</a>((size == 10) || (size == 16) || (size == 18) || (size == 24));
+    <a href="#" onMouseOver="link('_member','../../utility/SANITY_CHECK407576460',this); ">SANITY_CHECK</a>((channel == AC97C_CHANNEL_A) || (channel == AC97C_CHANNEL_B));
+
+    switch (size) {
+
+        case 10 : bits = AT91C_AC97C_SIZE_10_BITS; break;
+        case 16 : bits = AT91C_AC97C_SIZE_16_BITS; break;
+        case 18 : bits = AT91C_AC97C_SIZE_18_BITS; break;
+        case 20 : bits = AT91C_AC97C_SIZE_20_BITS; break;
+    }
+
+    if (channel == <a href="#" onMouseOver="link('_member','AC97C_CHANNEL_A4239039939',this); ">AC97C_CHANNEL_A</a>) {
+
+        AT91C_BASE_AC97C-&gt;AC97C_CAMR &amp;= ~(AT91C_AC97C_SIZE);
+        AT91C_BASE_AC97C-&gt;AC97C_CAMR |= bits;
+    }
+    else {
+
+        AT91C_BASE_AC97C-&gt;AC97C_CBMR &amp;= ~(AT91C_AC97C_SIZE);
+        AT91C_BASE_AC97C-&gt;AC97C_CBMR |= bits;
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

@@ -1,0 +1,98 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - MODE_PowerSave</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">MODE_PowerSave</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','demomi_sam7lmi_ekmi_project0',this)" class="pathLink">demo-sam7l-ek-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">MODE_PowerSave</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','MODE_PowerSave2186267575','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','MODE_PowerSave2186267575','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 292</div>
+<pre class="codeExamples">
+void * <a href="#" onMouseOver="link('_member','MODE_PowerSave2186267575',this); ">MODE_PowerSave</a>(signed char key, unsigned char refresh)
+{
+    char string[8] = "XX MIN.";
+    unsigned char code = <a href="#" onMouseOver="link('_member','KBD_GetNaturalKeyCode2593655934',this); ">KBD_GetNaturalKeyCode</a>(key);
+
+    // Refresh display
+    if (refresh == <a href="#" onMouseOver="link('_member','MODE_REFRESH_RESTART1927943960',this); ">MODE_REFRESH_RESTART</a>) {
+
+        TRACE_INFO("Power save mode restart\n\r");
+        <a href="#" onMouseOver="link('_member','gNewPowerSaveTimeout0',this); ">gNewPowerSaveTimeout</a> = <a href="#" onMouseOver="link('_member','gPowerSaveTimeout0',this); ">gPowerSaveTimeout</a>;
+    }
+    else if (refresh == <a href="#" onMouseOver="link('_member','MODE_REFRESH_DISPLAY1927943960',this); ">MODE_REFRESH_DISPLAY</a>) {
+
+        TRACE_INFO("Power save mode refresh\n\r");
+    }
+
+    // Process key events
+    if (key &gt;= 0) {
+
+        // Cancel
+        if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_ESCAPE3152668919',this); ">S7LEKKBM_ESCAPE</a>) {
+
+            return <a href="#" onMouseOver="link('_member','MODE_Menu2186267575',this); ">MODE_Menu</a>;
+        }
+        // Validate
+        else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_OK3152668919',this); ">S7LEKKBM_OK</a>) {
+
+            <a href="#" onMouseOver="link('_member','gPowerSaveTimeout0',this); ">gPowerSaveTimeout</a> = <a href="#" onMouseOver="link('_member','gNewPowerSaveTimeout0',this); ">gNewPowerSaveTimeout</a>;
+            return <a href="#" onMouseOver="link('_member','MODE_Menu2186267575',this); ">MODE_Menu</a>;
+        }
+        // Increase
+        else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_UPARROW3152668919',this); ">S7LEKKBM_UPARROW</a>) {
+
+            if (<a href="#" onMouseOver="link('_member','gNewPowerSaveTimeout0',this); ">gNewPowerSaveTimeout</a> &lt; 20) {
+
+                <a href="#" onMouseOver="link('_member','gNewPowerSaveTimeout0',this); ">gNewPowerSaveTimeout</a> += 5;
+            }
+        }
+        // Decrease
+        else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_DOWNARROW3152668919',this); ">S7LEKKBM_DOWNARROW</a>) {
+
+            if (<a href="#" onMouseOver="link('_member','gNewPowerSaveTimeout0',this); ">gNewPowerSaveTimeout</a> &gt; 0) {
+
+                <a href="#" onMouseOver="link('_member','gNewPowerSaveTimeout0',this); ">gNewPowerSaveTimeout</a> -= 5;
+            }
+        }
+    }
+
+    // Display current timeout value
+    if (<a href="#" onMouseOver="link('_member','gNewPowerSaveTimeout0',this); ">gNewPowerSaveTimeout</a> &gt; 0) {
+
+        string[0] = <a href="#" onMouseOver="link('_member','gNewPowerSaveTimeout0',this); ">gNewPowerSaveTimeout</a> / 10 + '0';
+        string[1] = <a href="#" onMouseOver="link('_member','gNewPowerSaveTimeout0',this); ">gNewPowerSaveTimeout</a> % 10 + '0';
+        <a href="#" onMouseOver="link('_member','SLCD_PutString3372848885',this); ">SLCD_PutString</a>(string, 0);
+    }
+    else {
+
+        <a href="#" onMouseOver="link('_member','SLCD_PutString3372848885',this); ">SLCD_PutString</a>("NONE", 0);
+    }
+
+    return <a href="#" onMouseOver="link('_member','MODE_PowerSave2186267575',this); ">MODE_PowerSave</a>;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

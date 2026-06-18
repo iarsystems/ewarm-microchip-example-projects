@@ -1,0 +1,100 @@
+/**
+ * \file
+ *
+ * \brief User Interface
+ *
+ * Copyright (C) 2011 Atmel Corporation. All rights reserved.
+ *
+ * \page License
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * 3. The name of Atmel may not be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * 4. This software may only be redistributed and used in connection with an
+ * Atmel AVR product.
+ *
+ * THIS SOFTWARE IS PROVIDED BY ATMEL "AS IS" AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT ARE
+ * EXPRESSLY AND SPECIFICALLY DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE.
+ */
+
+/*_____  I N C L U D E S ___________________________________________________*/
+
+#include "board.h"
+#include "compiler.h"
+#include "conf_usb.h"
+#include "udi_audio.h"
+#include "ui.h"
+
+/*_____ L O C A L   D E F I N I T I O N S __________________________________*/
+
+#define LED_On  LED_Set
+#define LED_Off LED_Clear
+
+/*_____ L O C A L   V A R I A B L E S ______________________________________*/
+
+/*_____ L O C A L   F U N C T I O N S ______________________________________*/
+
+/*_____ G L O B A L   F U N C T I O N S ____________________________________*/
+
+void ui_init(void)
+{
+    LED_Configure(LED_BLUE);
+    LED_Configure(LED_GREEN);
+}
+
+void ui_powerdown(void)
+{
+    LED_Off(LED_BLUE);
+    LED_Off(LED_GREEN);
+}
+
+void ui_wakeup(void)
+{
+
+}
+
+void ui_stream_enabled(void)
+{
+    LED_On(LED_BLUE);
+    LED_On(LED_GREEN);
+}
+
+void ui_stream_disabled(void)
+{
+    LED_Off(LED_BLUE);
+    LED_Off(LED_GREEN);
+}
+
+void ui_process(uint16_t framenumber)
+{
+
+}
+
+/**
+ * \defgroup usb_audio_speaker_ui USB Device Audio Speaker User Interface
+ *
+ * Human interface on SAM3X-EK :
+ * - PWR led is on when power present
+ * - Led on left side (D2, blue) of board show magnitude of left channel audio
+ * - Led on right side (D4, green) of board show magnitude of right channel audio
+ *
+ */

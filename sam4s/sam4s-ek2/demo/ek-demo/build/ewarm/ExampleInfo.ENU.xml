@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<infocenter_data version="1.0">
+  <iar_name>ek-demo</iar_name>               <!--App-->
+  <iar_description>The ek-demo will help new users get familiar with Microchip's SAM4S family of microcontrollers and SAM4S-EK2 development board. This demo shows the startup sequence of a chip and how to use its core peripherals. It is based on FreeRTOS operating system.</iar_description>  <!--App short description-->
+  <iar_curdir>$CUR_DIR$</iar_curdir>
+</infocenter_data>

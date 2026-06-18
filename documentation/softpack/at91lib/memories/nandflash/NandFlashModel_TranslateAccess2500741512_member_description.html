@@ -1,0 +1,122 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - NandFlashModel_TranslateAccess</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">NandFlashModel_TranslateAccess</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">NandFlashModel_TranslateAccess</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','NandFlashModel_TranslateAccess2500741512','_description',this)" class="tabLinkActive">Description</a></span>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','NandFlashModel_TranslateAccess2500741512','_source',this)" class="tabLinkInActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<span class="paragraph1">NandFlashModel_TranslateAccess</span>
+<div class="paragraph2">Translates address/size access of a <a href="#" OnMouseOver="link('_class','NandFlashModel0',this)">NandFlashModel</a> to block, page and offset values.<br>
+</div>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="paragraph2"><span id="descFunSynExpSpan" style="display:none;visibility:hidden"><a href="javascript:showElement( 'descFunSynColSpan' );javascript:hideElement( 'descFunSynExpSpan' );javascript:showElement( 'descFunSyn' );javascript:setMyCookie( cookieName, 'descFunSyn', 'show' );"><img src="../../../../common/expand.gif" border=0></a></span><span id="descFunSynColSpan"><a href="javascript:showElement( 'descFunSynExpSpan' );javascript:hideElement( 'descFunSynColSpan' );javascript:hideElement( 'descFunSyn' );javascript:setMyCookie( cookieName, 'descFunSyn', 'hide' );"><img src="../../../../common/collapse.gif" border=0></a></span>
+Syntax / parameters</div>
+<div id="descFunSyn" class="paddingMembersTableDiv"><table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+<TR VALIGN="top"><TD class="paddingHeadMultiColumn2"><span class="codeFont">unsigned char <a href="#" OnMouseOver="link('_member','NandFlashModel_TranslateAccess2500741512',this)">NandFlashModel_TranslateAccess</a> (const struct <a href="#" OnMouseOver="link('_class','NandFlashModel0',this)">NandFlashModel</a> *model, unsigned int address, unsigned int size, unsigned short *block, unsigned short *page, unsigned short *offset)<br>
+</span></TD></TR></TABLE>
+<br><table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+<TR VALIGN="top">
+<TD class="paddingHeadMultiColumn1"><span class="" align=left>Name</TD>
+<TD class="paddingHeadMultiColumn1"><span class="" align=left>Type</TD>
+<TD class="paddingHeadMultiColumn1"><span class="" align=left>Default</TD>
+<TD class="paddingHeadMultiColumn2"><span class="" align=left>Description</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>model</TD>
+<TD class="paddingNormal1"><span class="codeFont" >const struct <a href="#" OnMouseOver="link('_class','NandFlashModel0',this)">NandFlashModel</a> * <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" >Pointer to a <a href="#" OnMouseOver="link('_class','NandFlashModel0',this)">NandFlashModel</a> instance.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>address</TD>
+<TD class="paddingNormal1"><span class="codeFont" >unsigned int <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" >Access address.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>size</TD>
+<TD class="paddingNormal1"><span class="codeFont" >unsigned int <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" >Access size in bytes.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>block</TD>
+<TD class="paddingNormal1"><span class="codeFont" >unsigned short * <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" >Stores the first accessed block number.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>page</TD>
+<TD class="paddingNormal1"><span class="codeFont" >unsigned short * <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" >Stores the first accessed page number inside the first block.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>offset</TD>
+<TD class="paddingNormal1"><span class="codeFont" >unsigned short * <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" >Stores the byte offset inside the first accessed page.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingHeadBlank" colspan=4>&nbsp;</TD>
+</TR>
+<TR VALIGN="top">
+<TD width=20% class="paddingHeadMultiColumn1"><span class="" align=left>Return value</TD>
+<TD width=5% class="paddingNormal1"><span class="codeFont" >unsigned char<br>
+</TD>
+<TD width=5% class="paddingNormal1"><span class="" align=left>&nbsp;</TD>
+<TD width=70% class="paddingNormal2"><span class="" >&nbsp;</TD>
+</TR>
+</table>
+</div>
+<div class="paragraph2">Description</div>
+<div id="descDesc" class="paddingMembers">Translates address/size access of a <a href="#" OnMouseOver="link('_class','NandFlashModel0',this)">NandFlashModel</a> to block, page and offset values.<br>
+The values are stored in the provided variables if their pointer is not 0. Returns 0 if the access is correct; otherwise returns <a href="#" OnMouseOver="link('_member','NandCommon_ERROR_OUTOFBOUNDS3454457112',this)">NandCommon_ERROR_OUTOFBOUNDS</a>.<br>
+</div>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="paragraph2">Source</div>
+<div class="paddingMembers">The documentation for this Member was generated from the following files:</div>
+<div class="paddingMembers"><LI>NandFlashModel.c<br></div>
+<div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_description');
+</script>

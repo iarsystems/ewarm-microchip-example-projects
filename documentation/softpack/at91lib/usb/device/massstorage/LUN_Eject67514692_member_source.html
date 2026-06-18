@@ -1,0 +1,54 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - LUN_Eject</TITLE>
+<script type="text/javascript" src="../../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../../common/";
+ var relPathToHelpDir = "../../../../../common/help/";
+ var toSearchPage     = "_search','../../../../../search";
+ Body1();
+</script>
+<div class="headerPage">LUN_Eject</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../usb0',this)" class="pathLink">usb</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../device0',this)" class="pathLink">device</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','massstorage0',this)" class="pathLink">massstorage</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">LUN_Eject</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','LUN_Eject67514692','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','LUN_Eject67514692','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 223</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','LUN_Eject67514692',this); ">LUN_Eject</a>(<a href="#" onMouseOver="link('_class','MSDLun0',this); ">MSDLun</a> *lun)
+{
+    if (lun-&gt;<a href="#" onMouseOver="link('_member','media37150',this); ">media</a>) {
+
+        // Avoid any LUN R/W in progress
+        if (lun-&gt;<a href="#" onMouseOver="link('_member','media37150',this); ">media</a>-&gt;state == MED_STATE_BUSY) {
+
+            return <a href="#" onMouseOver="link('_member','../core/USBD_STATUS_LOCKED2292695961',this); ">USBD_STATUS_LOCKED</a>;
+        }
+
+        // Remove the link of the media
+        lun-&gt;<a href="#" onMouseOver="link('_member','media37150',this); ">media</a> = 0;
+    }
+    // LUN is removed
+    lun-&gt;<a href="#" onMouseOver="link('_member','status37150',this); ">status</a> = <a href="#" onMouseOver="link('_member','LUN_NOT_PRESENT425422660',this); ">LUN_NOT_PRESENT</a>;
+
+    return <a href="#" onMouseOver="link('_member','../core/USBD_STATUS_SUCCESS2292695961',this); ">USBD_STATUS_SUCCESS</a>;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

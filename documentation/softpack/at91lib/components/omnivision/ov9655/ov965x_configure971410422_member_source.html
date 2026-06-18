@@ -1,0 +1,101 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - ov965x_configure</TITLE>
+<script type="text/javascript" src="../../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../../common/";
+ var relPathToHelpDir = "../../../../../common/help/";
+ var toSearchPage     = "_search','../../../../../search";
+ Body1();
+</script>
+<div class="headerPage">ov965x_configure</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../components0',this)" class="pathLink">components</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../omnivision0',this)" class="pathLink">omnivision</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','ov96550',this)" class="pathLink">ov9655</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">ov965x_configure</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','ov965x_configure971410422','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','ov965x_configure971410422','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 77</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','ov965x_configure971410422',this); ">ov965x_configure</a>(<a href="#" onMouseOver="link('_class','../../../drivers/twi/_Twid0',this); ">Twid</a> *pTwid, unsigned int width, unsigned int heigth)
+{
+    const struct <a href="#" onMouseOver="link('_class','../ov965x_reg0',this); ">ov965x_reg</a> *reg_conf;
+    unsigned char goodCaptureSize = 0;
+    unsigned char i;
+
+    <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("ov965x_configure\n\r");
+    for( i=0; i&lt;sizeof(ov965x_sizes); i++ ) {
+        if( ov965x_sizes[i].width == width ) {
+            if( ov965x_sizes[i].height != heigth ) {
+                TRACE_ERROR("ov965x_configure vsize not define\n\r");
+            }
+            else {
+                goodCaptureSize = 1;
+                break;
+            }
+        }
+    }
+
+    if( goodCaptureSize == 0 ) {
+        TRACE_ERROR("Problem size\n\r");
+        while(1);
+        return;
+    }
+
+    // Default value
+    reg_conf = ov9655_yuv_vga;
+
+    // common register initialization
+    switch(width) {
+        case 1280: //SXGA
+            <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("SXGA\n\r");
+            reg_conf = ov9655_yuv_sxga;
+        break;
+        case 640: //VGA
+            <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("VGA\n\r");
+            reg_conf = ov9655_yuv_vga;
+        break;
+        case 352: //CIF
+            <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("CIF\n\r");
+            reg_conf = ov9655_yuv_cif;
+        break;
+        case 320: //QVGA
+            <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("QVGA\n\r");
+            reg_conf = ov9655_yuv_qvga;
+        break;
+
+        case 176: //QCIF
+            <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("QCIF\n\r");
+            reg_conf = ov9655_yuv_qcif;
+        break;
+        case 160: //QQVGA
+            <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("QQVGA\n\r");
+            reg_conf = ov9655_yuv_qqvga;
+        break;
+        case 88: //QQCIF
+            <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("QQCIF\n\r");
+            reg_conf = ov9655_yuv_qqcif;
+        break;
+        default:  
+            <a href="#" onMouseOver="link('_member','../../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("ov965x_configure problem\n\r");
+        break;
+    }
+    <a href="#" onMouseOver="link('_member','../ov965x_write_regs3447064921',this); ">ov965x_write_regs</a>(pTwid, reg_conf);
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

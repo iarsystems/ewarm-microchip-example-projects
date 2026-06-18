@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - communication_receive</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">communication_receive</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_safemi_securemi_project0',this)" class="pathLink">basic-safe-secure-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">communication_receive</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','communication_receive86143056','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','communication_receive86143056','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 75</div>
+<pre class="codeExamples">
+unsigned int <a href="#" onMouseOver="link('_member','communication_receive86143056',this); ">communication_receive</a>(void *vAddress)
+{
+    unsigned int bytes;
+    unsigned int remaining;
+    unsigned int endOfFirmware;
+    unsigned int i;
+
+    // Restart transfer
+    <a href="#" onMouseOver="link('_member','us0_writeChar49468',this); ">us0_writeChar</a>(XON);
+
+    // Wait for data, monitoring activity to detect the end of the firmware
+    endOfFirmware = 0;
+    bytes = 0;
+    while((endOfFirmware == 0) &amp;&amp; (bytes &lt; MEDIA_BOOT_PAGE_SIZE)) {
+        bytes = <a href="#" onMouseOver="link('_member','us0_poll53616',this); ">us0_poll</a>();
+        endOfFirmware = 1;
+        for (i=0; i &lt; XON_XOFF_WAIT_COUNT; i++) {
+            if (bytes != <a href="#" onMouseOver="link('_member','us0_poll53616',this); ">us0_poll</a>()) {
+                endOfFirmware = 0;
+                break;
+            }
+        }
+    }
+    if (bytes != 0) {
+        // Read page
+        if (bytes &gt; MEDIA_BOOT_PAGE_SIZE) {
+            bytes = MEDIA_BOOT_PAGE_SIZE;
+        }
+        bytes = <a href="#" onMouseOver="link('_member','us0_read973261875',this); ">us0_read</a>(vAddress, bytes);
+
+        // Send XOFF control character and wait for remaining characters
+        <a href="#" onMouseOver="link('_member','us0_writeChar49468',this); ">us0_writeChar</a>(XOFF);
+        remaining = <a href="#" onMouseOver="link('_member','us0_poll53616',this); ">us0_poll</a>();
+    
+        for (i=0; i &lt; XON_XOFF_WAIT_COUNT; i++) {
+            if (remaining != <a href="#" onMouseOver="link('_member','us0_poll53616',this); ">us0_poll</a>()) {
+                remaining = <a href="#" onMouseOver="link('_member','us0_poll53616',this); ">us0_poll</a>();
+                i = 0;
+            }
+        }
+    }
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("bytes: %d\n\r", bytes);
+
+    return bytes;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

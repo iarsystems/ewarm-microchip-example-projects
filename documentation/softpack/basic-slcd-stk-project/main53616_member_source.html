@@ -1,0 +1,63 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_slcdmi_stkmi_project0',this)" class="pathLink">basic-slcd-stk-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 235</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>(void)
+{   
+    unsigned int div, tcclks;
+    
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(pPins, <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_LISTSIZE2758449565',this); ">PIO_LISTSIZE</a>(pPins));
+    
+    // Initialize SLCD
+    InitializeSlcd();
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_ConfigureIT3223024299',this); ">IRQ_ConfigureIT</a>(AT91C_ID_SLCD, 7, ISR_Slcdc);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_EnableIT171142247',this); ">IRQ_EnableIT</a>(AT91C_ID_SLCD);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/slcdc/SLCDC_EnableInterrupts171142247',this); ">SLCDC_EnableInterrupts</a>(AT91C_SLCDC_ENDFRAME);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/slcdc/SLCDC_Clear53616',this); ">SLCDC_Clear</a>();
+    <a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7lstklcd/S7LSTKLCD_GetStringSize2402158459',this); ">S7LSTKLCD_GetStringSize</a>(pString, &amp;stringWidth, 0);
+
+    // Configure timer for interrupt every 250ms
+    AT91C_BASE_PMC-&gt;PMC_PCER = 1 &lt;&lt; AT91C_ID_TC0;
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/tc/TC_FindMckDivisor158492116',this); ">TC_FindMckDivisor</a>(SCROLLING_FREQUENCY, MCK, &amp;div, &amp;tcclks);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/tc/TC_Configure1961727705',this); ">TC_Configure</a>(AT91C_BASE_TC0, tcclks | AT91C_TC_CPCTRG);
+    AT91C_BASE_TC0-&gt;TC_RC = (<a href="#" onMouseOver="link('_member','../basic-nandflash-project/MCK3467451319',this); ">MCK</a> / div) / <a href="#" onMouseOver="link('_member','SCROLLING_FREQUENCY1179016979',this); ">SCROLLING_FREQUENCY</a>;
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_ConfigureIT3223024299',this); ">IRQ_ConfigureIT</a>(AT91C_ID_TC0, 0, ISR_Tc0);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_EnableIT171142247',this); ">IRQ_EnableIT</a>(AT91C_ID_TC0);
+    AT91C_BASE_TC0-&gt;TC_IER = AT91C_TC_CPCS;
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/tc/TC_Start136695210',this); ">TC_Start</a>(AT91C_BASE_TC0);
+
+    // Infinite loop
+    while(1);
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

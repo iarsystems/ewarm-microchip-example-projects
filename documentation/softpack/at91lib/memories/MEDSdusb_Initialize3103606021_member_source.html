@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - MEDSdusb_Initialize</TITLE>
+<script type="text/javascript" src="../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../common/";
+ var relPathToHelpDir = "../../../common/help/";
+ var toSearchPage     = "_search','../../../search";
+ Body1();
+</script>
+<div class="headerPage">MEDSdusb_Initialize</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','memories0',this)" class="pathLink">memories</A><img src="../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">MEDSdusb_Initialize</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','MEDSdusb_Initialize3103606021','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','MEDSdusb_Initialize3103606021','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 530</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','MEDSdusb_Initialize1640456132',this); ">MEDSdusb_Initialize</a>(Media *media, unsigned char mciID)
+{    
+    TRACE_INFO("MEDSdusb init\n\r");
+
+    // Initialize SDcard
+    //--------------------------------------------------------------------------
+
+    if (!CardIsConnected(mciID)) return 0;
+
+    // Configure SDcard pins
+    ConfigurePIO(mciID);
+    
+    #if defined(MCI2_INTERFACE)
+    <a href="#" onMouseOver="link('_member','../drivers/dmad/DMAD_Initialize2593655934',this); ">DMAD_Initialize</a>(BOARD_MCI_DMA_CHANNEL);
+    #endif
+    // Initialize the MCI driver
+    if(mciID == 0) {
+        <a href="#" onMouseOver="link('_member','../peripherals/irq/IRQ_ConfigureIT3223024299',this); ">IRQ_ConfigureIT</a>(BOARD_SD_MCI_ID,  1, MCI0_IrqHandler);
+        <a href="#" onMouseOver="link('_member','../peripherals/mci/MCI_Init_71999',this); ">MCI_Init</a>(mciDrv, BOARD_SD_MCI_BASE, BOARD_SD_MCI_ID, BOARD_SD_SLOT);
+        <a href="#" onMouseOver="link('_member','../peripherals/irq/IRQ_EnableIT171142247',this); ">IRQ_EnableIT</a>(BOARD_SD_MCI_ID);
+    } else {
+        #ifdef BOARD_SD_MCI1_ID
+        <a href="#" onMouseOver="link('_member','../peripherals/irq/IRQ_ConfigureIT3223024299',this); ">IRQ_ConfigureIT</a>(BOARD_SD_MCI1_ID,  1, MCI0_IrqHandler);
+        <a href="#" onMouseOver="link('_member','../peripherals/mci/MCI_Init_71999',this); ">MCI_Init</a>(mciDrv, BOARD_SD_MCI1_BASE, BOARD_SD_MCI1_ID, BOARD_SD_SLOT);
+        <a href="#" onMouseOver="link('_member','../peripherals/irq/IRQ_EnableIT171142247',this); ">IRQ_EnableIT</a>(BOARD_SD_MCI1_ID);
+        #else
+        TRACE_ERROR("SD/MMC card initialization failed (MCI1 not supported)\n\r");
+        #endif
+    }
+#if MCI_BUSY_CHECK_FIX &amp;&amp; defined(BOARD_SD_DAT0)
+    <a href="#" onMouseOver="link('_member','../peripherals/mci/MCI_SetBusyFix1353444829',this); ">MCI_SetBusyFix</a>(mciDrv, &amp;pinSdDAT0);
+#endif
+
+    // Initialize the SD card driver
+    if (<a href="#" onMouseOver="link('_member','sdmmc/SD_Init1676226939',this); ">SD_Init</a>(sdDrv, (<a href="#" onMouseOver="link('_class','sdmmc/SdDriver0',this); ">SdDriver</a> *)mciDrv)) {
+    
+        TRACE_ERROR("SD/MMC card initialization failed\n\r");
+        return 0;
+    }
+    else {
+    
+        TRACE_INFO("SD/MMC card initialization successful\n\r");
+        TRACE_INFO("Card size: %d MB\n\r", MMC_GetTotalSizeKB(sdDrv) / 1024);
+    }
+    <a href="#" onMouseOver="link('_member','../peripherals/mci/MCI_SetSpeed1174331615',this); ">MCI_SetSpeed</a>(mciDrv, sdDrv-&gt;transSpeed, sdDrv-&gt;transSpeed, BOARD_MCK);
+  
+    // Initialize media fields
+    //--------------------------------------------------------------------------
+    media-&gt;interface = sdDrv;
+    media-&gt;write = MEDSdusb_Write;
+    media-&gt;read = MEDSdusb_Read;
+    media-&gt;lock = 0;
+    media-&gt;unlock = 0;
+    media-&gt;handler = 0;
+    media-&gt;flush = 0;
+
+    media-&gt;blockSize = <a href="#" onMouseOver="link('_member','sdmmc/SD_BLOCK_SIZE3525570445',this); ">SD_BLOCK_SIZE</a>;
+    media-&gt;baseAddress = 0;
+    media-&gt;size = SD_TOTAL_BLOCK(sdDrv);
+
+    media-&gt;mappedRD  = 0;
+    media-&gt;mappedWR  = 0;
+    media-&gt;protected = CardIsProtected(mciID);
+    media-&gt;removable = 1;
+
+    media-&gt;state = <a href="#" onMouseOver="link('_member','MED_STATE_READY3460198363',this); ">MED_STATE_READY</a>;
+
+    media-&gt;transfer.data = 0;
+    media-&gt;transfer.address = 0;
+    media-&gt;transfer.length = 0;
+    media-&gt;transfer.callback = 0;
+    media-&gt;transfer.argument = 0;
+
+    return 1;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

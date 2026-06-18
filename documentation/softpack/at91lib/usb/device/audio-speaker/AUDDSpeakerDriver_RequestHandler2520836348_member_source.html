@@ -1,0 +1,124 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - AUDDSpeakerDriver_RequestHandler</TITLE>
+<script type="text/javascript" src="../../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../../common/";
+ var relPathToHelpDir = "../../../../../common/help/";
+ var toSearchPage     = "_search','../../../../../search";
+ Body1();
+</script>
+<div class="headerPage">AUDDSpeakerDriver_RequestHandler</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../usb0',this)" class="pathLink">usb</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../device0',this)" class="pathLink">device</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','audiomi_speaker0',this)" class="pathLink">audio-speaker</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">AUDDSpeakerDriver_RequestHandler</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','AUDDSpeakerDriver_RequestHandler2520836348','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','AUDDSpeakerDriver_RequestHandler2520836348','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 268</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','AUDDSpeakerDriver_RequestHandler2520836348',this); ">AUDDSpeakerDriver_RequestHandler</a>(const <a href="#" onMouseOver="link('_class','../../common/core/USBGenericRequest0',this); ">USBGenericRequest</a> *request)
+{
+    unsigned char entity;
+    unsigned char interface;
+
+    TRACE_INFO_WP("NewReq ");
+
+    // Check if this is a class request
+    if (<a href="#" onMouseOver="link('_member','../../common/core/USBGenericRequest_GetType2520836348',this); ">USBGenericRequest_GetType</a>(request) == <a href="#" onMouseOver="link('_member','../../common/core/USBGenericRequest_CLASS1289640896',this); ">USBGenericRequest_CLASS</a>) {
+
+        // Check if the request is supported
+        switch (<a href="#" onMouseOver="link('_member','../../common/core/USBGenericRequest_GetRequest2520836348',this); ">USBGenericRequest_GetRequest</a>(request)) {
+
+            case <a href="#" onMouseOver="link('_member','../../common/audio/AUDGenericRequest_SETCUR3460809053',this); ">AUDGenericRequest_SETCUR</a>:
+                TRACE_INFO_WP(
+                          "sCur(0x%04X) ",
+                          <a href="#" onMouseOver="link('_member','../../common/core/USBGenericRequest_GetIndex2520836348',this); ">USBGenericRequest_GetIndex</a>(request));
+    
+                // Check the target interface and entity
+                entity = <a href="#" onMouseOver="link('_member','../../common/audio/AUDGenericRequest_GetEntity2520836348',this); ">AUDGenericRequest_GetEntity</a>(request);
+                interface = <a href="#" onMouseOver="link('_member','../../common/audio/AUDGenericRequest_GetInterface2520836348',this); ">AUDGenericRequest_GetInterface</a>(request);
+                if ((entity == <a href="#" onMouseOver="link('_member','AUDDSpeakerDriverDescriptors_FEATUREUNIT3956702161',this); ">AUDDSpeakerDriverDescriptors_FEATUREUNIT</a>)
+                    &amp;&amp; (interface == <a href="#" onMouseOver="link('_member','AUDDSpeakerDriverDescriptors_CONTROL3956702161',this); ">AUDDSpeakerDriverDescriptors_CONTROL</a>)) {
+
+                    AUDDSpeakerDriver_SetFeatureCurrentValue(
+                        entity,
+                        <a href="#" onMouseOver="link('_member','../../common/audio/AUDFeatureUnitRequest_GetChannel2520836348',this); ">AUDFeatureUnitRequest_GetChannel</a>(request),
+                        <a href="#" onMouseOver="link('_member','../../common/audio/AUDFeatureUnitRequest_GetControl2520836348',this); ">AUDFeatureUnitRequest_GetControl</a>(request),
+                        <a href="#" onMouseOver="link('_member','../../common/core/USBGenericRequest_GetLength2520836348',this); ">USBGenericRequest_GetLength</a>(request));
+                }
+                else {
+    
+                    TRACE_WARNING(
+                              "AUDDSpeakerDriver_RequestHandler: Unsupported entity/interface combination (0x%04X)\n\r",
+                              <a href="#" onMouseOver="link('_member','../../common/core/USBGenericRequest_GetIndex2520836348',this); ">USBGenericRequest_GetIndex</a>(request));
+                    <a href="#" onMouseOver="link('_member','../core/USBD_Stall2593655934',this); ">USBD_Stall</a>(0);
+                }
+                break;
+    
+            case <a href="#" onMouseOver="link('_member','../../common/audio/AUDGenericRequest_GETCUR3460809053',this); ">AUDGenericRequest_GETCUR</a>:
+                TRACE_INFO_WP(
+                          "gCur(0x%04X) ",
+                          <a href="#" onMouseOver="link('_member','../../common/core/USBGenericRequest_GetIndex2520836348',this); ">USBGenericRequest_GetIndex</a>(request));
+    
+                // Check the target interface and entity
+                entity = <a href="#" onMouseOver="link('_member','../../common/audio/AUDGenericRequest_GetEntity2520836348',this); ">AUDGenericRequest_GetEntity</a>(request);
+                interface = <a href="#" onMouseOver="link('_member','../../common/audio/AUDGenericRequest_GetInterface2520836348',this); ">AUDGenericRequest_GetInterface</a>(request);
+                if ((entity == <a href="#" onMouseOver="link('_member','AUDDSpeakerDriverDescriptors_FEATUREUNIT3956702161',this); ">AUDDSpeakerDriverDescriptors_FEATUREUNIT</a>)
+                    &amp;&amp; (interface == <a href="#" onMouseOver="link('_member','AUDDSpeakerDriverDescriptors_CONTROL3956702161',this); ">AUDDSpeakerDriverDescriptors_CONTROL</a>)) {
+    
+                    AUDDSpeakerDriver_GetFeatureCurrentValue(
+                        entity,
+                        <a href="#" onMouseOver="link('_member','../../common/audio/AUDFeatureUnitRequest_GetChannel2520836348',this); ">AUDFeatureUnitRequest_GetChannel</a>(request),
+                        <a href="#" onMouseOver="link('_member','../../common/audio/AUDFeatureUnitRequest_GetControl2520836348',this); ">AUDFeatureUnitRequest_GetControl</a>(request),
+                        <a href="#" onMouseOver="link('_member','../../common/core/USBGenericRequest_GetLength2520836348',this); ">USBGenericRequest_GetLength</a>(request));
+                }
+                else {
+    
+                    TRACE_WARNING(
+                              "AUDDSpeakerDriver_RequestHandler: Unsupported entity/interface combination (0x%04X)\n\r",
+                              <a href="#" onMouseOver="link('_member','../../common/core/USBGenericRequest_GetIndex2520836348',this); ">USBGenericRequest_GetIndex</a>(request));
+                    <a href="#" onMouseOver="link('_member','../core/USBD_Stall2593655934',this); ">USBD_Stall</a>(0);
+                }
+                break;
+    
+            default:
+    
+                TRACE_WARNING(
+                          "AUDDSpeakerDriver_RequestHandler: Unsupported request (%d)\n\r",
+                          <a href="#" onMouseOver="link('_member','../../common/core/USBGenericRequest_GetRequest2520836348',this); ">USBGenericRequest_GetRequest</a>(request));
+                <a href="#" onMouseOver="link('_member','../core/USBD_Stall2593655934',this); ">USBD_Stall</a>(0);
+        }
+    }
+    // Check if this is a standard request
+    else if (<a href="#" onMouseOver="link('_member','../../common/core/USBGenericRequest_GetType2520836348',this); ">USBGenericRequest_GetType</a>(request) == <a href="#" onMouseOver="link('_member','../../common/core/USBGenericRequest_STANDARD1289640896',this); ">USBGenericRequest_STANDARD</a>) {
+
+        // Forward request to the standard handler
+        <a href="#" onMouseOver="link('_member','../core/USBDDriver_RequestHandler3848957855',this); ">USBDDriver_RequestHandler</a>(&amp;(auddSpeakerDriver.usbdDriver), request);
+    }
+    // Unsupported request type
+    else {
+
+        TRACE_WARNING(
+                  "AUDDSpeakerDriver_RequestHandler: Unsupported request type (%d)\n\r",
+                  <a href="#" onMouseOver="link('_member','../../common/core/USBGenericRequest_GetType2520836348',this); ">USBGenericRequest_GetType</a>(request));
+        <a href="#" onMouseOver="link('_member','../core/USBD_Stall2593655934',this); ">USBD_Stall</a>(0);
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

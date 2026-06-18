@@ -1,0 +1,755 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - USB Audio Speaker Device</TITLE>
+<script type="text/javascript" src="../../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../../common/";
+ var relPathToHelpDir = "../../../../../common/help/";
+ var toSearchPage     = "_search','../../../../../search";
+ Body1();
+</script>
+<div class="headerPage">USB Audio Speaker Device</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../usb0',this)" class="pathLink">usb</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../device0',this)" class="pathLink">device</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','audiomi_speaker0',this)" class="pathLink">audio-speaker</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">USB Audio Speaker Device</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("divID73761","aID73761","LeftMenuActive","leftMenuLinkActive");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_page','USBAudioSpeakerDevice0','_description',this)" class="tabLinkActive">Description</a></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<span class="paragraph1">audio-speaker.dir::USB Audio Speaker Device</span>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="padding">This page describes how to use the USB framework to produce a USB Audio Class Device driver.<br>
+<div class="userParagraph1">References</div>
+<ul>
+<li><a href="#" OnMouseOver="link('_page','../../AT91USBdeviceframework0',this)">"AT91 USB device framework"</a></li>
+<li><a href="#" OnMouseOver="link('_page','../../USBDeviceEnumeration0',this)">"USB Device Enumeration"</a></li>
+<li><a href="http://www.usb.org/developers/docs/usb_20_040908.zip">Universal Serial Bus Revision 2.0 specification </a> (.zip file format, size 9.80 MB)</li>
+<li><a href="http://www.usb.org/developers/devclass_docs/audio10.pdf">Audio Device Document 1.0</a></li>
+<li><a href="http://www.usb.org/developers/devclass_docs/frmts10.pdf">Audio Data Formats 1.0</a></li>
+<li><a href="http://www.usb.org/developers/devclass_docs/termt10.pdf">Autio Terminal Types 1.0</a></li>
+</ul>
+
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Audio Speaker Driver API</div>
+<ul>
+<li><a href="#" OnMouseOver="link('_member','AUDDSpeakerDriver_Initialize122',this)">AUDDSpeakerDriver_Initialize</a></li>
+<li><a href="#" OnMouseOver="link('_member','AUDDSpeakerDriver_RequestHandler2520836348',this)">AUDDSpeakerDriver_RequestHandler</a></li>
+<li><a href="#" OnMouseOver="link('_member','../composite/AUDDSpeakerDriver_Read1390444857',this)">AUDDSpeakerDriver_Read</a></li>
+</ul>
+
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Audio Desktop Speaker Description</div>
+ The device described here is a USB desktop speaker. It receives a stero audio <a href="#" OnMouseOver="link('_member','../../../../basic-fatfs-nandflash-project/data0',this)">data</a> stream from the Host over its Audio Streaming interface. The used Audio Data Format is 16-bit 48KHz 2-channel PCM (or mono 16-bit 32KHz PCM for sam7s chips). The following is the internal topology of the speaker.<br>
+<br>
+</div>
+<div class="padding"><div align="center">
+<img src="USBAudioSpeaker.png" alt="USBAudioSpeaker.png">
+<strong><br>USB Desktop Speaker Topology</strong></div>
+<br>
+<br>
+</div>
+<div class="padding">The audio function contains one Onput Terminal that represents the actual speaker output element, followed by the Digital-to-Analog Converter (DAC). The digital input stream of the host enters the audio function through the single Input Pin of the Output terminal. There is a Feature Unit on the audio stream, to mute or unmute the speaker. The Input Terminal is the representation within the audio fucntion of the USB OUT endpoint that eventually receives the audio <a href="#" OnMouseOver="link('_member','../../../../basic-fatfs-nandflash-project/data0',this)">data</a> stream from the Host. The internals of the audio function are presented to the Host through the (mandatory) AudioControl interface wheras the USB OUT endpoint resides in the AudioStreaming interface.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Descriptor Hierarchy</div>
+ This USB Desktop Speaker device includes the AudioControl interface (interface 0) and a single AudioStreaming interface (interface 1). The AudioStreaming interface features two alternate settings. The first alternate setting (Alternate Setting 0) has zero bandwidth associated with it so that switching to this alternate setting effectively frees all allocated bandwidth on the USB for this <a href="#" OnMouseOver="link('_dir','../device0',this)">device</a>. Zero bandwidth is indicated by the lack of a streaming endpoint. Alternate Setting 1 is the operational part of the interface and it has one isochronous OUT endpoint. Figure presents the descriptor hierarchy.<br>
+<br>
+</div>
+<div class="padding"><div align="center">
+<img src="UsbAudioSpeakerDescriptors.png" alt="UsbAudioSpeakerDescriptors.png">
+<strong><br>USB Desktop Speaker Hierarchy</strong></div>
+<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Descriptors</div>
+ The following sections present all the descriptors that are used to describe the device.<br>
+<br>
+</div>
+<div class="padding">All descriptors are combined into a list and pass to <a href="#" OnMouseOver="link('_member','../core/USBDDriver_Initialize3177187375',this)">USBDDriver_Initialize</a> invoked in <a href="#" OnMouseOver="link('_member','AUDDSpeakerDriver_Initialize122',this)">AUDDSpeakerDriver_Initialize</a>.<br>
+<br>
+</div>
+<div class="padding">  <table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+  <TR VALIGN="top">
+  <TD class="paddingHeadMultiColumn2">
+<pre class="codeExamples">
+const <a href="#" onMouseOver="link('_class','../core/USBDDriverDescriptors0',this); ">USBDDriverDescriptors</a> <a href="#" onMouseOver="link('_member','auddSpeakerDriverDescriptors0',this); ">auddSpeakerDriverDescriptors</a>;
+</pre>  </TD>
+  </TR>
+  </TABLE>
+<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph2">Device Descriptor</div>
+  <table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+  <TR VALIGN="top">
+  <TD class="paddingHeadMultiColumn2">
+<pre class="codeExamples">
+const USBDeviceDescriptor <a href="#" onMouseOver="link('_member','deviceDescriptor0',this); ">deviceDescriptor</a>;
+</pre>  </TD>
+  </TR>
+  </TABLE>
+<br>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bLength</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x12</td><td class="userPaddingNormal2">Size of this descriptor, in bytes.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bDescriptorType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">DEVICE descriptor (<a href="#" OnMouseOver="link('_member','../../common/core/USBGenericDescriptor_DEVICE1650235592',this)">USBGenericDescriptor_DEVICE</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">bcdUSB</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0200</td><td class="userPaddingNormal2">2.00 - current revision of USB specification.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">4</td><td class="userPaddingNormal1">bDeviceClass</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Device defined at interface level.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">5</td><td class="userPaddingNormal1">bDeviceSubClass</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">6</td><td class="userPaddingNormal1">bDeviceProtocol</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">7</td><td class="userPaddingNormal1">bMaxPacketSize0</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x08</td><td class="userPaddingNormal2">8 bytes (<a href="#" OnMouseOver="link('_member','../../../boards/at91sam9xe-ek/BOARD_USB_ENDPOINTS_MAXPACKETSIZE3802813679',this)">BOARD_USB_ENDPOINTS_MAXPACKETSIZE(0)</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">8</td><td class="userPaddingNormal1">idVendor</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x03EB</td><td class="userPaddingNormal2">Atmel Vendor ID (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_VENDORID4258692049',this)">AUDDSpeakerDriverDescriptors_VENDORID</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">10</td><td class="userPaddingNormal1">idProduct</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x6128</td><td class="userPaddingNormal2">Product ID (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_PRODUCTID4258692049',this)">AUDDSpeakerDriverDescriptors_PRODUCTID</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">12</td><td class="userPaddingNormal1">bcdDevice</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0100</td><td class="userPaddingNormal2">Device Release Code<br>
+ (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_RELEASE4258692049',this)">AUDDSpeakerDriverDescriptors_RELEASE</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">14</td><td class="userPaddingNormal1">iManufacturer</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">Index to manufacture name in Unicode<br>
+ (<a href="#" OnMouseOver="link('_member','../composite/manufacturerDescriptor0',this)">manufacturerDescriptor</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">15</td><td class="userPaddingNormal1">iProduct</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x02</td><td class="userPaddingNormal2">Index to product name in Unicode (<a href="#" OnMouseOver="link('_member','../composite/productDescriptor0',this)">productDescriptor</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">16</td><td class="userPaddingNormal1">iSerialNumber</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x03</td><td class="userPaddingNormal2">Index to serial number in Unicode<br>
+ (<a href="#" OnMouseOver="link('_member','../composite/serialNumberDescriptor0',this)">serialNumberDescriptor</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">17</td><td class="userPaddingNormal1">bNumConfigurations</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">One configuration.</td></tr>
+</table>
+<br>
+</div>
+<div class="padding"><div class="userParagraph2">Configuration Descriptor</div>
+  <table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+  <TR VALIGN="top">
+  <TD class="paddingHeadMultiColumn2">
+<pre class="codeExamples">
+const AUDDSpeakerDriverConfigurationDescriptors <a href="#" onMouseOver="link('_member','../composite/configurationDescriptors0',this); ">configurationDescriptors</a>;
+</pre>  </TD>
+  </TR>
+  </TABLE>
+<br>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bLength</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x09</td><td class="userPaddingNormal2">Size of this descriptor, in bytes.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bDescriptorType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x02</td><td class="userPaddingNormal2">CONFIGURATION descriptor<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/core/USBGenericDescriptor_CONFIGURATION1650235592',this)">USBGenericDescriptor_CONFIGURATION</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">wTotalLength</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x????</td><td class="userPaddingNormal2">Length of the total configuration block in bytes<br>
+ including this descriptor<br>
+ (AUDDSpeakerDriverConfigurationDescriptors)<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">4</td><td class="userPaddingNormal1">bNumInterfaces</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x02</td><td class="userPaddingNormal2">Two interfaces.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">5</td><td class="userPaddingNormal1">bConfigurationValue</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">ID of this configuration.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">6</td><td class="userPaddingNormal1">iConfiguration</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">7</td><td class="userPaddingNormal1">bmAttributes</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x??</td><td class="userPaddingNormal2"><a href="#" OnMouseOver="link('_member','../../../boards/at91sam9xe-ek/BOARD_USB_BMATTRIBUTES3153881151',this)">BOARD_USB_BMATTRIBUTES</a><br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">8</td><td class="userPaddingNormal1">bMaxPower</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x32</td><td class="userPaddingNormal2">100mA Max. power consumption.<br>
+ <a href="#" OnMouseOver="link('_member','../../common/core/USBConfigurationDescriptor_POWER1218172941',this)">USBConfigurationDescriptor_POWER(100)</a></td></tr>
+</table>
+<br>
+</div>
+<div class="padding"><div class="userParagraph2">AudioControl Interface Descriptor</div>
+ The AudioControl interface describes the device structure (audio function topology) and is used to manipulate the Audio Controls.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Standard AC Interface Descriptor</div>
+ The AudioControl interface has no dedicated endpoints associated with it. It uses the default pipe (endpoint 0) for all communication purposes. Class- specific AudioControl Requests are sent using the default pipe. There is no Status Interrupt endpoint provided.<br>
+<br>
+</div>
+<div class="padding">See USBInterfaceDescriptor.<br>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bLength</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x09</td><td class="userPaddingNormal2">Size of this descriptor, in bytes.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bDescriptorType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x04</td><td class="userPaddingNormal2">INTERFACE descriptor<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/core/USBGenericDescriptor_INTERFACE1650235592',this)">USBGenericDescriptor_INTERFACE</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">bInterfaceNumber</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Index of this interface.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">3</td><td class="userPaddingNormal1">bAlternateSetting</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Index of this setting.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">4</td><td class="userPaddingNormal1">bNumEndpoints</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">0 endpoints.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">5</td><td class="userPaddingNormal1">bInterfaceClass</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">AUDIO (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDControlInterfaceDescriptor_CLASS2239221766',this)">AUDControlInterfaceDescriptor_CLASS</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">6</td><td class="userPaddingNormal1">bInterfaceSubClass</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">AUDIO_CONTROL<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDControlInterfaceDescriptor_SUBCLASS2239221766',this)">AUDControlInterfaceDescriptor_SUBCLASS</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">7</td><td class="userPaddingNormal1">bInterfaceProtocol</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">8</td><td class="userPaddingNormal1">iInterface</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused.</td></tr>
+</table>
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Class-specific AC Interface Descriptor</div>
+ The Class-specific AC interface descriptor is always headed by a Header descriptor that contains general information about the AudioControl interface. It contains all the pointers needed to describe the AudioInterface Collection, associated with the described audio function.<br>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bLength</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x09</td><td class="userPaddingNormal2">Size of this descriptor, in bytes.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bDescriptorType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x24</td><td class="userPaddingNormal2">CS_INTERFACE descriptor<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDGenericDescriptor_INTERFACE3775354943',this)">AUDGenericDescriptor_INTERFACE</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">bDescriptorSubtype</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">HEADER subtype (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDGenericDescriptor_HEADER3775354943',this)">AUDGenericDescriptor_HEADER</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">3</td><td class="userPaddingNormal1">bcdADC</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0100</td><td class="userPaddingNormal2">Revision of class specification - 1.0<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">5</td><td class="userPaddingNormal1">wTotalLength</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x????</td><td class="userPaddingNormal2">Total size of class specific descriptors<br>
+ (AUDDSpeakerDriverAudioControlDescriptors).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">7</td><td class="userPaddingNormal1">bInCollection</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">Number of streaming interfaces.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">8</td><td class="userPaddingNormal1">baInterfaceNr(1)</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">AudioStreaming interface 1 belongs to this AudioControl interface.</td></tr>
+</table>
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Input Terminal Descriptor for playback</div>
+ This descriptor describes the Input Terminal that represents the USB pipe from the Host PC. Its Output <a href="#" OnMouseOver="link('_class','../../../peripherals/pio/Pin0',this)">Pin</a> is connected to the Input <a href="#" OnMouseOver="link('_class','../../../peripherals/pio/Pin0',this)">Pin</a> of the Feature Unit ...<br>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bLength</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x0C</td><td class="userPaddingNormal2">Size of this descriptor, in bytes.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bDescriptorType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x24</td><td class="userPaddingNormal2">CS_INTERFACE descriptor<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDGenericDescriptor_INTERFACE3775354943',this)">AUDGenericDescriptor_INTERFACE</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">bDescriptorSubType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x02</td><td class="userPaddingNormal2">INPUT_TERMINAL subtype<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDGenericDescriptor_INPUTTERMINAL3775354943',this)">AUDGenericDescriptor_INPUTTERMINAL</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">3</td><td class="userPaddingNormal1">bTerminalID</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">ID of this Input Terminal<br>
+ (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_INPUTTERMINAL3956702161',this)">AUDDSpeakerDriverDescriptors_INPUTTERMINAL</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">4</td><td class="userPaddingNormal1">wTerminalType</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0101</td><td class="userPaddingNormal2">Terminal is USB stream<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDInputTerminalDescriptor_USBSTREAMING625245846',this)">AUDInputTerminalDescriptor_USBSTREAMING</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">6</td><td class="userPaddingNormal1">bAssocTerminal</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">Associated to Output Terminal<br>
+ (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_OUTPUTTERMINAL3956702161',this)">AUDDSpeakerDriverDescriptors_OUTPUTTERMINAL</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">7</td><td class="userPaddingNormal1">bNrChannels</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x02</td><td class="userPaddingNormal2">Two channel.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">8</td><td class="userPaddingNormal1">wChannelConfig</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0003</td><td class="userPaddingNormal2">Left plus right front channel.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">10</td><td class="userPaddingNormal1">iChannelNames</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">11</td><td class="userPaddingNormal1">iTerminal</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused.</td></tr>
+</table>
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Output Terminal Descriptor for playback</div>
+ ...<br>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bLength</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x09</td><td class="userPaddingNormal2">Size of this descriptor, in bytes.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bDescriptorType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x24</td><td class="userPaddingNormal2">CS_INTERFACE descriptor<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDGenericDescriptor_INTERFACE3775354943',this)">AUDGenericDescriptor_INTERFACE</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">bDescriptorSubType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x03</td><td class="userPaddingNormal2">OUTPUT_TERMINAL subtype<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDGenericDescriptor_OUTPUTTERMINAL3775354943',this)">AUDGenericDescriptor_OUTPUTTERMINAL</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">3</td><td class="userPaddingNormal1">bTerminalID</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">ID of this Output Terminal<br>
+ (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_OUTPUTTERMINAL3956702161',this)">AUDDSpeakerDriverDescriptors_OUTPUTTERMINAL</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">4</td><td class="userPaddingNormal1">wTerminalType</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0301</td><td class="userPaddingNormal2">Terminal is Desktop speaker.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">6</td><td class="userPaddingNormal1">bAssocTerminal</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">Associated to Input Terminal<br>
+ (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_INPUTTERMINAL3956702161',this)">AUDDSpeakerDriverDescriptors_INPUTTERMINAL</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">7</td><td class="userPaddingNormal1">bSourceID</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x02</td><td class="userPaddingNormal2">From Feature Unit<br>
+ (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_FEATUREUNIT3956702161',this)">AUDDSpeakerDriverDescriptors_FEATUREUNIT</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">8</td><td class="userPaddingNormal1">iTerminal</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused.</td></tr>
+</table>
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Feature Unit Descriptor for playback</div>
+ ...<br>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bLength</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x0A</td><td class="userPaddingNormal2">Size of this descriptor, in bytes.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bDescriptorType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x24</td><td class="userPaddingNormal2">CS_INTERFACE descriptor<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDGenericDescriptor_INTERFACE3775354943',this)">AUDGenericDescriptor_INTERFACE</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">bDescriptorSubType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x02</td><td class="userPaddingNormal2">FEATURE_UNIT subtype<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDGenericDescriptor_FEATUREUNIT3775354943',this)">AUDGenericDescriptor_FEATUREUNIT</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">3</td><td class="userPaddingNormal1">bUnitID</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x02</td><td class="userPaddingNormal2">ID of this Feature Unit<br>
+ (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_FEATUREUNIT3956702161',this)">AUDDSpeakerDriverDescriptors_FEATUREUNIT</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">4</td><td class="userPaddingNormal1">bSourceID</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">From Input Terminal<br>
+ (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_INPUTTERMINAL3956702161',this)">AUDDSpeakerDriverDescriptors_INPUTTERMINAL</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">5</td><td class="userPaddingNormal1">bControlSize</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">1 byte per channel for controls<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">6</td><td class="userPaddingNormal1">bmaControls</td><td class="userPaddingNormal1">3</td><td class="userPaddingNormal1">0x000001</td><td class="userPaddingNormal2">Master channel mute control, no other controls.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">9</td><td class="userPaddingNormal1">iFeature</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused.</td></tr>
+</table>
+<br>
+</div>
+<div class="padding"><div class="userParagraph2">AudioStreaming Interface Descriptor</div>
+ The AudioStreaming interface has two possible alternate settings.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Zero-bandwidth Alternate Setting 0</div>
+ Alternate setting 0 is a zero-bandwidth setting, used to relinquish the claimed bandwidth on the bus when the microphone is not in use. It is the default setting after power-up. The zero bandwidth is implemented by specifying that this alternate setting of the interface has no endpoints associated with it (bNumEndpoints=0). The collection of descriptors for this alternate setting reduces to the standard interface descriptor.<br>
+<br>
+</div>
+<div class="padding">Standard AS Interface Descriptor (USBInterfaceDescriptor)<br>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bLength</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x09</td><td class="userPaddingNormal2">Size of this descriptor, in bytes.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bDescriptorType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x04</td><td class="userPaddingNormal2">INTERFACE descriptor<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/core/USBGenericDescriptor_INTERFACE1650235592',this)">USBGenericDescriptor_INTERFACE</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">bInterfaceNumber</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">Index of this interface.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">3</td><td class="userPaddingNormal1">bAlternateSetting</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Index of this setting.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">4</td><td class="userPaddingNormal1">bNumEndpoints</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">0 endpoint.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">5</td><td class="userPaddingNormal1">bInterfaceClass</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">AUDIO (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDStreamingInterfaceDescriptor_CLASS2998465079',this)">AUDStreamingInterfaceDescriptor_CLASS</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">6</td><td class="userPaddingNormal1">bInterfaceSubClass</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x02</td><td class="userPaddingNormal2">AUDIO_STREAMING<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDStreamingInterfaceDescriptor_SUBCLASS2998465079',this)">AUDStreamingInterfaceDescriptor_SUBCLASS</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">7</td><td class="userPaddingNormal1">bInterfaceProtocol</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDStreamingInterfaceDescriptor_PROTOCOL2998465079',this)">AUDStreamingInterfaceDescriptor_PROTOCOL</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">8</td><td class="userPaddingNormal1">iInterface</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused.</td></tr>
+</table>
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Operational Alternate Setting 1</div>
+ Alternate setting 1 is the operational setting of the interface. It contains the standard and class-specific interface and endpoint descriptors.<br>
+<br>
+</div>
+<div class="padding">Standard AS Interface Descriptor (USBInterfaceDescriptor)<br>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bLength</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x09</td><td class="userPaddingNormal2">Size of USBInterfaceDescriptor in bytes.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bDescriptorType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x04</td><td class="userPaddingNormal2">INTERFACE descriptor<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/core/USBGenericDescriptor_INTERFACE1650235592',this)">USBGenericDescriptor_INTERFACE</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">bInterfaceNumber</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">Index of this interface.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">3</td><td class="userPaddingNormal1">bAlternateSetting</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">Index of this setting.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">4</td><td class="userPaddingNormal1">bNumEndpoints</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">1 endpoint.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">5</td><td class="userPaddingNormal1">bInterfaceClass</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">AUDIO (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDStreamingInterfaceDescriptor_CLASS2998465079',this)">AUDStreamingInterfaceDescriptor_CLASS</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">6</td><td class="userPaddingNormal1">bInterfaceSubClass</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x02</td><td class="userPaddingNormal2">AUDIO_STREAMING<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDStreamingInterfaceDescriptor_SUBCLASS2998465079',this)">AUDStreamingInterfaceDescriptor_SUBCLASS</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">7</td><td class="userPaddingNormal1">bInterfaceProtocol</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDStreamingInterfaceDescriptor_PROTOCOL2998465079',this)">AUDStreamingInterfaceDescriptor_PROTOCOL</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">8</td><td class="userPaddingNormal1">iInterface</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused.</td></tr>
+</table>
+<br>
+</div>
+<div class="padding">Class-specific AS General Interface Descriptor (AUDStreamingInterfaceDescriptor)<br>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bLength</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x06</td><td class="userPaddingNormal2">Size of AUDStreamingInterfaceDescriptor in bytes.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bDescriptorType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x24</td><td class="userPaddingNormal2">CS_INTERFACE descriptor<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDGenericDescriptor_INTERFACE3775354943',this)">AUDGenericDescriptor_INTERFACE</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">bDescriptorSubType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">GENERAL subtype<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDStreamingInterfaceDescriptor_GENERAL2998465079',this)">AUDStreamingInterfaceDescriptor_GENERAL</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">3</td><td class="userPaddingNormal1">bTerminalLink</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x02</td><td class="userPaddingNormal2">Unit ID of the Input Terminal<br>
+ (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_INPUTTERMINAL3956702161',this)">AUDDSpeakerDriverDescriptors_INPUTTERMINAL</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">4</td><td class="userPaddingNormal1">bDelay</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">No interface delay.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">5</td><td class="userPaddingNormal1">wFormatTag</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0001</td><td class="userPaddingNormal2">PCM Format (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDFormatTypeOneDescriptor_PCM1716183118',this)">AUDFormatTypeOneDescriptor_PCM</a>).</td></tr>
+</table>
+<br>
+</div>
+<div class="padding">Type <a href="#" OnMouseOver="link('_member','../../../components/slcd/s7leklcd/I2322502027',this)">I</a> Format Type Descriptor (AUDFormatTypeOneDescriptor1)<br>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bLength</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x0B</td><td class="userPaddingNormal2">Size of AUDFormatTypeOneDescriptor1 in bytes.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bDescriptorType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x24</td><td class="userPaddingNormal2">CS_INTERFACE descriptor\ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDGenericDescriptor_INTERFACE3775354943',this)">AUDGenericDescriptor_INTERFACE</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">bDescriptorSubType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x02</td><td class="userPaddingNormal2">FORMAT_TYPE subtype<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDStreamingInterfaceDescriptor_FORMATTYPE2998465079',this)">AUDStreamingInterfaceDescriptor_FORMATTYPE</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">3</td><td class="userPaddingNormal1">bFormatType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">FORMAT_TYPE_I (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDFormatTypeOneDescriptor_FORMATTYPEONE1716183118',this)">AUDFormatTypeOneDescriptor_FORMATTYPEONE</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">4</td><td class="userPaddingNormal1">bNrChannels</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x02</td><td class="userPaddingNormal2">2 channels (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriver_NUMCHANNELS1883471811',this)">AUDDSpeakerDriver_NUMCHANNELS</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">5</td><td class="userPaddingNormal1">bSubFrameSize</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x02</td><td class="userPaddingNormal2">Two bytes per <a href="#" OnMouseOver="link('_dir','../../common/audio/audio0',this)">audio</a> subframe<br>
+ (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriver_BYTESPERSAMPLE1883471811',this)">AUDDSpeakerDriver_BYTESPERSAMPLE</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">6</td><td class="userPaddingNormal1">bBitResolution</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x10</td><td class="userPaddingNormal2">16 bits per sample<br>
+ (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriver_BYTESPERSAMPLE1883471811',this)">AUDDSpeakerDriver_BYTESPERSAMPLE</a> * 2).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">7</td><td class="userPaddingNormal1">bSamFreqType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">One frequency supported.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">8</td><td class="userPaddingNormal1">tSamFreq</td><td class="userPaddingNormal1">3</td><td class="userPaddingNormal1">4800</td><td class="userPaddingNormal2">4800Hz (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriver_SAMPLERATE1883471811',this)">AUDDSpeakerDriver_SAMPLERATE</a>).</td></tr>
+</table>
+<br>
+</div>
+<div class="padding">Standard Endpoint Descriptor (AUDEndpointDescriptor)<br>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bLength</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x09</td><td class="userPaddingNormal2">Size of AUDFormatTypeOneDescriptor1 in bytes.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bDescriptorType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x24</td><td class="userPaddingNormal2">ENDPOINT descriptor (<a href="#" OnMouseOver="link('_member','../../common/core/USBGenericDescriptor_ENDPOINT1650235592',this)">USBGenericDescriptor_ENDPOINT</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">bEndpointAddress</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x04</td><td class="userPaddingNormal2">OUT endpoint 4<br>
+ See <a href="#" OnMouseOver="link('_member','../../common/core/USBEndpointDescriptor_ADDRESS4276958267',this)">USBEndpointDescriptor_ADDRESS</a><br>
+ See <a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_DATAOUT3956702161',this)">AUDDSpeakerDriverDescriptors_DATAOUT</a>.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">3</td><td class="userPaddingNormal1">bmAttributes</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">Isochronous, not shared<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/core/USBEndpointDescriptor_ISOCHRONOUS2482486366',this)">USBEndpointDescriptor_ISOCHRONOUS</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">4</td><td class="userPaddingNormal1">wMaxPacketSize</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x????</td><td class="userPaddingNormal2"><a href="#" OnMouseOver="link('_member','../../../boards/at91cap9-dk/BOARD_USB_ENDPOINTS_MAXPACKETSIZE2892118432',this)">BOARD_USB_ENDPOINTS_MAXPACKETSIZE()</a>.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">6</td><td class="userPaddingNormal1">bInterval</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">One packet per frame.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">7</td><td class="userPaddingNormal1">bRefresh</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">8</td><td class="userPaddingNormal1">bSynchAddress</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused.</td></tr>
+</table>
+<br>
+</div>
+<div class="padding">Class-specific Isochronous Audio Data <a href="#" OnMouseOver="link('_class','../core/Endpoint0',this)">Endpoint</a> Descriptor (AUDDataEndpointDescriptor)<br>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bLength</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x07</td><td class="userPaddingNormal2">Size of AUDDataEndpointDescriptor in bytes.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bDescriptorType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x25</td><td class="userPaddingNormal2">CS_ENDPOINT descriptor<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDGenericDescriptor_ENDPOINT3775354943',this)">AUDGenericDescriptor_ENDPOINT</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">bDescriptorSubType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">GENERAL subtype<br>
+ (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDDataEndpointDescriptor_SUBTYPE2335381245',this)">AUDDataEndpointDescriptor_SUBTYPE</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">3</td><td class="userPaddingNormal1">bmAttributes</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">No sampling frequency control<br>
+ no pitch control<br>
+ no packet padding.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">4</td><td class="userPaddingNormal1">bLockDelayUnits</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x00</td><td class="userPaddingNormal2">Unused.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">5</td><td class="userPaddingNormal1">wLockDelay</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0000</td><td class="userPaddingNormal2">Unused.</td></tr>
+</table>
+<br>
+</div>
+<div class="padding"><div class="userParagraph2">String Descriptors</div>
+ There are three string descriptors available. The Manufacturer, Product and Serial Number descriptor.<br>
+<br>
+</div>
+<div class="padding">See <a href="#" OnMouseOver="link('_member','../composite/manufacturerDescriptor0',this)">manufacturerDescriptor</a>, <a href="#" OnMouseOver="link('_member','../composite/productDescriptor0',this)">productDescriptor</a>, <a href="#" OnMouseOver="link('_member','../composite/serialNumberDescriptor0',this)">serialNumberDescriptor</a>.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Requests</div>
+ The Audio Speaker Driver supports all necessary standard requests, and some class-specific requests.<br>
+<br>
+</div>
+<div class="padding"><a href="#" OnMouseOver="link('_member','../../../../usb-device-core-project/USBDCallbacks_RequestReceived2520836348',this)">USBDCallbacks_RequestReceived</a> is used to filter all requests, <a href="#" OnMouseOver="link('_member','AUDDSpeakerDriver_RequestHandler2520836348',this)">AUDDSpeakerDriver_RequestHandler</a> is invoked to handle Audio Class requests and forward standard request to <a href="#" OnMouseOver="link('_member','AUDDSpeakerDriver_RequestHandler2520836348',this)">AUDDSpeakerDriver_RequestHandler</a>.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph2">Standard requests</div>
+ Set Interface request should be processed to control bandwidth allocation.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Set Interface</div>
+ <a href="#" OnMouseOver="link('_member','../core/USBDDriverCallbacks_InterfaceSettingChanged898012104',this)">USBDDriverCallbacks_InterfaceSettingChanged</a> is re-implemented to handle the event.<br>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bmRequestType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">D7:0=Host to Device.<br>
+ D6..5:00=Standard Request.<br>
+ D4..0:00001=Recipient is interface.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bRequest</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x0B</td><td class="userPaddingNormal2">SET_INTERFACE.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">wValue</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0000<br>
+ or<br>
+ 0x0001</td><td class="userPaddingNormal2">Zero bandwidth or normal isochronous operation.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">4</td><td class="userPaddingNormal1">wIndex</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0001</td><td class="userPaddingNormal2">Interface number of the AudioStreaming interface.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">6</td><td class="userPaddingNormal1">wLength</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0000</td><td class="userPaddingNormal2">No Parameter Block.</td></tr>
+</table>
+<br>
+</div>
+<div class="padding"><div class="userParagraph2">Class-specific requests</div>
+ The only class-specific Request supported is the Set/Get Feature Unit Control Request. For mute control of the Feature Unit.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Set Feature Unit Control Request</div>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bmRequestType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">D7:0=Host to Device.<br>
+ D6..5:01=Class Request.<br>
+ D4..0:00001=Recipient is interface.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bRequest</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">SET_CUR.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">wValue</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0100</td><td class="userPaddingNormal2">Mute control (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDFeatureUnitRequest_MUTE2123489857',this)">AUDFeatureUnitRequest_MUTE</a>) of<br>
+ Master channel (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriver_MASTERCHANNEL1883471811',this)">AUDDSpeakerDriver_MASTERCHANNEL</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">4</td><td class="userPaddingNormal1">wIndex</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0200</td><td class="userPaddingNormal2">Feature Unit (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_FEATUREUNIT3956702161',this)">AUDDSpeakerDriverDescriptors_FEATUREUNIT</a>)<br>
+ and<br>
+ AudioControl Interface (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_CONTROL3956702161',this)">AUDDSpeakerDriverDescriptors_CONTROL</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">6</td><td class="userPaddingNormal1">wLength</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0001</td><td class="userPaddingNormal2">Paramter Block Length</td></tr>
+</table>
+<br>
+</div>
+<div class="padding">The one-byte Parameter Block contains the new bMuted value for Feature Control.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Get Feature Unit Control Request</div>
+<table cellspacing=0 cellpadding=0 border=0 class="userTableBorder">
+<tr>
+<td class="userPaddingHeadMultiColumn1">Offset</td><td class="userPaddingHeadMultiColumn1">Field</td><td class="userPaddingHeadMultiColumn1">Size</td><td class="userPaddingHeadMultiColumn1">Value</td><td class="userPaddingHeadMultiColumn2">Description<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">0</td><td class="userPaddingNormal1">bmRequestType</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x01</td><td class="userPaddingNormal2">D7:0=Host to Device.<br>
+ D6..5:01=Class Request.<br>
+ D4..0:00001=Recipient is interface.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">bRequest</td><td class="userPaddingNormal1">1</td><td class="userPaddingNormal1">0x81</td><td class="userPaddingNormal2">GET_CUR.<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">wValue</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0100</td><td class="userPaddingNormal2">Mute control (<a href="#" OnMouseOver="link('_member','../../common/audio/AUDFeatureUnitRequest_MUTE2123489857',this)">AUDFeatureUnitRequest_MUTE</a>) of<br>
+ Master channel (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriver_MASTERCHANNEL1883471811',this)">AUDDSpeakerDriver_MASTERCHANNEL</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">4</td><td class="userPaddingNormal1">wIndex</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0200</td><td class="userPaddingNormal2">Feature Unit (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_FEATUREUNIT3956702161',this)">AUDDSpeakerDriverDescriptors_FEATUREUNIT</a>)<br>
+ and<br>
+ AudioControl Interface (<a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_CONTROL3956702161',this)">AUDDSpeakerDriverDescriptors_CONTROL</a>).<br>
+</td></tr>
+<tr>
+<td class="userPaddingNormal1">6</td><td class="userPaddingNormal1">wLength</td><td class="userPaddingNormal1">2</td><td class="userPaddingNormal1">0x0001</td><td class="userPaddingNormal2">Paramter Block Length</td></tr>
+</table>
+<br>
+</div>
+<div class="padding">The one-byte Parameter Block contains the new bMuted value for Feature Control.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Modify the Device Driver</div>
+ You <a href="#" OnMouseOver="link('_dir','../../../peripherals/can/can0',this)">can</a> modify your project from the USB Audio Demoes:<ul>
+<li>usb-device-audio-speaker-ac97-project</li>
+<li>usb-device-audio-speaker-project</li>
+</ul>
+
+<br>
+</div>
+<div class="padding"><div class="userParagraph2">Change Device ID and Display</div>
+ All Device ID and Display Strings are in <a href="#" OnMouseOver="link('_file','AUDDSpeakerDriverDescriptors_c0',this)">AUDDSpeakerDriverDescriptors.c</a>.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Device IDs</div>
+ You <a href="#" OnMouseOver="link('_dir','../../../peripherals/can/can0',this)">can</a> find <a href="#" OnMouseOver="link('_page','AudioSpeakerDeviceCodes0',this)">"Audio Speaker Device Codes"</a><ul>
+<li><a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_VENDORID4258692049',this)">AUDDSpeakerDriverDescriptors_VENDORID</a></li>
+<li><a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_PRODUCTID4258692049',this)">AUDDSpeakerDriverDescriptors_PRODUCTID</a></li>
+<li><a href="#" OnMouseOver="link('_member','AUDDSpeakerDriverDescriptors_RELEASE4258692049',this)">AUDDSpeakerDriverDescriptors_RELEASE</a></li>
+</ul>
+
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Display Strings</div>
+ You <a href="#" OnMouseOver="link('_dir','../../../peripherals/can/can0',this)">can</a> modify the string descriptors<ul>
+<li><a href="#" OnMouseOver="link('_member','../composite/manufacturerDescriptor0',this)">manufacturerDescriptor</a></li>
+<li><a href="#" OnMouseOver="link('_member','../composite/productDescriptor0',this)">productDescriptor</a></li>
+<li><a href="#" OnMouseOver="link('_member','../composite/serialNumberDescriptor0',this)">serialNumberDescriptor</a></li>
+</ul>
+
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Add Recorder Function</div>
+ See <a href="#" OnMouseOver="link('_page','USBAudioRecorder0',this)">"USB Audio Recorder"</a>.<br>
+</div>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="paragraph2">Source</div>
+<div class="paddingMembers">The documentation for this Page was generated from the following file:</div>
+<div class="paddingMembers"><LI>audio-speaker.dir<br></div>
+<div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_page','_description');
+</script>

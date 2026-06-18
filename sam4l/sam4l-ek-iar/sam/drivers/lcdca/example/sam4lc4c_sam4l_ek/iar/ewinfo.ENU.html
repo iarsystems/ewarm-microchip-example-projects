@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.w3.org/MarkUp/SCHEMA/xhtml11.xsd"
+     xml:lang="en">
+  <head>
+    <title>Information Center for ARM</title>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" media="all" href="file://$TOOLKIT_DIR$/doc/infocenter/style/ewic.css" />
+  </head>
+  <body>
+  <div id="topbanner"></div>
+  <div id="titlebanner_small">
+    <h2>Information Center for ARM</h2>
+  </div>
+  <div class="breadcrumb"><a href="$TOOLKIT_DIR$/doc/infocenter/index.ENU.html">Information Center for ARM</a> | EXAMPLES</div>
+  <div class="mainblock">
+   <h2>Example description</h2>
+   <pre>
+LCDCA example
+
+DESCRIPTION
+===========
+  This example demonstrates how to use the LCDCA driver to interface to an external
+  LCD (C42364A).
+
+  The example configures the LCDCA Controller in a mode defined by the LCD
+  glass board connections, and the technical characteristics of the LCD
+  component used. It uses the following LCDCA controller features:
+   - LCD contrast control
+   - Hardware blinking
+   - Autonomous segment animation
+   - Automated character (sequential and scrolling)
+   - ASCII digit encoder
+   - LCD beginning of frame interrupt
+ 
+  The LCDCA is set up to use the external 32.768kHz clock to generate LCD frames at
+  64Hz, using a low power waveform to reduce toggle activity, and hence power
+  consumption. In order to show the LCD Controller's capability of running in
+  a power-saving mode, sleep mode is entered whenever possible.
+
+  Main Files
+   - lcdca.c: Liquid Crystal Display Controller driver
+   - lcdca.h: Liquid Crystal Display Controller driver header file
+   - lcdca_example.c: Liquid Crystal Display Controller example application
+   - conf_example.h: Liquid Crystal Display Controller example configuration header file
+ 
+COMPATIBILITY
+=============
+  The example project is compatible with Microchip SAM4L-EK evaluation board.
+
+CONFIGURATION
+=============
+  Debug   - The configuration runs the example from the internal flash memory.
+  Release - The configuration runs the example from the internal flash memory 
+            with no debug info.
+
+  Please set the following settings in your terminal software:
+
+  Baud rate : 115200
+  Data bits : 8
+  Parity    : none
+  Stop bits : 1
+
+  Use the virtual JLink CDC UART Port number, when configuring the COM port.
+
+GETTING STARTED
+===============
+  1) Choose a confguration.
+  2) Build the example.
+  3) Open the JLink CDC UART Port with a terminal program on your PC.
+  4) Download and run the example.
+
+</pre>
+  </div>
+  </body>
+</html>

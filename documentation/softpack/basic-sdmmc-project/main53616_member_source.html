@@ -1,0 +1,209 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_sdmmcmi_project0',this)" class="pathLink">basic-sdmmc-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 1106</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>(void)
+{
+    unsigned int i;
+    unsigned char connected = 0;
+    unsigned char speedNdx = 0, accPart = 0;
+  #if defined(MCI2_INTERFACE)
+    unsigned char nextAccPart = 0;
+    unsigned char hsMode = 0, mciHsEnable = 0;
+  #endif
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_CONFIGURE1432879529',this); ">TRACE_CONFIGURE</a>(DBGU_STANDARD, 115200, BOARD_MCK);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Basic SD/MMC MCI Mode Project %s --\n\r", SOFTPACK_VERSION);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- %s\n\r", BOARD_NAME);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Buffer@%x,size 0x%x\n\r",
+           (unsigned int)pBuffer, sizeof(pBuffer));
+
+    // Configure SDcard pins
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(pinsSd, <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_LISTSIZE2758449565',this); ">PIO_LISTSIZE</a>(pinsSd));
+
+    // Wait for SD card connection (if supported)
+    CardDetectConfigure();
+
+    // Check if card is write-protected (if supported)
+    <a href="#" onMouseOver="link('_member','../basic-sd-spi-project/CheckProtection53616',this); ">CheckProtection</a>(0);
+
+    // Initialize the SD card driver
+    // Initialize the MCI driver
+    #if defined(MCI2_INTERFACE)
+    <a href="#" onMouseOver="link('_member','../at91lib/drivers/dmad/DMAD_Initialize2593655934',this); ">DMAD_Initialize</a>(BOARD_MCI_DMA_CHANNEL);
+    #endif
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_ConfigureIT3223024299',this); ">IRQ_ConfigureIT</a>(BOARD_SD_MCI_ID,  1, MCI0_IrqHandler);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_EnableIT171142247',this); ">IRQ_EnableIT</a>(BOARD_SD_MCI_ID);
+
+    //printf("-I- TC Start ... ");
+    <a href="#" onMouseOver="link('_member','ConfigureTc053616',this); ">ConfigureTc0</a>();
+    i = tick100u;
+    while(i == tick100u);
+    //printf("OK\n\r");
+
+    // Card insert detection loop
+    for(;;) {
+
+        if (CardIsConnected(0)) {
+            if (connected == 0) {
+                connected = 1;
+
+                // Delay before card initialize
+                <a href="#" onMouseOver="link('_member','../basic-sdmmc-test-project/DelayMs2593655934',this); ">DelayMs</a>(200);
+
+                // Do card test
+                <a href="#" onMouseOver="link('_member','../basic-sdmmc-test-project/CardInit2593655934',this); ">CardInit</a>(0);
+              #if defined(MCI2_INTERFACE)
+                hsMode = <a href="#" onMouseOver="link('_member','../at91lib/memories/sdmmc/SD_HighSpeedMode3687321189',this); ">SD_HighSpeedMode</a>(&amp;sdDrv, 0xFF);
+                mciHsEnable = 0;
+              #endif
+            }
+        }
+        else if (connected) {
+            connected = 0;
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("** Card Disconnected\n\r");
+            <a href="#" onMouseOver="link('_member','../at91lib/memories/sdmmc/SD_Stop1676226939',this); ">SD_Stop</a>(&amp;sdDrv, (<a href="#" onMouseOver="link('_class','../at91lib/memories/sdmmc/SdDriver0',this); ">SdDriver</a> *)&amp;mciDrv);
+        }
+
+        if (connected) {
+
+            if (<a href="#" onMouseOver="link('_member','../at91lib/peripherals/dbgu/DBGU_IsRxReady53616',this); ">DBGU_IsRxReady</a>()) {
+                switch(<a href="#" onMouseOver="link('_member','../at91lib/peripherals/dbgu/DBGU_GetChar53616',this); ">DBGU_GetChar</a>()) {
+                    case '0':  <a href="#" onMouseOver="link('_member','../basic-sdmmc-test-project/BlockTest361150951',this); ">BlockTest</a>(0, 0);             break;
+                    case '1':  <a href="#" onMouseOver="link('_member','../basic-sdmmc-test-project/BlockTest361150951',this); ">BlockTest</a>(0, 1);             break;
+                    case '2':  <a href="#" onMouseOver="link('_member','../basic-sdmmc-test-project/BlockTest361150951',this); ">BlockTest</a>(0, 2);             break;
+                    case 'd':  <a href="#" onMouseOver="link('_member','../basic-sdmmc-test-project/BlockDump2593655934',this); ">BlockDump</a>(0);                break;
+                    case 'w':  <a href="#" onMouseOver="link('_member','../basic-sdmmc-test-project/WriteTest3110917852',this); ">WriteTest</a>(0, accPart, 0);    break;
+                    case 'W':  <a href="#" onMouseOver="link('_member','../basic-sdmmc-test-project/WriteTest3110917852',this); ">WriteTest</a>(0, accPart, 1);    break;
+
+#if defined(MCI2_INTERFACE) &amp;&amp; defined(AT91C_MCI_SPCMD_BOOTREQ)
+                    // Run boot test
+                    case 'b':
+                        BootTest(0, 1);
+                        break;
+
+                    // Change access partition
+                    case 'B':
+                        //nextAccPart = accPart;
+                        nextAccPart ++;
+                        if (nextAccPart &gt;= 3) nextAccPart = 0;
+                        if(ChangeAccPartition(0, nextAccPart))
+                            accPart = nextAccPart;
+                        break;
+#endif
+
+                    // Initialize the card again
+                    case 'I':  case 'i':
+                        <a href="#" onMouseOver="link('_member','../at91lib/memories/sdmmc/SD_Stop1676226939',this); ">SD_Stop</a>(&amp;sdDrv, (<a href="#" onMouseOver="link('_class','../at91lib/memories/sdmmc/SdDriver0',this); ">SdDriver</a> *)&amp;mciDrv);
+                        <a href="#" onMouseOver="link('_member','../basic-sdmmc-test-project/CardInit2593655934',this); ">CardInit</a>(0);
+                      #if defined(MCI2_INTERFACE)
+                        hsMode = <a href="#" onMouseOver="link('_member','../at91lib/memories/sdmmc/SD_HighSpeedMode3687321189',this); ">SD_HighSpeedMode</a>(&amp;sdDrv, 0xFF);
+                        mciHsEnable = 0;
+                      #endif
+                        break;
+
+                    // Run test on whole disk
+                    case 't':
+                        <a href="#" onMouseOver="link('_member','../basic-sdmmc-test-project/DiskTest3056181015',this); ">DiskTest</a>(0, 1, 1, 1);
+                        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+                        break;
+
+                    // Run performence test
+                    case 'T':
+                        <a href="#" onMouseOver="link('_member','../basic-sdmmc-test-project/PerformanceTest3056181015',this); ">PerformanceTest</a>(0, 1, 1, 0);
+                        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+                        break;
+
+                    // Read/Verify ONLY test
+                    case 'v':
+                        <a href="#" onMouseOver="link('_member','../basic-sdmmc-test-project/DiskTest3056181015',this); ">DiskTest</a>(0, 0, 0, 1);
+                        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+                        break;
+                    case 'V':
+                        <a href="#" onMouseOver="link('_member','../basic-sdmmc-test-project/PerformanceTest3056181015',this); ">PerformanceTest</a>(0, 0, 1, 1);
+                        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+                        break;
+
+                    // HS mode switch
+                  #if defined(MCI2_INTERFACE)
+                    case 'H':
+                        if (0 == <a href="#" onMouseOver="link('_member','../at91lib/memories/sdmmc/SD_HighSpeedMode3687321189',this); ">SD_HighSpeedMode</a>(&amp;sdDrv, !hsMode)) {
+                            hsMode = !hsMode;
+                            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-!- Card HS Mode -&gt; %d\n\r", hsMode);
+                            DumpCardInfo(0);
+                        }
+                        break;
+                    case 'h':
+                        <a href="#" onMouseOver="link('_member','../at91lib/peripherals/mci/MCI_EnableHsMode2497022960',this); ">MCI_EnableHsMode</a>(&amp;mciDrv, !mciHsEnable);
+                        mciHsEnable = !mciHsEnable;
+                        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-!- MCI HS Mode -&gt; %d\n\r", mciHsEnable);
+                        break;
+                  #endif
+
+                    // Change card speed
+                    case 's':
+                    {   unsigned int newSpeed = speedList[speedNdx] * 1000000;
+                        if (<a href="#" onMouseOver="link('_member','../basic-sdmmc-test-project/ChangeMciSpeed361150951',this); ">ChangeMciSpeed</a>(0, newSpeed)) {
+                            speedNdx = 0;
+                        }
+                        else {
+                            speedNdx ++;
+                            if (speedNdx &gt; sizeof(speedList)) speedNdx = 0;
+                        }
+                        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-!- Change MCI CLOCK -&gt; %d\n\r", sdSpeed);
+                    }
+                        break;
+
+                    // Change performance test block size
+                    case 'p':
+                    {   if (performanceMultiBlock &gt;= <a href="#" onMouseOver="link('_member','NB_MULTI_BLOCKS1584368743',this); ">NB_MULTI_BLOCKS</a>)
+                            performanceMultiBlock = 1;
+                        else
+                            performanceMultiBlock &lt;&lt;= 1;
+                        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-!- Performance Multi set to %d\n\r",
+                            performanceMultiBlock);
+                    }
+                        break;
+
+                    // Show help information
+                    default:    <a href="#" onMouseOver="link('_member','DumpMenu53616',this); ">DumpMenu</a>();
+                }
+            }
+        }
+    }
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

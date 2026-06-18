@@ -1,0 +1,115 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - LowLevelInit</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">LowLevelInit</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../boards0',this)" class="pathLink">boards</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','at91sam9g10mi_ek0',this)" class="pathLink">at91sam9g10-ek</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">LowLevelInit</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','LowLevelInit53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','LowLevelInit53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 102</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','../at91cap9-stk/LowLevelInit53616',this); ">LowLevelInit</a>(void)
+{
+    unsigned char i;
+
+#if !defined(sdram)
+
+    /* Initialize main oscillator
+     ****************************/
+    AT91C_BASE_PMC-&gt;PMC_MOR = <a href="#" onMouseOver="link('_member','../at91sam9xe-ek/BOARD_OSCOUNT1844057264',this); ">BOARD_OSCOUNT</a> | AT91C_CKGR_MOSCEN;
+    while (!(AT91C_BASE_PMC-&gt;PMC_SR &amp; AT91C_PMC_MOSCS));
+
+    /* Initialize PLLA at 266MHz */
+    AT91C_BASE_PMC-&gt;PMC_PLLAR = <a href="#" onMouseOver="link('_member','../at91sam9xe-ek/BOARD_CKGR_PLLA1844057264',this); ">BOARD_CKGR_PLLA</a>
+                                | <a href="#" onMouseOver="link('_member','../at91sam9xe-ek/BOARD_PLLACOUNT1844057264',this); ">BOARD_PLLACOUNT</a>
+                                | <a href="#" onMouseOver="link('_member','../at91sam9xe-ek/BOARD_MULA1844057264',this); ">BOARD_MULA</a>
+                                | <a href="#" onMouseOver="link('_member','../at91sam9xe-ek/BOARD_DIVA1844057264',this); ">BOARD_DIVA</a>;
+    while (!(AT91C_BASE_PMC-&gt;PMC_SR &amp; AT91C_PMC_LOCKA));
+
+    // Initialize PLLB for USB usage (if not already locked)
+    if (!(AT91C_BASE_PMC-&gt;PMC_SR &amp; AT91C_PMC_LOCKB)) {
+        AT91C_BASE_PMC-&gt;PMC_PLLBR = <a href="#" onMouseOver="link('_member','../at91sam9xe-ek/BOARD_USBDIV1844057264',this); ">BOARD_USBDIV</a>
+                                    | <a href="#" onMouseOver="link('_member','../at91sam9xe-ek/BOARD_CKGR_PLLB1844057264',this); ">BOARD_CKGR_PLLB</a>
+                                    | <a href="#" onMouseOver="link('_member','../at91sam9xe-ek/BOARD_PLLBCOUNT1844057264',this); ">BOARD_PLLBCOUNT</a>
+                                    | <a href="#" onMouseOver="link('_member','../at91sam9xe-ek/BOARD_MULB1844057264',this); ">BOARD_MULB</a>
+                                    | <a href="#" onMouseOver="link('_member','../at91sam9xe-ek/BOARD_DIVB1844057264',this); ">BOARD_DIVB</a>;
+        while (!(AT91C_BASE_PMC-&gt;PMC_SR &amp; AT91C_PMC_LOCKB));
+    }
+
+    /* Wait for the master clock if it was already initialized */
+    while (!(AT91C_BASE_PMC-&gt;PMC_SR &amp; AT91C_PMC_MCKRDY));
+
+    /* Switch to fast clock
+     **********************/
+    /* Switch to main oscillator + prescaler */
+    AT91C_BASE_PMC-&gt;PMC_MCKR = <a href="#" onMouseOver="link('_member','../at91sam7l-ek/BOARD_PRESCALER3433702514',this); ">BOARD_PRESCALER</a>;
+    while (!(AT91C_BASE_PMC-&gt;PMC_SR &amp; AT91C_PMC_MCKRDY));
+
+    /* Switch to PLL + prescaler */
+    AT91C_BASE_PMC-&gt;PMC_MCKR |= AT91C_PMC_CSS_PLLA_CLK;
+    while (!(AT91C_BASE_PMC-&gt;PMC_SR &amp; AT91C_PMC_MCKRDY));
+#endif //#if !defined(sdram)
+
+    /* Initialize AIC
+     ****************/
+    AT91C_BASE_AIC-&gt;AIC_IDCR = 0xFFFFFFFF;
+    AT91C_BASE_AIC-&gt;AIC_SVR[0] = (unsigned int) <a href="#" onMouseOver="link('_member','../at91cap9-dk/defaultFiqHandler53616',this); ">defaultFiqHandler</a>;
+    for (i = 1; i &lt; 31; i++) {
+
+        AT91C_BASE_AIC-&gt;AIC_SVR[i] = (unsigned int) <a href="#" onMouseOver="link('_member','../at91cap9-dk/defaultIrqHandler53616',this); ">defaultIrqHandler</a>;
+    }
+    AT91C_BASE_AIC-&gt;AIC_SPU = (unsigned int) <a href="#" onMouseOver="link('_member','../at91cap9-dk/defaultSpuriousHandler53616',this); ">defaultSpuriousHandler</a>;
+
+    // Unstack nested interrupts
+    for (i = 0; i &lt; 8 ; i++) {
+
+        AT91C_BASE_AIC-&gt;AIC_EOICR = 0;
+    }
+
+    // Enable Debug mode
+    //AT91C_BASE_AIC-&gt;AIC_DCR = AT91C_AIC_DCR_PROT;
+
+    /* Watchdog initialization
+     *************************/
+    AT91C_BASE_WDTC-&gt;WDTC_WDMR = AT91C_WDTC_WDDIS;
+
+    /* Remap
+     *******/
+    <a href="#" onMouseOver="link('_member','../at91cap9-stk/BOARD_RemapRam53616',this); ">BOARD_RemapRam</a>();
+
+    // Disable RTT and PIT interrupts (potential problem when program A
+    // configures RTT, then program B wants to use PIT only, interrupts
+    // from the RTT will still occur since they both use AT91C_ID_SYS)
+    <a href="#" onMouseOver="link('_member','../../../basic-rtt-project/AT91C_BASE_RTTC1214480475',this); ">AT91C_BASE_RTTC</a>-&gt;RTTC_RTMR &amp;= ~(AT91C_RTTC_ALMIEN | AT91C_RTTC_RTTINCIEN);
+    AT91C_BASE_PITC-&gt;PITC_PIMR &amp;= ~AT91C_PITC_PITIEN;
+
+#if defined(norflash)
+    <a href="#" onMouseOver="link('_member','../at91sam9xe-ek/BOARD_ConfigureNorFlash2593655934',this); ">BOARD_ConfigureNorFlash</a>(BOARD_NORFLASH_DFT_BUS_SIZE);
+#endif
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

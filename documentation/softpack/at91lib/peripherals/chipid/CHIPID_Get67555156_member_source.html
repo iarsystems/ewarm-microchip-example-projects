@@ -1,0 +1,55 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - CHIPID_Get</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">CHIPID_Get</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','chipid0',this)" class="pathLink">chipid</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">CHIPID_Get</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','CHIPID_Get67555156','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','CHIPID_Get67555156','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 222</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','CHIPID_Get67555156',this); ">CHIPID_Get</a>(<a href="#" onMouseOver="link('_class','_ChipId0',this); ">ChipId</a> *pChipId)
+{
+    unsigned int chipId, chipIdExt;
+
+    chipId = AT91C_BASE_DBGU-&gt;DBGU_CIDR;
+    chipIdExt = AT91C_BASE_DBGU-&gt;DBGU_EXID;
+
+    pChipId-&gt;<a href="#" onMouseOver="link('_member','version433417',this); ">version</a> = CHIPID_ID(chipId, AT91C_CHIPID_CIDR_VERSION_BITFLD, AT91C_CHIPID_CIDR_VERSION_BITS);
+    pChipId-&gt;<a href="#" onMouseOver="link('_member','eProc433417',this); ">eProc</a> = CHIPID_ID(chipId, AT91C_CHIPID_CIDR_EPROC_BITFLD, AT91C_CHIPID_CIDR_EPROC_BITS);
+    pChipId-&gt;<a href="#" onMouseOver="link('_member','nvpSiz433417',this); ">nvpSiz</a> = CHIPID_ID(chipId, AT91C_CHIPID_CIDR_NVPSIZ_BITFLD, AT91C_CHIPID_CIDR_NVPSIZ_BITS);
+    pChipId-&gt;<a href="#" onMouseOver="link('_member','nvpSiz2433417',this); ">nvpSiz2</a> = CHIPID_ID(chipId, AT91C_CHIPID_CIDR_NVPSIZ2_BITFLD, AT91C_CHIPID_CIDR_NVPSIZ2_BITS);
+    pChipId-&gt;<a href="#" onMouseOver="link('_member','sramSiz433417',this); ">sramSiz</a> = CHIPID_ID(chipId, AT91C_CHIPID_CIDR_SRAMSIZ_BITFLD, AT91C_CHIPID_CIDR_SRAMSIZ_BITS);
+    pChipId-&gt;<a href="#" onMouseOver="link('_member','arch433417',this); ">arch</a> = CHIPID_ID(chipId, AT91C_CHIPID_CIDR_ARCH_BITFLD, AT91C_CHIPID_CIDR_ARCH_BITS);
+    pChipId-&gt;<a href="#" onMouseOver="link('_member','nvpTyp433417',this); ">nvpTyp</a> = CHIPID_ID(chipId, AT91C_CHIPID_CIDR_NVPTYP_BITFLD, AT91C_CHIPID_CIDR_NVPTYP_BITS);
+    pChipId-&gt;<a href="#" onMouseOver="link('_member','extFlag433417',this); ">extFlag</a>= CHIPID_ID(chipId, AT91C_CHIPID_CIDR_EXT_BITFLD, AT91C_CHIPID_CIDR_EXT_BITS);
+    pChipId-&gt;<a href="#" onMouseOver="link('_member','extID433417',this); ">extID</a> = chipIdExt;
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

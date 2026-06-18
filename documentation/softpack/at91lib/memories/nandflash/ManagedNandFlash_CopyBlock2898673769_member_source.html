@@ -1,0 +1,65 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - ManagedNandFlash_CopyBlock</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">ManagedNandFlash_CopyBlock</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">ManagedNandFlash_CopyBlock</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','ManagedNandFlash_CopyBlock2898673769','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','ManagedNandFlash_CopyBlock2898673769','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 669</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','ManagedNandFlash_CopyBlock2898673769',this); ">ManagedNandFlash_CopyBlock</a>(const struct <a href="#" onMouseOver="link('_class','ManagedNandFlash0',this); ">ManagedNandFlash</a> *managed, unsigned short sourceBlock, unsigned short destBlock)
+{
+    unsigned short numPages = <a href="#" onMouseOver="link('_member','NandFlashModel_GetBlockSizeInPages4019471155',this); ">NandFlashModel_GetBlockSizeInPages</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(managed));
+    unsigned char error;
+    unsigned short page;
+
+    ASSERT(sourceBlock != destBlock,
+           "ManagedNandFlash_CopyBlock: Source block must be different from dest. block\n\r");
+
+    TRACE_INFO("ManagedNandFlash_CopyBlock(B#%d-&gt;B#%d)\n\r",
+              sourceBlock, destBlock);
+
+    // Copy all pages
+    for (page=0; page &lt; numPages; page++) {
+
+        error = <a href="#" onMouseOver="link('_member','ManagedNandFlash_CopyPage4015554445',this); ">ManagedNandFlash_CopyPage</a>(managed,
+                                          sourceBlock,
+                                          page,
+                                          destBlock,
+                                          page);
+        if (error) {
+
+            TRACE_ERROR("ManagedNandFlash_CopyPage: Failed to copy page %d\n\r", page);
+            return error;
+        }
+    }
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

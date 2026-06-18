@@ -1,0 +1,116 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - EccNandFlash_ReadPage</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">EccNandFlash_ReadPage</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">EccNandFlash_ReadPage</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','EccNandFlash_ReadPage1401430344','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','EccNandFlash_ReadPage1401430344','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 121</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','EccNandFlash_ReadPage1401430344',this); ">EccNandFlash_ReadPage</a>(const struct <a href="#" onMouseOver="link('_class','EccNandFlash0',this); ">EccNandFlash</a> *ecc, unsigned short block, unsigned short page, void *data, void *spare)
+{
+    unsigned char tmpSpare[<a href="#" onMouseOver="link('_member','NandCommon_MAXPAGESPARESIZE3454457112',this); ">NandCommon_MAXPAGESPARESIZE</a>];
+    unsigned char error;
+#ifndef HARDWARE_ECC    
+    unsigned char tmpData[<a href="#" onMouseOver="link('_member','NandCommon_MAXPAGEDATASIZE3454457112',this); ">NandCommon_MAXPAGEDATASIZE</a>];
+    unsigned char hamming[<a href="#" onMouseOver="link('_member','NandCommon_MAXSPAREECCBYTES3454457112',this); ">NandCommon_MAXSPAREECCBYTES</a>];
+#else    
+    unsigned char hsiaoInSpare[<a href="#" onMouseOver="link('_member','NandCommon_MAXSPAREECCBYTES3454457112',this); ">NandCommon_MAXSPAREECCBYTES</a>];
+    unsigned char hsiao[<a href="#" onMouseOver="link('_member','NandCommon_MAXSPAREECCBYTES3454457112',this); ">NandCommon_MAXSPAREECCBYTES</a>];
+#endif
+    
+    unsigned short pageDataSize = <a href="#" onMouseOver="link('_member','NandFlashModel_GetPageDataSize4019471155',this); ">NandFlashModel_GetPageDataSize</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(ecc));
+    unsigned char pageSpareSize = <a href="#" onMouseOver="link('_member','NandFlashModel_GetPageSpareSize4019471155',this); ">NandFlashModel_GetPageSpareSize</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(ecc));
+
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("EccNandFlash_ReadPage(B#%d:P#%d)\n\r", block, page);
+#ifndef HARDWARE_ECC
+    // Start by reading the spare and the data
+    error = <a href="#" onMouseOver="link('_member','RawNandFlash_ReadPage596140380',this); ">RawNandFlash_ReadPage</a>(RAW(ecc), block, page, tmpData, tmpSpare);
+    if (error) {
+
+        TRACE_ERROR("EccNandFlash_ReadPage: Failed to read page\n\r");
+        return error;
+    }
+
+    // Retrieve ECC information from page and verify the data
+    <a href="#" onMouseOver="link('_member','NandSpareScheme_ReadEcc1399950108',this); ">NandSpareScheme_ReadEcc</a>(<a href="#" onMouseOver="link('_member','NandFlashModel_GetScheme4019471155',this); ">NandFlashModel_GetScheme</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(ecc)), tmpSpare, hamming);
+    error = <a href="#" onMouseOver="link('_member','../../utility/Hamming_Verify256x1392540581',this); ">Hamming_Verify256x</a>(tmpData, pageDataSize, hamming);
+#else
+    // Start by reading the spare area
+    // Note: Can't read data and spare at the same time, otherwise, the ECC parity generation will be incorrect.
+    error = <a href="#" onMouseOver="link('_member','RawNandFlash_ReadPage596140380',this); ">RawNandFlash_ReadPage</a>(RAW(ecc), block, page, 0, tmpSpare);
+    if (error) {
+
+        TRACE_ERROR("EccNandFlash_ReadPage: $page %d.%d\n\r",
+                    block, page);
+        return error;
+    }
+    // Retrieve ECC information from page and verify the data
+    <a href="#" onMouseOver="link('_member','NandSpareScheme_ReadEcc1399950108',this); ">NandSpareScheme_ReadEcc</a>(<a href="#" onMouseOver="link('_member','NandFlashModel_GetScheme4019471155',this); ">NandFlashModel_GetScheme</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(ecc)), tmpSpare, hsiaoInSpare);
+    
+    // Reading the main data area
+    error = <a href="#" onMouseOver="link('_member','RawNandFlash_ReadPage596140380',this); ">RawNandFlash_ReadPage</a>(RAW(ecc), block, page, (unsigned char*)data, 0);
+    if (error) {
+
+        TRACE_ERROR("EccNandFlash_ReadPage: $page %d.%d\n\r",
+                    block, page);
+        return error;
+    }
+    HSMC4_GetEccParity(pageDataSize, hsiao, <a href="#" onMouseOver="link('_member','NandFlashModel_GetDataBusWidth4019471155',this); ">NandFlashModel_GetDataBusWidth</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(ecc)));
+    error = HSMC4_VerifyHsiao((unsigned char*) data,
+                              pageDataSize, 
+                              hsiaoInSpare,
+                              hsiao,
+                              <a href="#" onMouseOver="link('_member','NandFlashModel_GetDataBusWidth4019471155',this); ">NandFlashModel_GetDataBusWidth</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(ecc)));
+#endif    
+    if (error &amp;&amp; (error != <a href="#" onMouseOver="link('_member','../../utility/Hamming_ERROR_SINGLEBIT4007509483',this); ">Hamming_ERROR_SINGLEBIT</a>)) {
+
+        TRACE_ERROR("EccNandFlash_ReadPage: at B%d.P%d Unrecoverable data\n\r",
+                    block, page);
+        return <a href="#" onMouseOver="link('_member','NandCommon_ERROR_CORRUPTEDDATA3454457112',this); ">NandCommon_ERROR_CORRUPTEDDATA</a>;
+    }
+#ifndef HARDWARE_ECC
+    // Copy data and/or spare into final buffers
+    if (<a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a>) {
+
+        <a href="#" onMouseOver="link('_member','../../utility/memcpy1713522179',this); ">memcpy</a>(data, tmpData, pageDataSize);
+    }
+    if (spare) {
+
+        <a href="#" onMouseOver="link('_member','../../utility/memcpy1713522179',this); ">memcpy</a>(spare, tmpSpare, pageSpareSize);
+    }
+#else
+     if (spare) {
+
+        <a href="#" onMouseOver="link('_member','../../utility/memcpy1713522179',this); ">memcpy</a>(spare, tmpSpare, pageSpareSize);
+    }    
+#endif
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

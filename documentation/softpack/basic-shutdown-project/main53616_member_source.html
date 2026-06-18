@@ -1,0 +1,194 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_shutdownmi_project0',this)" class="pathLink">basic-shutdown-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 176</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>(void)
+{
+    unsigned char key;
+    unsigned int status;
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_CONFIGURE1432879529',this); ">TRACE_CONFIGURE</a>(DBGU_STANDARD, 115200, BOARD_MCK);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Basic Shutdown Project %s --\n\r", SOFTPACK_VERSION);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- %s\n\r", BOARD_NAME);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
+
+    // Display the shutdown status
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Reminber:\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" - a battery have to supply the backup power.\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" - the force power on jumper have to be opened.\n\r");
+
+    // Display the shutdown status
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Shutdown status:\n\r");
+    status = <a href="#" onMouseOver="link('_member','../at91lib/peripherals/shdwc/SHDWC_GetStatus53616',this); ">SHDWC_GetStatus</a>();
+    if(status &amp; AT91C_SHDWC_WAKEUP0) {
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Wake-up event occurred on the wake-up input\n\r");
+    }
+    if(status &amp; AT91C_SHDWC_RTTWK) {
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Wake-up alarm from the RTT\n\r");
+    }
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+
+    while(1) {
+
+        // Display menu
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Config:\n\r");
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" a - RTT alarm     : %d seconds\n\r", rtt_alarm);
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" m - WK0 mode      : %d Low2High(1) High2Low(2), Both(3)\n\r", wk0_mode);
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" d - WK0 debounce  : %d (x 16 slow clock)\n\r", wk0_debounce);
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Action:\n\r");
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" 1 - WK0 enable &amp; RTT alarm disable\n\r");
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" 2 - WK0 disable &amp; RTT alarm enable\n\r");
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" 3 - WK0 enable &amp; RTT alarm enable\n\r");
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" 4 - WK0 disable &amp; RTT alarm disable\n\r");
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Debug:\n\r");
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" r - Display registers\n\r");
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("GPBR:\n\r");
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" w - GPBR0 : %08x\n\r", *(AT91C_SYS_GPBR+0));
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" x - GPBR1 : %08x\n\r", *(AT91C_SYS_GPBR+1));
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" y - GPBR2 : %08x\n\r", *(AT91C_SYS_GPBR+2));
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" z - GPBR3 : %08x\n\r", *(AT91C_SYS_GPBR+3));
+                                
+        // Wait for user input
+        key = <a href="#" onMouseOver="link('_member','../at91lib/peripherals/dbgu/DBGU_GetChar53616',this); ">DBGU_GetChar</a>();
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\rPress '%c'\n\r", key);
+
+        // Treat user input
+        switch(key) {
+            // config
+            case 'a':
+            {
+                unsigned int value;
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Enter RTT alarm: ");
+                if( <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_GetInteger2855758951',this); ">TRACE_GetInteger</a>(&amp;value) ) {
+                    rtt_alarm = value;
+                }
+            }
+            break;
+            case 'm':
+            {
+                unsigned int value;
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Enter WK0 mode: ");
+                if( <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_GetIntegerMinMax1524480201',this); ">TRACE_GetIntegerMinMax</a>(&amp;value,1,3) ) {
+                    wk0_mode = value;
+                }
+            }
+            break;
+            case 'd':
+            {
+                unsigned int value;
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Enter WK0 debounce: ");
+                if( <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_GetInteger2855758951',this); ">TRACE_GetInteger</a>(&amp;value) ) {
+                    wk0_debounce = value;
+                }
+            }
+            break;
+            // action
+            case '1':
+            {
+                <a href="#" onMouseOver="link('_member','../at91lib/peripherals/shdwc/SHDWC_DoShutDown3110917852',this); ">SHDWC_DoShutDown</a>(0, wk0_mode, wk0_debounce);
+                while(1);
+            }
+            break;
+            case '2':
+            {
+                SetRttAlarm(rtt_alarm);
+                <a href="#" onMouseOver="link('_member','../at91lib/peripherals/shdwc/SHDWC_DoShutDown3110917852',this); ">SHDWC_DoShutDown</a>(1, 0, 0);
+                while(1);
+            }
+            break;
+            case '3':
+            {
+                SetRttAlarm(rtt_alarm);
+                <a href="#" onMouseOver="link('_member','../at91lib/peripherals/shdwc/SHDWC_DoShutDown3110917852',this); ">SHDWC_DoShutDown</a>(1, wk0_mode, wk0_debounce);
+                while(1);
+            }
+            break;
+            case '4':
+            {
+                <a href="#" onMouseOver="link('_member','../at91lib/peripherals/shdwc/SHDWC_DoShutDown3110917852',this); ">SHDWC_DoShutDown</a>(0, 0, 0);
+                while(1);
+            }
+            break;
+            // debug
+            case 'r':
+            {
+                DisplayRegister();
+            }
+            break;
+            
+            case 'w':
+            {
+                unsigned int value;
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Enter a value: ");
+                if( <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_GetHexa322855758951',this); ">TRACE_GetHexa32</a>(&amp;value) ) {
+                    *(AT91C_SYS_GPBR+0) = value;
+                }
+            }
+            break;            
+            case 'x':
+            {
+                unsigned int value;
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Enter a value: ");
+                if( <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_GetHexa322855758951',this); ">TRACE_GetHexa32</a>(&amp;value) ) {
+                    *(AT91C_SYS_GPBR+1) = value;
+                }
+            }
+            break; 
+            case 'y':
+            {
+                unsigned int value;
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Enter a value: ");
+                if( <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_GetHexa322855758951',this); ">TRACE_GetHexa32</a>(&amp;value) ) {
+                    *(AT91C_SYS_GPBR+2) = value;
+                }
+            }
+            break; 
+            case 'z':
+            {
+                unsigned int value;
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Enter a value: ");
+                if( <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_GetHexa322855758951',this); ">TRACE_GetHexa32</a>(&amp;value) ) {
+                    *(AT91C_SYS_GPBR+3) = value;
+                }
+            }
+            break;                                        
+            default:
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Unknown menu!\n\r");
+        }
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

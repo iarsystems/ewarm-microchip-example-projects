@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspace>
+    <project>
+        <path>$WS_DIR$/device/sam9x7/AT91bootstrap_SAM9x7.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$/device/sama7g5/AT91bootstrap_SAMA7G5.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$/device/sama7d65/AT91bootstrap_SAMA7D65.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$/device/sam9x60/AT91bootstrap_SAM9x60.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$/Loader/Loader.ewp</path>
+    </project>
+    <batchBuild/>
+</workspace>

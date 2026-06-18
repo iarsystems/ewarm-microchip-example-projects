@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<exampleInfo>
+  <copyDir>..\..\..\..\..\..\..\boards</copyDir>
+  <copyDir>..\..\..\..\..\..\..\services</copyDir>
+  <copyDir>..\..\..\..\..\..\..\utils</copyDir>
+  <copyDir>..\..\..\..\..\..\..\components\memory\serial_flash</copyDir>
+  <copyDir>..\..\..\..\..\..\..\..\sam\boards</copyDir>
+  <copyDir>..\..\..\..\..\..\..\..\sam\drivers</copyDir>
+  <copyDir>..\..\..\..\..\..\..\..\sam\utils</copyDir>
+</exampleInfo>

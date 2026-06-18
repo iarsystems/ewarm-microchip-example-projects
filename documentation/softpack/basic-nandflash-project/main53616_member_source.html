@@ -1,0 +1,163 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_nandflashmi_project0',this)" class="pathLink">basic-nandflash-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 208</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>()
+{
+    unsigned char testFailed;
+    // Temporary buffer used for non block aligned read / write
+    unsigned char * <a href="#" onMouseOver="link('_member','../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a>;
+    unsigned short block;
+    unsigned int i;
+    // Errors returned by SkipNandFlash functions
+    unsigned char error = 0;
+
+    // Configure the DBGU
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_CONFIGURE1432879529',this); ">TRACE_CONFIGURE</a>(DBGU_STANDARD, 115200, BOARD_MCK);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Basic NandFlash Project %s --\n\r", SOFTPACK_VERSION);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- %s\n\r", BOARD_NAME);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
+
+#if !defined(ddram) &amp;&amp; defined(BOARD_DDRAM_SIZE)
+    <a href="#" onMouseOver="link('_member','../at91lib/boards/at91sam9m11-ek/BOARD_ConfigureDdram898012104',this); ">BOARD_ConfigureDdram</a>(0, BOARD_DDRAM_BUSWIDTH);
+#endif
+
+#if !defined(sdram) &amp;&amp; defined(BOARD_SDRAM_SIZE)
+    <a href="#" onMouseOver="link('_member','../at91lib/boards/at91sam9xe-ek/BOARD_ConfigureSdram2593655934',this); ">BOARD_ConfigureSdram</a>(BOARD_SDRAM_BUSWIDTH);
+#endif
+
+#if !defined(psram) &amp;&amp; defined(BOARD_PSRAM_SIZE)
+    <a href="#" onMouseOver="link('_member','../at91lib/boards/at91sam3u-ek/BOARD_ConfigurePsram53616',this); ">BOARD_ConfigurePsram</a>();
+#endif
+
+    // Configure SMC for Nandflash accesses (done each time applet is launched because of old ROM codes)
+    <a href="#" onMouseOver="link('_member','../at91lib/boards/at91sam9xe-ek/BOARD_ConfigureNandFlash2593655934',this); ">BOARD_ConfigureNandFlash</a>(nfBusWidth);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(pPinsNf, <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_LISTSIZE2758449565',this); ">PIO_LISTSIZE</a>(pPinsNf));
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/memset3684796183',this); ">memset</a>(&amp;skipBlockNf, 0, sizeof(skipBlockNf));
+
+    if (<a href="#" onMouseOver="link('_member','../at91lib/memories/nandflash/SkipBlockNandFlash_Initialize1448804308',this); ">SkipBlockNandFlash_Initialize</a>(&amp;skipBlockNf,
+                                              0,
+                                              cmdBytesAddr,
+                                              addrBytesAddr,
+                                              dataBytesAddr,
+                                              nfCePin,
+                                              nfRbPin)) {
+
+        TRACE_ERROR("\tDevice Unknown\n\r");
+        return 0;
+    }
+
+    // Check the data bus width of the NandFlash
+    nfBusWidth = <a href="#" onMouseOver="link('_member','../at91lib/memories/nandflash/NandFlashModel_GetDataBusWidth4019471155',this); ">NandFlashModel_GetDataBusWidth</a>((struct <a href="#" onMouseOver="link('_class','../at91lib/memories/nandflash/NandFlashModel0',this); ">NandFlashModel</a> *)&amp;skipBlockNf);
+    // Reconfigure bus width
+    <a href="#" onMouseOver="link('_member','../at91lib/boards/at91sam9xe-ek/BOARD_ConfigureNandFlash2593655934',this); ">BOARD_ConfigureNandFlash</a>(nfBusWidth);
+
+    TRACE_INFO("\tNandflash driver initialized\n\r");
+
+    // Get device parameters
+    memSize = <a href="#" onMouseOver="link('_member','../at91lib/memories/nandflash/NandFlashModel_GetDeviceSizeInBytes4019471155',this); ">NandFlashModel_GetDeviceSizeInBytes</a>(&amp;skipBlockNf.ecc.raw.model);
+    blockSize = <a href="#" onMouseOver="link('_member','../at91lib/memories/nandflash/NandFlashModel_GetBlockSizeInBytes4019471155',this); ">NandFlashModel_GetBlockSizeInBytes</a>(&amp;skipBlockNf.ecc.raw.model);
+    numBlocks = <a href="#" onMouseOver="link('_member','../at91lib/memories/nandflash/NandFlashModel_GetDeviceSizeInBlocks4019471155',this); ">NandFlashModel_GetDeviceSizeInBlocks</a>(&amp;skipBlockNf.ecc.raw.model);
+    pageSize = <a href="#" onMouseOver="link('_member','../at91lib/memories/nandflash/NandFlashModel_GetPageDataSize4019471155',this); ">NandFlashModel_GetPageDataSize</a>(&amp;skipBlockNf.ecc.raw.model);
+    numPagesPerBlock = <a href="#" onMouseOver="link('_member','../at91lib/memories/nandflash/NandFlashModel_GetBlockSizeInPages4019471155',this); ">NandFlashModel_GetBlockSizeInPages</a>(&amp;skipBlockNf.ecc.raw.model);
+
+    TRACE_INFO("Size of the whole device in bytes : 0x%x \n\r",memSize);
+    TRACE_INFO("Size in bytes of one single block of a device : 0x%x \n\r",blockSize);
+    TRACE_INFO("Number of blocks in the entire device : 0x%x \n\r",numBlocks);
+    TRACE_INFO("Size of the data area of a page in bytes : 0x%x \n\r",pageSize);
+    TRACE_INFO("Number of pages in the entire device : 0x%x \n\r",numPagesPerBlock);
+    TRACE_INFO("Bus width : 0x%x \n\r",nfBusWidth);
+
+    // Test all blocks
+    testFailed = 0;
+    block = 0;
+    <a href="#" onMouseOver="link('_member','../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a> = (unsigned char *) BUFFER_ADDRESS;
+
+    while (!testFailed &amp;&amp; (block &lt; numBlocks)) {
+        TRACE_INFO("Test in progress on block: %6d\r", block);
+
+        // Erase block
+        error = <a href="#" onMouseOver="link('_member','../at91lib/memories/nandflash/SkipBlockNandFlash_EraseBlock381874158',this); ">SkipBlockNandFlash_EraseBlock</a>(&amp;skipBlockNf, block, NORMAL_ERASE);
+        if (error == <a href="#" onMouseOver="link('_member','../at91lib/memories/nandflash/NandCommon_ERROR_BADBLOCK3454457112',this); ">NandCommon_ERROR_BADBLOCK</a>) {
+            TRACE_INFO("Skip bad block %6d: \n\r", block);
+            block++;
+            continue;
+        }
+
+        // Verify that block has been erased correctly
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/memset3684796183',this); ">memset</a>(pBuffer, 0, blockSize);
+        <a href="#" onMouseOver="link('_member','../at91lib/memories/nandflash/SkipBlockNandFlash_ReadBlock3121003378',this); ">SkipBlockNandFlash_ReadBlock</a>(&amp;skipBlockNf, block, pBuffer);
+        for (i=0; i &lt; blockSize; i++) {
+            if (<a href="#" onMouseOver="link('_member','../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a>[i] != 0xff) {
+                TRACE_ERROR("Could not erase block %d\n\r", block);
+                testFailed = 1;
+                break;
+            }
+        }
+
+        // Write block
+        for (i=0; i &lt; blockSize; i++) {
+
+            <a href="#" onMouseOver="link('_member','../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a>[i] = i &amp; 0xFF;
+        }
+        // Write target block
+        <a href="#" onMouseOver="link('_member','../at91lib/memories/nandflash/SkipBlockNandFlash_WriteBlock3121003378',this); ">SkipBlockNandFlash_WriteBlock</a>(&amp;skipBlockNf, block, pBuffer);
+
+        // Check that data has been written correctly
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/memset3684796183',this); ">memset</a>(pBuffer, 0, blockSize);
+        <a href="#" onMouseOver="link('_member','../at91lib/memories/nandflash/SkipBlockNandFlash_ReadBlock3121003378',this); ">SkipBlockNandFlash_ReadBlock</a>(&amp;skipBlockNf, block, pBuffer);
+
+        for (i=0; i &lt; blockSize; i++) {
+            if (<a href="#" onMouseOver="link('_member','../basic-usart-hw-handshaking-project/pBuffer0',this); ">pBuffer</a>[i] != (i &amp; 0xFF)) {
+                TRACE_ERROR("Could not write block %d\n\r", block);
+                testFailed = 1;
+                break;
+            }
+        }
+        block++;
+    }
+    // Display test result
+    if (testFailed) {
+
+        TRACE_ERROR("Test failed.\n\r");
+    }
+    else {
+
+         TRACE_INFO("Test passed.\n\r");
+    }
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

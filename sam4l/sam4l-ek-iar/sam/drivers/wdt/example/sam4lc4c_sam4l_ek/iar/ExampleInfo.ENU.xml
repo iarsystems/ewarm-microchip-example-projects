@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<infocenter_data version="1.0">
+  <iar_name>wdt_example</iar_name>               <!--App-->
+  <iar_description>This example uses a push button event to simulate a deadlock in program so
+ as to demonstrate how watchdog timer works.</iar_description>  <!--App short description-->
+  <iar_curdir>$CUR_DIR$</iar_curdir>
+</infocenter_data>

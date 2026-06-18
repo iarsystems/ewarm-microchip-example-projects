@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - us0_init</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">us0_init</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_safemi_securemi_project0',this)" class="pathLink">basic-safe-secure-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">us0_init</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','us0_init53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','us0_init53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 98</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','us0_init53616',this); ">us0_init</a>(void)
+{
+    unsigned int i;
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("USART0: Initializing ...\n\r");
+
+    // Configure USART
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(pinsUsart, <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_LISTSIZE2758449565',this); ">PIO_LISTSIZE</a>(pinsUsart));
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pmc/PMC_EnablePeripheral171142247',this); ">PMC_EnablePeripheral</a>(AT91C_ID_US0);
+    AT91C_BASE_US0-&gt;US_IDR = 0xFFFFFFFF;
+
+    // Configure parameters
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/usart/USART_Configure1484898319',this); ">USART_Configure</a>(AT91C_BASE_US0,
+                    US0_MODE,
+                    US0_BAUDRATE,
+                    BOARD_MCK);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/usart/USART_SetTransmitterEnabled815714518',this); ">USART_SetTransmitterEnabled</a>(AT91C_BASE_US0, 1);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/usart/USART_SetReceiverEnabled815714518',this); ">USART_SetReceiverEnabled</a>(AT91C_BASE_US0, 1);
+
+    // Initialize cyclic buffer
+    cyclicDataStart = 0;
+    cyclicDataEnd = 0;
+    cyclicDataSize = 0;
+    for( i=0; i&lt;US0_BUFFER_SIZE; i++ ) {
+        cyclicBuffer[i] = 0;
+    }
+    // Configure rxReady interrupt
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_ConfigureIT3223024299',this); ">IRQ_ConfigureIT</a>(AT91C_ID_US0,
+                    0x7,
+                    us0_interruptHandler);
+
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_EnableIT171142247',this); ">IRQ_EnableIT</a>(AT91C_ID_US0);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("USART0: Initialization done.\n\r");
+    // Enable IT
+    AT91C_BASE_US0-&gt;US_IER = AT91C_US_RXRDY;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

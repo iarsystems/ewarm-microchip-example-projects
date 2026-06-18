@@ -1,0 +1,122 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','demomi_sam7lmi_ekmi_project0',this)" class="pathLink">demo-sam7l-ek-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 269</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>(void)
+{
+    unsigned char second;
+
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(pins, <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_LISTSIZE2758449565',this); ">PIO_LISTSIZE</a>(pins));
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_CONFIGURE1432879529',this); ">TRACE_CONFIGURE</a>(DBGU_STANDARD, 115200, BOARD_MCK);
+
+    // Back from a backup mode
+    if (<a href="#" onMouseOver="link('_member','gBackup0',this); ">gBackup</a>) {
+
+        // Deep backup mode
+        if ((gLowLevelInitSupcStatus &amp; AT91C_SUPC_FWUPS) == AT91C_SUPC_FWUPS) {
+
+            <a href="#" onMouseOver="link('_member','gInactivity0',this); ">gInactivity</a> = 0;
+        }
+        // Normal backup mode
+        else {
+            
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- Restarted from backup mode.\n\r");
+        }
+    }
+    // First start
+    else {
+
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Demo SAM7L-EK Project %s --\n\r", SOFTPACK_VERSION);
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- %s\n\r", BOARD_NAME);
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- Fresh start\n\r");
+
+        // Configure SUPC
+        AT91C_BASE_SUPC-&gt;SUPC_MR |= ((0xA5 &lt;&lt; 24)&amp;AT91C_SUPC_MKEY) 
+                                 | AT91C_SUPC_SRAMON | AT91C_SUPC_RTCON;
+        AT91C_BASE_SUPC-&gt;SUPC_WUIR = 0x0000001F;    
+    }
+
+       // Initialize SLCD
+    <a href="#" onMouseOver="link('_member','SLCD_Initialize53616',this); ">SLCD_Initialize</a>();
+    <a href="#" onMouseOver="link('_member','SLCD_SetContrast35017790',this); ">SLCD_SetContrast</a>(gContrast);
+
+    // Configure RTC
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_ConfigureIT3223024299',this); ">IRQ_ConfigureIT</a>(AT91C_ID_SYS, 0, ISR_Rtc);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_EnableIT171142247',this); ">IRQ_EnableIT</a>(AT91C_ID_SYS);
+    AT91C_BASE_RTC-&gt;RTC_IER = AT91C_RTC_ALARM | AT91C_RTC_SECEV;
+
+    // Refresh starting mode
+    if (<a href="#" onMouseOver="link('_member','gCurrentMode0',this); ">gCurrentMode</a> == 0) {
+
+        <a href="#" onMouseOver="link('_member','gCurrentMode0',this); ">gCurrentMode</a> = <a href="#" onMouseOver="link('_member','MODE_Default2186267575',this); ">MODE_Default</a>;
+           ((<a href="#" onMouseOver="link('_member','ModeFunction0',this); ">ModeFunction</a>) <a href="#" onMouseOver="link('_member','gCurrentMode0',this); ">gCurrentMode</a>)(-1, <a href="#" onMouseOver="link('_member','MODE_REFRESH_RESTART1927943960',this); ">MODE_REFRESH_RESTART</a>);
+       }
+       else {
+
+        ((<a href="#" onMouseOver="link('_member','ModeFunction0',this); ">ModeFunction</a>) <a href="#" onMouseOver="link('_member','gCurrentMode0',this); ">gCurrentMode</a>)(-1, <a href="#" onMouseOver="link('_member','MODE_REFRESH_DISPLAY1927943960',this); ">MODE_REFRESH_DISPLAY</a>);
+    }
+
+    // Configure BOD
+    <a href="#" onMouseOver="link('_member','BATT_Configure53616',this); ">BATT_Configure</a>();
+    <a href="#" onMouseOver="link('_member','BATT_CheckLevel53616',this); ">BATT_CheckLevel</a>();
+
+    // Initialize keyboard
+    <a href="#" onMouseOver="link('_member','KBD_Initialize2598479547',this); ">KBD_Initialize</a>(KeyPressed);
+
+    // Main loop
+    while (1) {
+
+        // If no activity is detected, enter backup mode
+        if (<a href="#" onMouseOver="link('_member','KBD_IsIdle53616',this); ">KBD_IsIdle</a>()) {
+
+            // Configure RTC to wake-up in next second
+               <a href="#" onMouseOver="link('_member','../at91lib/peripherals/rtc/RTC_GetTime10097815',this); ">RTC_GetTime</a>(0, 0, &amp;second);
+            second = (second + 1) % 60;
+            <a href="#" onMouseOver="link('_member','../at91lib/peripherals/rtc/RTC_SetTimeAlarm10097815',this); ">RTC_SetTimeAlarm</a>(0, 0, &amp;second);
+
+            // Enter backup mode
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- Entering backup mode ...\n\r");
+            <a href="#" onMouseOver="link('_member','gBackup0',this); ">gBackup</a> = 1;
+            <a href="#" onMouseOver="link('_member','KBD_ConfigureWakeUp53616',this); ">KBD_ConfigureWakeUp</a>();
+            AT91C_BASE_SUPC-&gt;SUPC_WUMR |= AT91C_SUPC_RTCEN;
+            AT91C_BASE_SUPC-&gt;SUPC_WUMR &amp;= ~AT91C_SUPC_FWUPEN;
+            AT91C_BASE_SUPC-&gt;SUPC_CR = (0xA5 &lt;&lt; 24) | AT91C_SUPC_VROFF;
+            while (1);
+        }
+    }
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

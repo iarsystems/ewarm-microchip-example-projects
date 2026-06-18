@@ -1,0 +1,48 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main.c</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main.c</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','demomi_multimediami_project0',this)" class="pathLink">demo-multimedia-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main.c</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("divID74290","aID74290","LeftMenuActive","leftMenuLinkActive");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_unit','main_c0','_description',this)" class="tabLinkActive">Description</a></span>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_unit','main_c0','_overview',this)" class="tabLinkInActive">Overview</a></span>
+<script type="text/javascript">
+ Body4();
+</script>
+&nbsp;<br>
+<div class="paragraph2">Description</div>
+<div id="descDesc" class="paddingMembers"><div class="userParagraph3">Purpose</div>
+This file contains all the specific code for the demo-multimedia-project<br>
+<br>
+<div class="userParagraph3">Contents</div>
+ The demo-multimedia-project application <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> be roughly broken down as follows:<ul>
+<li>SD Card initialization (MCI configuration + FAT file system)</li>
+<li>LCD initialization</li>
+<li>Touchscreen initialization and calibration</li>
+<li>Read the list of the pictures contained in the root directory of the SD Card</li>
+<li>Display the first image of the list.</li>
+<li>In interrupt, the events Pen Pressed and Pen Released are managed thanks to the callbacks functions <a href="#" OnMouseOver="link('_member','TSD_PenPressed3363666690',this)">TSD_PenPressed</a> and <a href="#" OnMouseOver="link('_member','TSD_PenReleased3363666690',this)">TSD_PenReleased</a> (called in interrupt). These callback modify the global variable imageToDisplay.</li>
+<li>In the <a href="#" OnMouseOver="link('_member','../basic-safe-secure-project/main53616',this)">main</a> infinite loop, the current image index is compared with the value of imageToDisplay. If different, the new picture is displayed on LCD screen.</li>
+</ul>
+
+</div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_unit','_description');
+</script>

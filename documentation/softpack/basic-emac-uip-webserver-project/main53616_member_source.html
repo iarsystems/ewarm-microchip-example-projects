@@ -1,0 +1,154 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_emacmi_uipmi_webservermi_project0',this)" class="pathLink">basic-emac-uip-webserver-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 206</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>(void)
+{
+    uip_ipaddr_t ipaddr;
+    struct timer periodic_timer, arp_timer;
+    unsigned int i;
+
+    // System devices initialize
+    tapdev_init();
+    <a href="#" onMouseOver="link('_member','../basic-emac-uip-helloworld-project/clock_init53616',this); ">clock_init</a>();
+    timer_set(&amp;periodic_timer, CLOCK_SECOND / 2);
+    timer_set(&amp;arp_timer, CLOCK_SECOND * 10);
+
+    // Init uIP
+    uip_init();
+
+#ifndef __DHCPC_H__
+    // Set the IP address of this host
+    uip_ipaddr(ipaddr, HostIpAddress[0], HostIpAddress[1],
+                       HostIpAddress[2], HostIpAddress[3]);
+    uip_sethostaddr(ipaddr);
+
+    uip_ipaddr(ipaddr, RoutIpAddress[0], RoutIpAddress[1],
+                       RoutIpAddress[2], RoutIpAddress[3]);
+    uip_setdraddr(ipaddr);
+
+    uip_ipaddr(ipaddr, NetMask[0], NetMask[1], NetMask[2], NetMask[3]);
+    uip_setnetmask(ipaddr);
+#else
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("P: DHCP Supported\n\r");
+    uip_ipaddr(ipaddr, 0, 0, 0, 0);
+    uip_sethostaddr(ipaddr);
+    uip_ipaddr(ipaddr, 0, 0, 0, 0);
+    uip_setdraddr(ipaddr);
+    uip_ipaddr(ipaddr, 0, 0, 0, 0);
+    uip_setnetmask(ipaddr);
+#endif
+
+    uip_setethaddr(MacAddress);
+
+    app_init();
+
+    while(1) {
+        uip_len = <a href="#" onMouseOver="link('_member','../basic-emac-uip-telnetd-project/tapdev_read53616',this); ">tapdev_read</a>();
+        if(uip_len &gt; 0) {
+            if(<a href="#" onMouseOver="link('_member','../basic-emac-uip-helloworld-project/BUF2654023028',this); ">BUF</a>-&gt;type == htons(UIP_ETHTYPE_IP)) {
+                uip_arp_ipin();
+                uip_input();
+                /* If the above function invocation resulted in data that
+                should be sent out on the network, the global variable
+                uip_len is set to a value &gt; 0. */
+                if(uip_len &gt; 0) {
+                    uip_arp_out();
+                    <a href="#" onMouseOver="link('_member','../basic-emac-uip-telnetd-project/tapdev_send53616',this); ">tapdev_send</a>();
+                }
+            } else if(<a href="#" onMouseOver="link('_member','../basic-emac-uip-helloworld-project/BUF2654023028',this); ">BUF</a>-&gt;type == htons(UIP_ETHTYPE_ARP)) {
+                uip_arp_arpin();
+                /* If the above function invocation resulted in data that
+                should be sent out on the network, the global variable
+                uip_len is set to a value &gt; 0. */
+                if(uip_len &gt; 0) {
+                    <a href="#" onMouseOver="link('_member','../basic-emac-uip-telnetd-project/tapdev_send53616',this); ">tapdev_send</a>();
+                }
+            }
+        } else if(timer_expired(&amp;periodic_timer)) {
+            timer_reset(&amp;periodic_timer);
+            for(i = 0; i &lt; UIP_CONNS; i++) {
+                uip_periodic(i);
+                /* If the above function invocation resulted in data that
+                   should be sent out on the network, the global variable
+                   uip_len is set to a value &gt; 0. */
+                if(uip_len &gt; 0) {
+                  uip_arp_out();
+                  <a href="#" onMouseOver="link('_member','../basic-emac-uip-telnetd-project/tapdev_send53616',this); ">tapdev_send</a>();
+                }
+            }
+#if UIP_UDP
+            for(i = 0; i &lt; UIP_UDP_CONNS; i++) {
+                uip_udp_periodic(i);
+                /* If the above function invocation resulted in data that
+                   should be sent out on the network, the global variable
+                   uip_len is set to a value &gt; 0. */
+                if(uip_len &gt; 0) {
+                    uip_arp_out();
+                    <a href="#" onMouseOver="link('_member','../basic-emac-uip-telnetd-project/tapdev_send53616',this); ">tapdev_send</a>();
+                }
+            }
+#endif /* UIP_UDP */
+      
+            /* Call the ARP timer function every 10 seconds. */
+            if(timer_expired(&amp;arp_timer)) {
+                timer_reset(&amp;arp_timer);
+                uip_arp_timer();
+            }
+        }
+
+        // Display Statistics
+        if ( <a href="#" onMouseOver="link('_member','../at91lib/peripherals/usart/USART_IsDataAvailable2675986272',this); ">USART_IsDataAvailable</a>((AT91S_USART *)AT91C_BASE_DBGU) ) {
+
+            <a href="#" onMouseOver="link('_class','../at91lib/peripherals/emac/_EmacStats0',this); ">EmacStats</a>    stats;
+
+            <a href="#" onMouseOver="link('_member','../at91lib/peripherals/dbgu/DBGU_GetChar53616',this); ">DBGU_GetChar</a>();
+            <a href="#" onMouseOver="link('_member','../at91lib/peripherals/emac/EMAC_GetStatistics2390685681',this); ">EMAC_GetStatistics</a>(&amp;stats, 1);
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("=== EMAC Statistics ===\n\r");
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" .tx_packets = %d\n\r", stats.tx_packets);
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" .tx_comp = %d\n\r", stats.<a href="#" onMouseOver="link('_member','../at91lib/peripherals/emac/tx_comp203909234',this); ">tx_comp</a>);
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" .tx_errors = %d\n\r", stats.<a href="#" onMouseOver="link('_member','../at91lib/peripherals/emac/tx_errors203909234',this); ">tx_errors</a>);
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" .collisions = %d\n\r", stats.<a href="#" onMouseOver="link('_member','../at91lib/peripherals/emac/collisions203909234',this); ">collisions</a>);
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" .tx_exausts = %d\n\r", stats.<a href="#" onMouseOver="link('_member','../at91lib/peripherals/emac/tx_exausts203909234',this); ">tx_exausts</a>);
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" .tx_underruns = %d\n\r", stats.<a href="#" onMouseOver="link('_member','../at91lib/peripherals/emac/tx_underruns203909234',this); ">tx_underruns</a>);
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" .rx_packets = %d\n\r", stats.<a href="#" onMouseOver="link('_member','../at91lib/peripherals/emac/rx_packets203909234',this); ">rx_packets</a>);
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" .rx_eof = %d\n\r", stats.<a href="#" onMouseOver="link('_member','../at91lib/peripherals/emac/rx_eof203909234',this); ">rx_eof</a>);
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" .rx_ovrs = %d\n\r", stats.<a href="#" onMouseOver="link('_member','../at91lib/peripherals/emac/rx_ovrs203909234',this); ">rx_ovrs</a>);
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(" .rx_bnas = %d\n\r", stats.<a href="#" onMouseOver="link('_member','../at91lib/peripherals/emac/rx_bnas203909234',this); ">rx_bnas</a>);
+        }
+    }
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

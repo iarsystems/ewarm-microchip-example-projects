@@ -1,0 +1,86 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - MCI_CheckBusy</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">MCI_CheckBusy</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','mci0',this)" class="pathLink">mci</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">MCI_CheckBusy</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','MCI_CheckBusy147938','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','MCI_CheckBusy147938','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 765</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','MCI_CheckBusy147938',this); ">MCI_CheckBusy</a>(<a href="#" onMouseOver="link('_class','Mci0',this); ">Mci</a> *pMci)
+{
+    AT91S_MCI *pMciHw = pMci-&gt;<a href="#" onMouseOver="link('_member','pMciHw1563',this); ">pMciHw</a>;
+    volatile unsigned int status;
+
+    // Enable MCI clock
+    <a href="#" onMouseOver="link('_member','MCICK_ENABLE2077272269',this); ">MCICK_ENABLE</a>(pMciHw);
+
+    status = <a href="#" onMouseOver="link('_member','READ_MCI99495805',this); ">READ_MCI</a>(pMciHw, MCI_SR);
+
+#if MCI_BUSY_CHECK_FIX
+    if ((status &amp; AT91C_MCI_DTIP) == 0) {
+        unsigned char isBusy = 1;
+        if (pMci-&gt;<a href="#" onMouseOver="link('_member','pPinDAT01563',this); ">pPinDAT0</a>) {
+            <a href="#" onMouseOver="link('_class','../pio/Pin0',this); ">Pin</a> pinBsy;
+            pinBsy.<a href="#" onMouseOver="link('_member','../pio/mask1634',this); ">mask</a>      = pMci-&gt;<a href="#" onMouseOver="link('_member','pPinDAT01563',this); ">pPinDAT0</a>-&gt;<a href="#" onMouseOver="link('_member','../pio/mask1634',this); ">mask</a>;
+            pinBsy.<a href="#" onMouseOver="link('_member','../pio/pio1634',this); ">pio</a>       = pMci-&gt;<a href="#" onMouseOver="link('_member','pPinDAT01563',this); ">pPinDAT0</a>-&gt;<a href="#" onMouseOver="link('_member','../pio/pio1634',this); ">pio</a>;
+            pinBsy.<a href="#" onMouseOver="link('_member','../pio/id1634',this); ">id</a>        = pMci-&gt;<a href="#" onMouseOver="link('_member','pPinDAT01563',this); ">pPinDAT0</a>-&gt;<a href="#" onMouseOver="link('_member','../pio/id1634',this); ">id</a>;
+            pinBsy.<a href="#" onMouseOver="link('_member','../pio/type1634',this); ">type</a>      = <a href="#" onMouseOver="link('_member','../pio/PIO_INPUT3378389404',this); ">PIO_INPUT</a>;
+            pinBsy.<a href="#" onMouseOver="link('_member','../pio/attribute1634',this); ">attribute</a> = <a href="#" onMouseOver="link('_member','../pio/PIO_PULLUP3378389404',this); ">PIO_PULLUP</a>;
+            <a href="#" onMouseOver="link('_member','../pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(&amp;pinBsy, 1);
+            isBusy = (<a href="#" onMouseOver="link('_member','../pio/PIO_Get134351097',this); ">PIO_Get</a>(&amp;pinBsy) == 0);
+            <a href="#" onMouseOver="link('_member','../pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(pMci-&gt;<a href="#" onMouseOver="link('_member','pPinDAT01563',this); ">pPinDAT0</a>, 1);
+        }
+        else {
+            isBusy = ((status &amp; AT91C_MCI_NOTBUSY) == 0);
+        }
+        if (isBusy == 0) {
+            <a href="#" onMouseOver="link('_member','MCICK_DISABLE2077272269',this); ">MCICK_DISABLE</a>(pMciHw);
+        }
+        return isBusy;
+    }
+    
+    return 1;
+#else
+
+    if(    ((status &amp; AT91C_MCI_NOTBUSY)!=0)
+        &amp;&amp; ((status &amp; AT91C_MCI_DTIP)==0)
+        ) {
+
+        // Disable MCI clock
+        <a href="#" onMouseOver="link('_member','MCICK_DISABLE2077272269',this); ">MCICK_DISABLE</a>(pMciHw);
+
+        return 0;
+    }
+    else {
+        return 1;
+    }
+#endif
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

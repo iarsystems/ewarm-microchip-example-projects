@@ -1,0 +1,70 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - SkipBlockNandFlash_EraseBlock</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">SkipBlockNandFlash_EraseBlock</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">SkipBlockNandFlash_EraseBlock</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','SkipBlockNandFlash_EraseBlock381874158','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','SkipBlockNandFlash_EraseBlock381874158','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 209</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','SkipBlockNandFlash_EraseBlock381874158',this); ">SkipBlockNandFlash_EraseBlock</a>(struct <a href="#" onMouseOver="link('_class','SkipBlockNandFlash0',this); ">SkipBlockNandFlash</a> *skipBlock, unsigned short block, unsigned int eraseType)
+{
+    unsigned char error;
+    const struct <a href="#" onMouseOver="link('_class','NandSpareScheme0',this); ">NandSpareScheme</a> *scheme;
+    unsigned char spare[<a href="#" onMouseOver="link('_member','NandCommon_MAXPAGESPARESIZE3454457112',this); ">NandCommon_MAXPAGESPARESIZE</a>];
+
+//    TRACE_INFO("SkipBlockNandFlash_EraseBlock(%d)\n\r", block);
+
+    if (eraseType != <a href="#" onMouseOver="link('_member','SCRUB_ERASE3910237151',this); ">SCRUB_ERASE</a>) {
+        // Check block status
+        if (<a href="#" onMouseOver="link('_member','SkipBlockNandFlash_CheckBlock353398444',this); ">SkipBlockNandFlash_CheckBlock</a>(skipBlock, block) != GOODBLOCK) {
+    
+            TRACE_INFO("SkipBlockNandFlash_EraseBlock: Block is BAD\n\r");
+            return <a href="#" onMouseOver="link('_member','NandCommon_ERROR_BADBLOCK3454457112',this); ">NandCommon_ERROR_BADBLOCK</a>;
+        }
+    }
+
+    // Erase block
+    error = <a href="#" onMouseOver="link('_member','RawNandFlash_EraseBlock504098092',this); ">RawNandFlash_EraseBlock</a>(RAW(skipBlock), block);
+    if (error) {
+
+        // Try to mark the block as BAD
+        TRACE_ERROR("SkipBlockNandFlash_EraseBlock: Cannot erase block, try to mark it BAD\n\r");
+
+        // Retrieve model scheme
+        scheme = <a href="#" onMouseOver="link('_member','NandFlashModel_GetScheme4019471155',this); ">NandFlashModel_GetScheme</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(skipBlock));
+
+        <a href="#" onMouseOver="link('_member','../../utility/memset3684796183',this); ">memset</a>(spare, 0xFF, NandCommon_MAXPAGESPARESIZE);
+        <a href="#" onMouseOver="link('_member','NandSpareScheme_WriteBadBlockMarker354152588',this); ">NandSpareScheme_WriteBadBlockMarker</a>(scheme, spare, NandBlockStatus_BAD);
+        return <a href="#" onMouseOver="link('_member','RawNandFlash_WritePage596140380',this); ">RawNandFlash_WritePage</a>(RAW(skipBlock), block, 0, 0, spare);
+    }
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

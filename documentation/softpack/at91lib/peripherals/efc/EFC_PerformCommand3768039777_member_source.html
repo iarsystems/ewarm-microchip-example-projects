@@ -1,0 +1,91 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - EFC_PerformCommand</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">EFC_PerformCommand</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','efc0',this)" class="pathLink">efc</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">EFC_PerformCommand</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','EFC_PerformCommand3768039777','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','EFC_PerformCommand3768039777','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 333</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','EFC_PerformCommand3768039777',this); ">EFC_PerformCommand</a>(AT91S_EFC *pEfc, unsigned char command, unsigned short argument)
+{
+    unsigned int status;
+
+    // Set FMCN
+    switch (command) {
+
+        case AT91C_MC_FCMD_LOCK:
+        case AT91C_MC_FCMD_UNLOCK:
+#if (CHIP_EFC_NUM_GPNVMS &gt; 0)
+        case AT91C_MC_FCMD_SET_GP_NVM:
+        case AT91C_MC_FCMD_CLR_GP_NVM:
+#endif
+#if !defined(EFC_NO_SECURITY_BIT)
+        case AT91C_MC_FCMD_SET_SECURITY:
+#endif
+            pEfc-&gt;EFC_FMR = (pEfc-&gt;EFC_FMR &amp; ~AT91C_MC_FMCN) | FMCN_BITS(lMck);
+            break;
+
+        case AT91C_MC_FCMD_START_PROG:
+        case AT91C_MC_FCMD_ERASE_ALL:
+            pEfc-&gt;EFC_FMR = (pEfc-&gt;EFC_FMR &amp; ~AT91C_MC_FMCN) | FMCN_FLASH(lMck);
+            break;
+    }
+
+#ifdef CHIP_FLASH_IAP_ADDRESS
+    // Pointer on IAP function in ROM
+    static void (*IAP_PerformCommand)(unsigned int, unsigned int);
+    unsigned int index = 0;
+#ifdef AT91C_BASE_EFC1
+    if (pEfc == AT91C_BASE_EFC1) {
+
+        index = 1;
+    }
+#endif
+    IAP_PerformCommand = (void (*)(unsigned int, unsigned int)) *((unsigned int *) <a href="#" onMouseOver="link('_member','../../boards/at91sam7l-ek/at91sam7l128/CHIP_FLASH_IAP_ADDRESS2322517389',this); ">CHIP_FLASH_IAP_ADDRESS</a>);
+
+    // Check if IAP function is implemented (opcode in SWI != 'b' or 'ldr') */
+    if ((((((unsigned long) IAP_PerformCommand &gt;&gt; 24) &amp; 0xFF) != 0xEA) &amp;&amp;
+        (((unsigned long) IAP_PerformCommand &gt;&gt; 24) &amp; 0xFF) != 0xE5)) {
+
+        IAP_PerformCommand(index, (0x5A &lt;&lt; 24) | (argument &lt;&lt; 8) | command);
+        return (pEfc-&gt;EFC_FSR &amp; (AT91C_MC_LOCKE | AT91C_MC_PROGE));
+    }
+#endif
+
+    pEfc-&gt;EFC_FCR = (0x5A &lt;&lt; 24) | (argument &lt;&lt; 8) | command;
+    do {
+
+        status = pEfc-&gt;EFC_FSR;
+    }
+    while ((status &amp; AT91C_MC_FRDY) == 0);
+
+    return (status &amp; (AT91C_MC_PROGE | AT91C_MC_LOCKE));
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

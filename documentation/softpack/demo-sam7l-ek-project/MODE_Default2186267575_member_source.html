@@ -1,0 +1,62 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - MODE_Default</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">MODE_Default</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','demomi_sam7lmi_ekmi_project0',this)" class="pathLink">demo-sam7l-ek-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">MODE_Default</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','MODE_Default2186267575','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','MODE_Default2186267575','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 86</div>
+<pre class="codeExamples">
+void * <a href="#" onMouseOver="link('_member','MODE_Default2186267575',this); ">MODE_Default</a>(signed char key, unsigned char refresh)
+{
+    // Display board name
+    if (refresh) {
+
+        TRACE_INFO("Default mode restart\n\r");
+
+        <a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/S7LEKLCD_Symbol1905373196',this); ">S7LEKLCD_Symbol</a>(S7LEKLCD_ATMEL, 1);
+        <a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/S7LEKLCD_Symbol1905373196',this); ">S7LEKLCD_Symbol</a>(S7LEKLCD_CALC, 0);
+        <a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/S7LEKLCD_Symbol1905373196',this); ">S7LEKLCD_Symbol</a>(S7LEKLCD_TMP, 0);
+        <a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/S7LEKLCD_Symbol1905373196',this); ">S7LEKLCD_Symbol</a>(S7LEKLCD_BARO, 0);
+        <a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/S7LEKLCD_Symbol1905373196',this); ">S7LEKLCD_Symbol</a>(S7LEKLCD_SETUP, 0);
+        <a href="#" onMouseOver="link('_member','SLCD_PutString3372848885',this); ">SLCD_PutString</a>(gpBoardName, 0);
+    }
+
+    // Process key events
+    if (key &gt;= 0) {
+    
+        if (<a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/gpKeyboardMatrix0',this); ">gpKeyboardMatrix</a>[key] == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_MODE3152668919',this); ">S7LEKKBM_MODE</a>) {
+    
+            return <a href="#" onMouseOver="link('_member','MODE_Menu2186267575',this); ">MODE_Menu</a>;
+        }
+    }
+
+    return <a href="#" onMouseOver="link('_member','MODE_Default2186267575',this); ">MODE_Default</a>;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

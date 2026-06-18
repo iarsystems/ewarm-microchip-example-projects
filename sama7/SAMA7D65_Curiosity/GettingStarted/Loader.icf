@@ -1,0 +1,12 @@
+/*Boot strap Loader icf*/
+define memory mem with size = 4G;
+
+if (isdefinedsymbol(BOOTSTRATP_LOAD))
+{
+  place at address mem: BOOTSTRATP_LOAD { section .boot };
+}
+
+if (isdefinedsymbol(APP_LOAD))
+{
+  place at address mem: APP_LOAD { section .app };
+}

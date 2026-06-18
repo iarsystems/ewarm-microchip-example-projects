@@ -1,0 +1,95 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - LowLevelInit</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">LowLevelInit</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../boards0',this)" class="pathLink">boards</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','at91sam7lmi_stk0',this)" class="pathLink">at91sam7l-stk</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">LowLevelInit</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','LowLevelInit53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','LowLevelInit53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 112</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','../at91cap9-stk/LowLevelInit53616',this); ">LowLevelInit</a>(void)
+{
+    volatile unsigned int i;
+
+    // Set flash wait states in the EFC
+    // 48MHz = 1 wait state
+#if defined(at91sam7l64) || defined(at91sam7l128)
+    AT91C_BASE_MC-&gt;MC_FMR = AT91C_MC_FWS_3FWS;
+#else
+    #error No chip definition ?
+#endif
+
+    // Enable external oscillator (on first boot only, after that command does nothing)
+    gLowLevelInitSupcStatus = AT91C_BASE_SUPC-&gt;SUPC_SR;
+    if ((gLowLevelInitSupcStatus &amp; AT91C_SUPC_OSCSEL) != AT91C_SUPC_OSCSEL) {
+        
+        AT91C_BASE_SUPC-&gt;SUPC_CR = (0xA5 &lt;&lt; 24) | AT91C_SUPC_XTALSEL;
+        while ((AT91C_BASE_SUPC-&gt;SUPC_SR &amp; AT91C_SUPC_OSCSEL) != AT91C_SUPC_OSCSEL);
+    }
+
+    // Switch to slow clock if necessary (so PLL frequency can be changed)
+    if ((AT91C_BASE_PMC-&gt;PMC_MCKR &amp; AT91C_PMC_CSS) == AT91C_PMC_CSS_PLL_CLK) {
+
+        AT91C_BASE_PMC-&gt;PMC_MCKR = AT91C_PMC_CSS_SLOW_CLK;
+        while ((AT91C_BASE_PMC-&gt;PMC_SR &amp; AT91C_PMC_MCKRDY) != AT91C_PMC_MCKRDY);
+    }
+
+    // Initialize PLL at 30MHz
+    AT91C_BASE_PMC-&gt;PMC_PLLR = <a href="#" onMouseOver="link('_member','../at91sam7l-ek/BOARD_CKGR_PLL3433702514',this); ">BOARD_CKGR_PLL</a> | <a href="#" onMouseOver="link('_member','../at91sam7l-ek/BOARD_PLLCOUNT3433702514',this); ">BOARD_PLLCOUNT</a> | <a href="#" onMouseOver="link('_member','../at91sam7l-ek/BOARD_MUL3433702514',this); ">BOARD_MUL</a> | <a href="#" onMouseOver="link('_member','../at91sam7l-ek/BOARD_DIV3433702514',this); ">BOARD_DIV</a>;
+    while ((AT91C_BASE_PMC-&gt;PMC_SR &amp; AT91C_PMC_LOCK) == 0);
+
+    // Switch to PLL
+    AT91C_BASE_PMC-&gt;PMC_MCKR = AT91C_PMC_CSS_PLL_CLK;
+    while ((AT91C_BASE_PMC-&gt;PMC_SR &amp; AT91C_PMC_MCKRDY) == 0);
+
+    // Initialize AIC
+    AT91C_BASE_AIC-&gt;AIC_IDCR = 0xFFFFFFFF;
+    AT91C_BASE_AIC-&gt;AIC_SVR[0] = (unsigned int) <a href="#" onMouseOver="link('_member','../at91cap9-dk/defaultFiqHandler53616',this); ">defaultFiqHandler</a>;
+    for (i = 1; i &lt; 31; i++) {
+
+        AT91C_BASE_AIC-&gt;AIC_SVR[i] = (unsigned int) <a href="#" onMouseOver="link('_member','../at91cap9-dk/defaultIrqHandler53616',this); ">defaultIrqHandler</a>;
+    }
+    AT91C_BASE_AIC-&gt;AIC_SPU = (unsigned int) <a href="#" onMouseOver="link('_member','../at91cap9-dk/defaultSpuriousHandler53616',this); ">defaultSpuriousHandler</a>;
+
+    // Unstack nested interrupts
+    for (i = 0; i &lt; 8 ; i++) {
+
+        AT91C_BASE_AIC-&gt;AIC_EOICR = 0;
+    }
+
+    // Enable Debug mode
+    AT91C_BASE_AIC-&gt;AIC_DCR = AT91C_AIC_DCR_PROT;
+
+    // Watchdog initialization
+    AT91C_BASE_WDTC-&gt;WDTC_WDMR = AT91C_WDTC_WDDIS;
+
+    // Remap the internal SRAM at 0x0
+    <a href="#" onMouseOver="link('_member','../at91cap9-stk/BOARD_RemapRam53616',this); ">BOARD_RemapRam</a>();
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

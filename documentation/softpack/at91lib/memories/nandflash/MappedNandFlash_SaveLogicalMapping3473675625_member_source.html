@@ -1,0 +1,132 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - MappedNandFlash_SaveLogicalMapping</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">MappedNandFlash_SaveLogicalMapping</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">MappedNandFlash_SaveLogicalMapping</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','MappedNandFlash_SaveLogicalMapping3473675625','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','MappedNandFlash_SaveLogicalMapping3473675625','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 543</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','MappedNandFlash_SaveLogicalMapping3473675625',this); ">MappedNandFlash_SaveLogicalMapping</a>(struct <a href="#" onMouseOver="link('_class','MappedNandFlash0',this); ">MappedNandFlash</a> *mapped, unsigned short physicalBlock)
+{
+    unsigned char error;
+    unsigned char <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a>[<a href="#" onMouseOver="link('_member','NandCommon_MAXPAGEDATASIZE3454457112',this); ">NandCommon_MAXPAGEDATASIZE</a>];
+    unsigned short pageDataSize =
+                    <a href="#" onMouseOver="link('_member','NandFlashModel_GetPageDataSize4019471155',this); ">NandFlashModel_GetPageDataSize</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(mapped));
+    //unsigned short numBlocks =
+    //                ManagedNandFlash_GetDeviceSizeInBlocks(MANAGED(mapped));
+    unsigned int i;
+    unsigned int remainingSize;
+    unsigned char *currentBuffer;
+    unsigned short currentPage;
+    unsigned int writeSize;
+    signed short previousPhysicalBlock;
+
+    TRACE_INFO("MappedNandFlash_SaveLogicalMapping(B#%d)\n\r", physicalBlock);
+
+    // If mapping has not been modified, do nothing
+    if (!mapped-&gt;mappingModified) {
+
+        return 0;
+    }
+
+    // Allocate new block
+    error = <a href="#" onMouseOver="link('_member','ManagedNandFlash_AllocateBlock1127007682',this); ">ManagedNandFlash_AllocateBlock</a>(<a href="#" onMouseOver="link('_member','MANAGED1005205562',this); ">MANAGED</a>(mapped), physicalBlock);
+    if (error) {
+
+        return error;
+    }
+
+    // Save mapping
+    previousPhysicalBlock = mapped-&gt;logicalMappingBlock;
+    mapped-&gt;logicalMappingBlock = physicalBlock;
+
+    // Save actual mapping in pages #1-#XXX
+    currentBuffer = (unsigned char *) mapped-&gt;logicalMapping;
+    remainingSize = sizeof(mapped-&gt;logicalMapping);
+    currentPage = 1;
+    while (remainingSize &gt; 0) {
+
+        writeSize = <a href="#" onMouseOver="link('_member','../../utility/min3363666690',this); ">min</a>(remainingSize, pageDataSize);
+        <a href="#" onMouseOver="link('_member','../../utility/memset3684796183',this); ">memset</a>(data, 0xFF, pageDataSize);
+        <a href="#" onMouseOver="link('_member','../../utility/memcpy1713522179',this); ">memcpy</a>(data, currentBuffer, writeSize);
+        error = <a href="#" onMouseOver="link('_member','ManagedNandFlash_WritePage2068223977',this); ">ManagedNandFlash_WritePage</a>(<a href="#" onMouseOver="link('_member','MANAGED1005205562',this); ">MANAGED</a>(mapped),
+                                           physicalBlock,
+                                           currentPage,
+                                           data,
+                                           0);
+        if (error) {
+
+            TRACE_ERROR(
+             "MappedNandFlash_SaveLogicalMapping: Failed to write mapping\n\r");
+            return error;
+        }
+
+        currentBuffer += writeSize;
+        remainingSize -= writeSize;
+        currentPage++;
+    }
+
+    // Mark page #0 of block with a distinguishible pattern, so the mapping can
+    // be retrieved at startup
+    for (i=0; i &lt; pageDataSize; i++) {
+
+        <a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a>[i] = <a href="#" onMouseOver="link('_member','PATTERN686808595',this); ">PATTERN</a>(i);
+    }
+    error = <a href="#" onMouseOver="link('_member','ManagedNandFlash_WritePage2068223977',this); ">ManagedNandFlash_WritePage</a>(<a href="#" onMouseOver="link('_member','MANAGED1005205562',this); ">MANAGED</a>(mapped),
+                                       physicalBlock, 0,
+                                       data, 0);
+    if (error) {
+
+        TRACE_ERROR(
+            "MappedNandFlash_SaveLogicalMapping: Failed to write pattern\n\r");
+        return error;
+    }
+
+    // Mapping is not modified anymore
+    mapped-&gt;mappingModified = 0;
+
+    // Release previous block (if any)
+    if (previousPhysicalBlock != -1) {
+
+        <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("Previous physical block was #%d\n\r",
+                    previousPhysicalBlock);
+        error = <a href="#" onMouseOver="link('_member','ManagedNandFlash_ReleaseBlock1127007682',this); ">ManagedNandFlash_ReleaseBlock</a>(<a href="#" onMouseOver="link('_member','MANAGED1005205562',this); ">MANAGED</a>(mapped),
+                                              previousPhysicalBlock);
+        if (error) {
+
+            return error;
+        }
+    }
+
+    TRACE_INFO("Mapping saved on block #%d\n\r", physicalBlock);
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

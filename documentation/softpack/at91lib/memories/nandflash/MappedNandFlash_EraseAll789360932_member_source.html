@@ -1,0 +1,52 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - MappedNandFlash_EraseAll</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">MappedNandFlash_EraseAll</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">MappedNandFlash_EraseAll</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','MappedNandFlash_EraseAll789360932','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','MappedNandFlash_EraseAll789360932','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 647</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','MappedNandFlash_EraseAll789360932',this); ">MappedNandFlash_EraseAll</a>(struct <a href="#" onMouseOver="link('_class','MappedNandFlash0',this); ">MappedNandFlash</a> *mapped, unsigned char level)
+{
+    unsigned int block;
+    <a href="#" onMouseOver="link('_member','ManagedNandFlash_EraseAll1231974850',this); ">ManagedNandFlash_EraseAll</a>(<a href="#" onMouseOver="link('_member','MANAGED1005205562',this); ">MANAGED</a>(mapped), level);
+    // Reset to no block mapped
+    if (level &gt; NandEraseDIRTY) {
+        mapped-&gt;logicalMappingBlock = -1;
+        mapped-&gt;mappingModified = 0;
+        for (block=0;
+             block &lt; <a href="#" onMouseOver="link('_member','ManagedNandFlash_GetDeviceSizeInBlocks528270051',this); ">ManagedNandFlash_GetDeviceSizeInBlocks</a>(<a href="#" onMouseOver="link('_member','MANAGED1005205562',this); ">MANAGED</a>(mapped));
+             block++) {
+            mapped-&gt;logicalMapping[block] = -1;
+        }
+    }
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

@@ -1,0 +1,122 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - basic-ac97-project</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">basic-ac97-project</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">basic-ac97-project</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("divID73946","aID73946","headerLeftMenuActive","leftMenuLinkHeadActive");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_dir','basicmi_ac97mi_project0','_description',this)" class="tabLinkActive">Description</a></span>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_dir','basicmi_ac97mi_project0','_dirgraph',this)" class="tabLinkInActive">Graph</a></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<span class="paragraph1">basic-ac97-project</span>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="padding"><div class="userParagraph1">Purpose</div>
+This example shows how to use the AC97 controller of AT91 microcontrollers to play and record sound, as well as control the on-board AC97 codec configuration.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">See</div>
+<ul>
+<li><a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/ac97c/ac97c0',this)">ac97c</a>: AC97 interface driver</li>
+</ul>
+
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Description</div>
+ When launched, this program displays a menu on the DBGU, enabling the user to choose between several options<ul>
+<li>Play a pre-loaded WAV file using the AC97 codec output</li>
+<li>Display the WAV file information (sample rate, etc.)</li>
+<li>Record a sample using the AC97 codec microphone input</li>
+<li>Play back the recorded file</li>
+<li>Adjust the playback volume</li>
+</ul>
+
+<br>
+</div>
+<div class="padding">To be able to play a WAV file, it must first be loaded prior to launching the application. It must be downloaded in external SDRAM, at address 0x20005000; or in board without sdram, but with DDRAM, it must be downloaded in external DDRAM, at address 0x70005000, this <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> be easily done using SAM-BA, but the sound file must be with sample rate 48KHZ ,<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Usage</div>
+<ol>
+<li>Build the program and download it inside the evaluation board. Please refer to the <a href="http://www.atmel.com/dyn/resources/prod_documents/doc6224.pdf">SAM-BA User Guide</a>, the <a href="http://www.atmel.com/dyn/resources/prod_documents/doc6310.pdf">GNU-Based Software Development</a> application note or to the <a href="ftp://ftp.iar.se/WWWfiles/arm/Guides/EWARM_UserGuide.ENU.pdf">IAR EWARM User Guide</a>, depending on your chosen solution.</li>
+<li>On the computer, open and configure a terminal application (e.g. HyperTerminal on Microsoft Windows) with these settings:<ul>
+<li>115200 bauds</li>
+<li>8 bits of <a href="#" OnMouseOver="link('_member','../basic-fatfs-nandflash-project/data0',this)">data</a></li>
+<li>No parity</li>
+<li>1 stop bit</li>
+<li>No flow control</li>
+</ul>
+
+</li>
+<li>Start the application.</li>
+<li>In the terminal window, the following text should appear:   <table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+  <TR VALIGN="top">
+  <TD class="paddingHeadMultiColumn2">
+<pre class="codeExamples">
+-- Basic AC97 Project xxx --
+-- AT91xxxxxx-xx
+-- Compiled: xxx xx xxxx xx:xx:xx --
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- Codec probed correctly
+Menu :
+------
+  W: Play the WAV file pre-loaded in SDRAM
+  <a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>: Display the information of the WAV file
+  R: Start recording sound
+  +/-: Adjust volume (16)
+
+  Wave file header information
+--------------------------------
+  - Chunk ID        = 0x46464952
+  - Chunk Size      = 377896
+  - Format          = 0x45564157
+  - SubChunk ID     = 0x20746D66
+  - Subchunk1 Size  = 16
+  - Audio Format    = 0x0001
+  - Num. Channels   = 2
+  - Sample Rate     = 8000
+  - Byte Rate       = 32000
+  - Block Align     = 4
+  - Bits Per Sample = 16
+  - Subchunk2 ID    = 0x61746164
+  - Subchunk2 Size  = 377860
+Press a key to return to the menu ...
+</pre>  </TD>
+  </TR>
+  </TABLE>
+User <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> choose any of the available options(capital) to perform the described action, connecting earphone to the board to hear the sound of WAV file.</li>
+<li>for debug the application, compile and link for SDRAM.</li>
+<li>Then type inside gdb: restore sample.wav binary 0x20005000</li>
+<li>Then continue</li>
+</ol>
+
+</div>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="paragraph2">Source</div>
+<div class="paddingMembers">The documentation for this Directory was generated from the following files:</div>
+<div class="paddingMembers"><LI>main.c<br></div>
+<div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_dir','_description');
+</script>

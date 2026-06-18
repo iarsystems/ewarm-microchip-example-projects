@@ -1,0 +1,389 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 11">
+<meta name=Originator content="Microsoft Word 11">
+<link rel=File-List href="main_1_files/filelist.xml">
+<title>AT91 MMU Simple project for AT91RM9200DK</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Debicki Olivier</o:Author>
+  <o:LastAuthor>1</o:LastAuthor>
+  <o:Revision>12</o:Revision>
+  <o:TotalTime>89</o:TotalTime>
+  <o:Created>2005-10-06T14:17:00Z</o:Created>
+  <o:LastSaved>2005-10-07T14:49:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>410</o:Words>
+  <o:Characters>2337</o:Characters>
+  <o:Company>ATMEL</o:Company>
+  <o:Lines>19</o:Lines>
+  <o:Paragraphs>5</o:Paragraphs>
+  <o:CharactersWithSpaces>2742</o:CharactersWithSpaces>
+  <o:Version>11.5606</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Zoom>BestFit</w:Zoom>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:GrammarState>Clean</w:GrammarState>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p
+	{mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:70.85pt 70.85pt 70.85pt 70.85pt;
+	mso-header-margin:35.4pt;
+	mso-footer-margin:35.4pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:100810196;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1272208252 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level5
+	{mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level6
+	{mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level7
+	{mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level8
+	{mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level9
+	{mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</head>
+
+<body lang=EN-US style='tab-interval:.5in'>
+
+<div class=Section1>
+
+<p align=center style='text-align:center'><b><span lang=EN-GB style='font-size:
+13.5pt;font-family:Arial;mso-ansi-language:EN-GB'>AT91 MMU Simple project for
+AT91RM9200EK - IAR EW ARM<o:p></o:p></span></b></p>
+
+<p><span lang=EN-GB style='font-size:10.0pt;mso-ansi-language:EN-GB'>&nbsp;<o:p></o:p></span></p>
+
+<p><b><i><span lang=EN-GB style='font-family:Arial;mso-ansi-language:EN-GB'>Introduction<o:p></o:p></span></i></b></p>
+
+<p><span lang=EN-GB style='font-size:10.0pt;mso-ansi-language:EN-GB'>The goal
+of this demonstration project is to show how to initialise cache and MMU on the
+AT91RM9200EK board.<span style='mso-spacerun:yes'>  </span>It runs a <span
+class=SpellE>dhrystone</span> algorithm, caches and MMU enabled/disabled. This
+program also invokes the AT91 library V3. <o:p></o:p></span></p>
+
+<p><b><i><span lang=EN-GB style='font-family:Arial;mso-ansi-language:EN-GB'>Running
+the application<o:p></o:p></span></i></b></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto'><span
+lang=EN-GB style='font-size:10.0pt;mso-ansi-language:EN-GB'>This application is
+linked to be loaded and run in FLASH (0x1000_0000). This Download to the target
+can be done using the JTAG connection.<o:p></o:p></span></p>
+
+<p><span lang=EN-GB style='font-size:10.0pt;mso-ansi-language:EN-GB'>This very
+small application sends through the DBGU serial port (115.2Kbps, 8data bits, no
+parity, 1 stop bit, no flux control J10), <span
+style='mso-spacerun:yes'> </span>messages corresponding to the function name
+where the printing function has been invoked.<o:p></o:p></span></p>
+
+<p><b><i><span lang=EN-GB style='font-family:Arial;mso-ansi-language:EN-GB'>Description<o:p></o:p></span></i></b></p>
+
+<p><span lang=EN-GB style='font-size:10.0pt;mso-ansi-language:EN-GB'>Please
+refer to the AT91 Simple project for AT91RM9200EK for the description of the
+initialisation.<o:p></o:p></span></p>
+
+<p><span lang=EN-GB style='font-size:10.0pt;mso-ansi-language:EN-GB'>The <span
+class=SpellE>dhrystone</span> algorithm is invoked from the AT91F_Dhrystone (<span
+class=SpellE>main.c</span>). This function returns how many times the function <span
+class=SpellE>testloop</span> (dhry_1.c) is called while the CRTR register has
+not been incremented.<o:p></o:p></span></p>
+
+<p><span lang=EN-GB style='font-size:10.0pt;mso-ansi-language:EN-GB'>The main
+program <o:p></o:p></span></p>
+
+<p style='margin-left:.5in;text-indent:-.25in;mso-list:l0 level1 lfo2;
+tab-stops:list .5in'><![if !supportLists]><span lang=EN-GB style='font-size:
+10.0pt;font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+Symbol;mso-ansi-language:EN-GB'><span style='mso-list:Ignore'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-GB style='font-size:10.0pt;
+mso-ansi-language:EN-GB'>calls the AT91F_Dhrystone function caches disabled, <o:p></o:p></span></p>
+
+<p style='margin-left:.5in;text-indent:-.25in;mso-list:l0 level1 lfo2;
+tab-stops:list .5in'><![if !supportLists]><span lang=EN-GB style='font-size:
+10.0pt;font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+Symbol;mso-ansi-language:EN-GB'><span style='mso-list:Ignore'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span class=GramE><span lang=EN-GB
+style='font-size:10.0pt;mso-ansi-language:EN-GB'>then</span></span><span
+lang=EN-GB style='font-size:10.0pt;mso-ansi-language:EN-GB'> <span
+class=SpellE>Icache</span> enabled (MMU disabled). Obviously performance is
+rises a lot.<o:p></o:p></span></p>
+
+<p style='margin-left:.5in;text-indent:-.25in;mso-list:l0 level1 lfo2;
+tab-stops:list .5in'><![if !supportLists]><span lang=EN-GB style='font-size:
+10.0pt;font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+Symbol;mso-ansi-language:EN-GB'><span style='mso-list:Ignore'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-GB style='font-size:10.0pt;
+mso-ansi-language:EN-GB'>Then the MMU is initialised calling AT91F_InitMMU (<span
+class=SpellE>main.c</span>). <o:p></o:p></span></p>
+
+<p style='margin-left:1.0in;text-indent:-.25in;mso-list:l0 level2 lfo2;
+tab-stops:list 1.0in'><![if !supportLists]><span lang=EN-GB style='font-size:
+10.0pt;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+mso-ansi-language:EN-GB'><span style='mso-list:Ignore'>o<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-GB style='font-size:10.0pt;
+mso-ansi-language:EN-GB'>This function reset the level 1 page table entry
+(located at 0x2001_0000).<o:p></o:p></span></p>
+
+<p style='margin-left:1.0in;text-indent:-.25in;mso-list:l0 level2 lfo2;
+tab-stops:list 1.0in'><![if !supportLists]><span lang=EN-GB style='font-size:
+10.0pt;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+mso-ansi-language:EN-GB'><span style='mso-list:Ignore'>o<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-GB style='font-size:10.0pt;
+mso-ansi-language:EN-GB'>Then it configures 4 entries in this page table:<o:p></o:p></span></p>
+
+<p style='margin-left:1.5in;text-indent:-.25in;mso-list:l0 level3 lfo2;
+tab-stops:list 1.5in'><![if !supportLists]><span lang=EN-GB style='font-size:
+10.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings;mso-ansi-language:EN-GB'><span style='mso-list:Ignore'>§<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-GB style='font-size:10.0pt;
+mso-ansi-language:EN-GB'>1MByte section at 0. It must be configured as it is
+used by the debugger to flush the write cache.<o:p></o:p></span></p>
+
+<p style='margin-left:1.5in;text-indent:-.25in;mso-list:l0 level3 lfo2;
+tab-stops:list 1.5in'><![if !supportLists]><span lang=EN-GB style='font-size:
+10.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings;mso-ansi-language:EN-GB'><span style='mso-list:Ignore'>§<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-GB style='font-size:10.0pt;
+mso-ansi-language:EN-GB'>1Mbyte section at 0x5000_0000 it mirrors the physical
+SDRAM located at 0x1000_0000. This section is <span class=SpellE>cachable</span>.<o:p></o:p></span></p>
+
+<p style='margin-left:1.5in;text-indent:-.25in;mso-list:l0 level3 lfo2;
+tab-stops:list 1.5in'><![if !supportLists]><span lang=EN-GB style='font-size:
+10.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings;mso-ansi-language:EN-GB'><span style='mso-list:Ignore'>§<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-GB style='font-size:10.0pt;
+mso-ansi-language:EN-GB'>1Mbyte section at 0x1000_0000. . This is a direct
+translation: virtual address = physical address. This section is non <span
+class=SpellE>cachable</span>.<o:p></o:p></span></p>
+
+<p style='margin-left:1.5in;text-indent:-.25in;mso-list:l0 level3 lfo2;
+tab-stops:list 1.5in'><![if !supportLists]><span lang=EN-GB style='font-size:
+10.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings;mso-ansi-language:EN-GB'><span style='mso-list:Ignore'>§<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-GB style='font-size:10.0pt;
+mso-ansi-language:EN-GB'>1Mbyte section at 0xFFF0_0000. This is done to access
+peripheral area. This is a direct translation: virtual address = physical
+address. This section is non <span class=SpellE>cachable</span> in order to get
+a direct access to peripheral registers.<o:p></o:p></span></p>
+
+<p style='margin-left:1.0in;text-indent:-.25in;mso-list:l0 level2 lfo2;
+tab-stops:list 1.0in'><![if !supportLists]><span lang=EN-GB style='font-size:
+10.0pt;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+mso-ansi-language:EN-GB'><span style='mso-list:Ignore'>o<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-GB style='font-size:10.0pt;
+mso-ansi-language:EN-GB'>Set the translation table base address register<o:p></o:p></span></p>
+
+<p style='margin-left:1.0in;text-indent:-.25in;mso-list:l0 level2 lfo2;
+tab-stops:list 1.0in'><![if !supportLists]><span lang=EN-GB style='font-size:
+10.0pt;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+mso-ansi-language:EN-GB'><span style='mso-list:Ignore'>o<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-GB style='font-size:10.0pt;
+mso-ansi-language:EN-GB'>Set the domain access register<o:p></o:p></span></p>
+
+<p style='margin-left:1.0in;text-indent:-.25in;mso-list:l0 level2 lfo2;
+tab-stops:list 1.0in'><![if !supportLists]><span lang=EN-GB style='font-size:
+10.0pt;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+mso-ansi-language:EN-GB'><span style='mso-list:Ignore'>o<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-GB style='font-size:10.0pt;
+mso-ansi-language:EN-GB'>And finally enable the MMU<o:p></o:p></span></p>
+
+<p style='margin-left:.5in;text-indent:-.25in;mso-list:l0 level1 lfo2;
+tab-stops:list .5in'><![if !supportLists]><span lang=EN-GB style='font-size:
+10.0pt;font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+Symbol;mso-ansi-language:EN-GB'><span style='mso-list:Ignore'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-GB style='font-size:10.0pt;
+mso-ansi-language:EN-GB'>Dhrystone is then run with only the <span
+class=SpellE>Icache</span> enabled then with <span class=GramE>the I</span> + D
+cache enabled.<o:p></o:p></span></p>
+
+<p><span lang=EN-GB style='font-size:10.0pt;mso-ansi-language:EN-GB'>The SDRAM
+is mirrored in order to be able to lock the cache running instructions in a non
+<span class=SpellE>cachable</span> area. This allows flushing the instruction
+cache and keeping a strict control while locking perfected instructions. Then
+the Dhrystone algorithm is run from a cacheable are. This is why the access to
+the AT91F_Dhrystone function is done through the <span class=SpellE>pDhrystone</span>
+pointer.<o:p></o:p></span></p>
+
+<p><b><i><span lang=EN-GB style='font-family:Arial;mso-ansi-language:EN-GB'>Source
+files<o:p></o:p></span></i></b></p>
+
+<table class=MsoNormalTable border=1 cellspacing=1 cellpadding=0 width=555
+ style='width:416.25pt;mso-cellspacing:.7pt;mso-padding-alt:5.25pt 5.25pt 5.25pt 5.25pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'>
+  <p><i><span style='font-size:10.0pt'>./<span class=SpellE>init.c</span></span></i></p>
+  </td>
+  <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'>
+  <p><span style='font-size:10.0pt'>includes low level functions definitions</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'>
+  <p><i><span style='font-size:10.0pt'>./<span class=SpellE>main.c</span></span></i></p>
+  </td>
+  <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'>
+  <p><span style='font-size:10.0pt'>this is the application</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'>
+  <p><i><span style='font-size:10.0pt'>./lib_arm920t.h<o:p></o:p></span></i></p>
+  </td>
+  <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'>
+  <p><span class=SpellE><span style='font-size:10.0pt'>Inlined</span></span><span
+  style='font-size:10.0pt'> functions to drive CP15 register. Should be
+  included in lib_at91rm9200.h ( in the product part of the library)<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'>
+  <p><i><span style='font-size:10.0pt'>./<span class=SpellE>mmu.c</span><o:p></o:p></span></i></p>
+  </td>
+  <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'>
+  <p><span style='font-size:10.0pt'>Common MMU and Cache operations<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4;mso-yfti-lastrow:yes'>
+  <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'>
+  <p><i><span style='font-size:10.0pt'>/at91_cstartup.s79 </span></i></p>
+  </td>
+  <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'>
+  <p><span class=SpellE><span style='font-size:10.0pt'>cstartup</span></span><span
+  style='font-size:10.0pt'> </span></p>
+  </td>
+ </tr>
+</table>
+
+<p><b><i><span lang=EN-GB style='font-family:Arial;mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></i></b></p>
+
+</div>
+
+</body>
+
+</html>

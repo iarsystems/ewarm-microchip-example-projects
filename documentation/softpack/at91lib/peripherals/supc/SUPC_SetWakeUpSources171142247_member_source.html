@@ -1,0 +1,42 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - SUPC_SetWakeUpSources</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">SUPC_SetWakeUpSources</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','supc0',this)" class="pathLink">supc</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">SUPC_SetWakeUpSources</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','SUPC_SetWakeUpSources171142247','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','SUPC_SetWakeUpSources171142247','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 207</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','SUPC_SetWakeUpSources171142247',this); ">SUPC_SetWakeUpSources</a>(unsigned int sources)
+{
+    <a href="#" onMouseOver="link('_member','../../utility/SANITY_CHECK407576460',this); ">SANITY_CHECK</a>((sources &amp; ~0x0000000B) == 0);
+    AT91C_BASE_SUPC-&gt;SUPC_WUMR &amp;= ~0x0000000B;
+    AT91C_BASE_SUPC-&gt;SUPC_WUMR |= sources;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

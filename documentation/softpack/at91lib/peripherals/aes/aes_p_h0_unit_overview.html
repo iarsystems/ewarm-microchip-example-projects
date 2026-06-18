@@ -1,0 +1,84 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - aes_p.h</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">aes_p.h</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','aes0',this)" class="pathLink">aes</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">aes_p.h</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("divID74142","aID74142","LeftMenuActive","leftMenuLinkActive");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_unit','aes_p_h0','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_unit','aes_p_h0','_overview',this)" class="tabLinkActive">Overview</a></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="paragraphTable"></div>
+<table cellspacing="0"cellpadding=0 border=0 class="widthAndBorderTop">
+<TR VALIGN="top">
+<TD class="paddingHeadMultiColumn1"><span class="" align=left>Methods</TD>
+<TD class="paddingHeadMultiColumn2"><span class="" align=left>Brief description</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="" align=left><a href="#" onMouseOver="link('_member','AES_Configure342970182',this); "><img src="../../../../common/info.gif" border=0 onmouseover="overLibDiagram();return overlib('<strong>Syntax</strong><BR>void&nbsp;&nbsp;AES_Configure<BR>(unsigned char cipher, unsigned int smode, unsigned int opmode)',CAPTION,'<strong>Brief description</strong><BR>Configures the AES peripheral to encrypt/decrypt, start<BR>mode (manual, auto,    PDC) and operating mode (ECB,<BR>CBC, OFB, CFB, CTR).');" onmouseout="return nd();">&nbsp;AES_Configure</a></TD>
+<TD class="paddingNormal2"><span class="" >Configures the AES peripheral to encrypt/decrypt, start mode (manual, auto, PDC) and operating mode (ECB, CBC, OFB, CFB, CTR).<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="" align=left><a href="#" onMouseOver="link('_member','AES_GetOutputData2855758951',this); "><img src="../../../../common/info.gif" border=0 onmouseover="overLibDiagram();return overlib('<strong>Syntax</strong><BR>void&nbsp;&nbsp;AES_GetOutputData&nbsp;&nbsp;(unsigned int * pData)',CAPTION,'<strong>Brief description</strong><BR>Stores the result of the last AES operation<BR>(encrypt/decrypt) in the    provided buffer.');" onmouseout="return nd();">&nbsp;AES_GetOutputData</a></TD>
+<TD class="paddingNormal2"><span class="" >Stores the result of the last AES operation (encrypt/decrypt) in the provided buffer.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="" align=left><a href="#" onMouseOver="link('_member','AES_GetStatus53616',this); "><img src="../../../../common/info.gif" border=0 onmouseover="overLibDiagram();return overlib('<strong>Syntax</strong><BR>unsigned int&nbsp;&nbsp;AES_GetStatus&nbsp;&nbsp;(void )',CAPTION,'<strong>Brief description</strong><BR>Returns the current value of the AES interrupt status register.');" onmouseout="return nd();">&nbsp;AES_GetStatus</a></TD>
+<TD class="paddingNormal2"><span class="" >Returns the current value of the AES interrupt status register.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="" align=left><a href="#" onMouseOver="link('_member','AES_SetInputBuffer231118112',this); "><img src="../../../../common/info.gif" border=0 onmouseover="overLibDiagram();return overlib('<strong>Syntax</strong><BR>void&nbsp;&nbsp;AES_SetInputBuffer&nbsp;&nbsp;(const unsigned int * pInput)',CAPTION,'<strong>Brief description</strong><BR>Sets the input buffer to use when in PDC mode.');" onmouseout="return nd();">&nbsp;AES_SetInputBuffer</a></TD>
+<TD class="paddingNormal2"><span class="" >Sets the input buffer to use when in PDC mode.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="" align=left><a href="#" onMouseOver="link('_member','AES_SetInputData231118112',this); "><img src="../../../../common/info.gif" border=0 onmouseover="overLibDiagram();return overlib('<strong>Syntax</strong><BR>void&nbsp;&nbsp;AES_SetInputData&nbsp;&nbsp;(const unsigned int * pData)',CAPTION,'<strong>Brief description</strong><BR>Sets the input data of the AES algorithm (i.e.');" onmouseout="return nd();">&nbsp;AES_SetInputData</a></TD>
+<TD class="paddingNormal2"><span class="" >Sets the input <a href="#" OnMouseOver="link('_member','../../../basic-fatfs-nandflash-project/data0',this)">data</a> of the AES algorithm (i.e.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="" align=left><a href="#" onMouseOver="link('_member','AES_SetKey231118112',this); "><img src="../../../../common/info.gif" border=0 onmouseover="overLibDiagram();return overlib('<strong>Syntax</strong><BR>void&nbsp;&nbsp;AES_SetKey&nbsp;&nbsp;(const unsigned int * pKey)',CAPTION,'<strong>Brief description</strong><BR>Sets the key used by the AES algorithm to cipher the<BR>plain text or    decipher the encrypted text.');" onmouseout="return nd();">&nbsp;AES_SetKey</a></TD>
+<TD class="paddingNormal2"><span class="" >Sets the key used by the AES algorithm to cipher the plain text or decipher the encrypted text.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="" align=left><a href="#" onMouseOver="link('_member','AES_SetOutputBuffer2855758951',this); "><img src="../../../../common/info.gif" border=0 onmouseover="overLibDiagram();return overlib('<strong>Syntax</strong><BR>void&nbsp;&nbsp;AES_SetOutputBuffer&nbsp;&nbsp;(unsigned int * pOutput)',CAPTION,'<strong>Brief description</strong><BR>Sets the output buffer to use when in PDC mode.');" onmouseout="return nd();">&nbsp;AES_SetOutputBuffer</a></TD>
+<TD class="paddingNormal2"><span class="" >Sets the output buffer to use when in PDC mode.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="" align=left><a href="#" onMouseOver="link('_member','AES_SetVector231118112',this); "><img src="../../../../common/info.gif" border=0 onmouseover="overLibDiagram();return overlib('<strong>Syntax</strong><BR>void&nbsp;&nbsp;AES_SetVector&nbsp;&nbsp;(const unsigned int * pVector)',CAPTION,'<strong>Brief description</strong><BR>Sets the initialization vector that is used to encrypt<BR>the plain text or    decrypt the cipher text in chained<BR>block modes (CBC, CFB, OFB & CTR).');" onmouseout="return nd();">&nbsp;AES_SetVector</a></TD>
+<TD class="paddingNormal2"><span class="" >Sets the initialization vector that is used to encrypt the plain text or decrypt the cipher text in chained block modes (CBC, CFB, OFB &amp; CTR).<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="" align=left><a href="#" onMouseOver="link('_member','AES_Start53616',this); "><img src="../../../../common/info.gif" border=0 onmouseover="overLibDiagram();return overlib('<strong>Syntax</strong><BR>void&nbsp;&nbsp;AES_Start&nbsp;&nbsp;(void )',CAPTION,'<strong>Brief description</strong><BR>Starts the encryption/decryption process when in manual or PDC mode.');" onmouseout="return nd();">&nbsp;AES_Start</a></TD>
+<TD class="paddingNormal2"><span class="" >Starts the encryption/decryption process when in manual or PDC mode.<br>
+</TD>
+</TR>
+</table>
+<div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_unit','_overview');
+</script>

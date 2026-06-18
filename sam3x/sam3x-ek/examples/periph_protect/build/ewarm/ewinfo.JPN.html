@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.w3.org/MarkUp/SCHEMA/xhtml11.xsd"
+     xml:lang="en">
+  <head>
+    <title>Information Center for ARM - EXAMPLE PROJECTS</title>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" media="all" href="file://$TOOLKIT_DIR$/doc/infocenter/style/ewic.css" />
+  </head>
+  <body>
+  <div id="topbanner"></div>
+  <div id="titlebanner_small">
+    <h2>Information Center for ARM</h2>
+  </div>
+  <div class="breadcrumb"><a href="file://$TOOLKIT_DIR$/doc/infocenter/index.JPN.html">Information Center for ARM</a> | EXAMPLES</div>
+  <div class="mainblock">
+   <h2><a href="file:/$CUR_DIR$/../../../../documentation/html/periph_protect.html" />periph_protect</a></h2>
+   <p>
+ The application shows the protective mechanism of the PIO controller. The example chooses a pin connected with a led (D2, PA12). This pin is multiplexed with the PWM0 of the peripheral PWM. In the example, the control of the pin could be switched by pressing the pushbutton 1. When the pin is controlled by PIOC, the connected LED is turned on. When the pin is used as PWM0, the connected LED is keeping flashing. The switching is implemented by writing ABCD Select Registers. This register can only be written if the WPEN bit is cleared in PIO Write Protect Mode Register. The WPEN bit can be set/clear by pressing the pushbutton 2. If the write protection is enable, switching the peripheral funtions will be unsuccessful. A warning is generated as well. The source of violation will be reported to the console by reading the register, pio write protect status register.
+</p>
+  </div>
+  </body>
+</html>

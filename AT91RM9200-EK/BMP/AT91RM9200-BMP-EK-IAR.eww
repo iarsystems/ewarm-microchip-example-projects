@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<workspace>
+  <project>
+    <path>$WS_DIR$/AT91RM9200-BMP-EK-IAR.ewp</path>
+  </project>
+  <batchBuild>
+    <batchDefinition>
+      <name>All</name>
+      <member>
+        <project>AT91RM9200-BMP-EK-IAR</project>
+        <configuration>FlashMemory</configuration>
+      </member>
+      <member>
+        <project>AT91RM9200-BMP-EK-IAR</project>
+        <configuration>FlashRelease</configuration>
+      </member>
+    </batchDefinition>
+  </batchBuild>
+</workspace>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<workspace>
+  <project>
+    <path>$WS_DIR$/libmemories_sam4s.ewp</path>
+  </project>
+  <batchBuild>
+    <batchDefinition>
+      <name>build_all</name>
+      <member>
+        <project>libmemories_sam4s</project>
+        <configuration>Debug</configuration>
+      </member>
+      <member>
+        <project>libmemories_sam4s</project>
+        <configuration>Release</configuration>
+      </member>
+    </batchDefinition>
+  </batchBuild>
+</workspace>

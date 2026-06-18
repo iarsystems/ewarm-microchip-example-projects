@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - NorFlash_CFI_DumpConfigruation</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">NorFlash_CFI_DumpConfigruation</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','norflash0',this)" class="pathLink">norflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">NorFlash_CFI_DumpConfigruation</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','NorFlash_CFI_DumpConfigruation1988777420','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','NorFlash_CFI_DumpConfigruation1988777420','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 55</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','NorFlash_CFI_DumpConfigruation1988777420',this); ">NorFlash_CFI_DumpConfigruation</a>(struct <a href="#" onMouseOver="link('_class','NorFlashCFI0',this); ">NorFlashCFI</a> *pNorFlashCFI)
+{
+    unsigned char i;
+    
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("Common Flash Interface Definition Table\n\r");
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("Addr. Data   Description \n\r");
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x10  %04Xh  Query Unique ASCII string\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','queryUniqueString4115201345',this); ">queryUniqueString</a>[0]);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x11  %04Xh  \n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','queryUniqueString4115201345',this); ">queryUniqueString</a>[1]);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x12  %04Xh  \n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','queryUniqueString4115201345',this); ">queryUniqueString</a>[2]);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x13  %04Xh  Primary OEM Command Set\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','primaryCode4115201345',this); ">primaryCode</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x15  %04Xh  Address for Primary Extended Table\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','primaryAddr4115201345',this); ">primaryAddr</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x17  %04Xh  Alternate OEM Command Set\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','alternateCode4115201345',this); ">alternateCode</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x19  %04Xh  Address for Alternate OEM Extended Table\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','alternateAddr4115201345',this); ">alternateAddr</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x1B  %04Xh  VCC min write/erase\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','minVcc4115201345',this); ">minVcc</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x1C  %04Xh  VCC max write/erase\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','maxVcc4115201345',this); ">maxVcc</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x1D  %04Xh  VPP min voltage\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','minVpp4115201345',this); ">minVpp</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x1E  %04Xh  VPP max voltage\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','maxVpp4115201345',this); ">maxVpp</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x1F  %04Xh  Typical timeout per single word write\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','minTimeOutWrite4115201345',this); ">minTimeOutWrite</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x20  %04Xh  Typical timeout for Min. size buffer write\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','minTimeOutBuffer4115201345',this); ">minTimeOutBuffer</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x21  %04Xh  Typical timeout per individual block erase\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','minTimeOutBlockErase4115201345',this); ">minTimeOutBlockErase</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x22  %04Xh  Typical timeout for full chip erase\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','minTimeOutChipErase4115201345',this); ">minTimeOutChipErase</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x23  %04Xh  Max. timeout for word write\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','maxTimeOutWrite4115201345',this); ">maxTimeOutWrite</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x24  %04Xh  Max. timeout for buffer write\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','maxTimeOutBuffer4115201345',this); ">maxTimeOutBuffer</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x25  %04Xh  Max. timeout per individual block erase\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','maxTimeOutBlockErase4115201345',this); ">maxTimeOutBlockErase</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x26  %04Xh  Max. timeout for full chip erase\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiQueryInfo160906175',this); ">norFlashCfiQueryInfo</a>.<a href="#" onMouseOver="link('_member','maxTimeOutChipErase4115201345',this); ">maxTimeOutChipErase</a>);
+    
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x27  %04Xh  Device Size = 2N byte\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiDeviceGeometry160906175',this); ">norFlashCfiDeviceGeometry</a>.<a href="#" onMouseOver="link('_member','deviceSize1237095219',this); ">deviceSize</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x28  %04Xh  Flash Device Interface description\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiDeviceGeometry160906175',this); ">norFlashCfiDeviceGeometry</a>.<a href="#" onMouseOver="link('_member','deviceInterface1237095219',this); ">deviceInterface</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x2A  %04Xh  Max. number of byte in multi-byte write\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiDeviceGeometry160906175',this); ">norFlashCfiDeviceGeometry</a>.<a href="#" onMouseOver="link('_member','numMultiWrite1237095219',this); ">numMultiWrite</a>);
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x2C  %04Xh  Number of Erase Block Regions within device\n\r",
+    pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiDeviceGeometry160906175',this); ">norFlashCfiDeviceGeometry</a>.<a href="#" onMouseOver="link('_member','numEraseRegion1237095219',this); ">numEraseRegion</a>);
+    for(i = 0; i &lt; pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiDeviceGeometry160906175',this); ">norFlashCfiDeviceGeometry</a>.<a href="#" onMouseOver="link('_member','numEraseRegion1237095219',this); ">numEraseRegion</a>; i++) {
+        <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x%2X  %04Xh  Number of Erase Blocks of identical size within region %x \n\r",
+            0x2D + i * 4, pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiDeviceGeometry160906175',this); ">norFlashCfiDeviceGeometry</a>.<a href="#" onMouseOver="link('_member','eraseRegionInfo1237095219',this); ">eraseRegionInfo</a>[i].<a href="#" onMouseOver="link('_member','Y4195001345',this); ">Y</a>, i );
+        <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("0x%2X  %04Xh  (z) times 256 bytes within region %x \n\r",
+            0x2E + i * 4, pNorFlashCFI-&gt;<a href="#" onMouseOver="link('_member','norFlashCfiDeviceGeometry160906175',this); ">norFlashCfiDeviceGeometry</a>.<a href="#" onMouseOver="link('_member','eraseRegionInfo1237095219',this); ">eraseRegionInfo</a>[i].<a href="#" onMouseOver="link('_member','Z4195001345',this); ">Z</a>, i );
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

@@ -1,0 +1,230 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_tdesmi_project0',this)" class="pathLink">basic-tdes-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 406</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>()
+{
+    unsigned int pKey1[2];
+    unsigned int pKey2[2];
+    unsigned int pKey3[2];
+    unsigned int pVector[2];
+    unsigned int pInput[2];
+    unsigned int pOutput[2];
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_CONFIGURE1432879529',this); ">TRACE_CONFIGURE</a>(DBGU_STANDARD, 115200, BOARD_MCK);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Basic Triple DES Project %s --\n\r", SOFTPACK_VERSION);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- %s\n\r", BOARD_NAME);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
+
+    // Power-up TDES
+#ifdef AT91C_ID_AES
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pmc/PMC_EnablePeripheral171142247',this); ">PMC_EnablePeripheral</a>( AT91C_ID_AES );
+#elif AT91C_ID_AESTDES
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pmc/PMC_EnablePeripheral171142247',this); ">PMC_EnablePeripheral</a>( AT91C_ID_AESTDES );
+#elif AT91C_ID_TDES
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pmc/PMC_EnablePeripheral171142247',this); ">PMC_EnablePeripheral</a>( AT91C_ID_TDES );
+#else
+#error AES undefined
+#endif
+
+    // Tests
+    // Single-DES ECB encrypt
+    pKey1[0] = 0x67452301; pKey1[1] = 0xEFCDAB89;
+    pInput[0] = 0x20776F4E; pInput[1] = 0x74207369;
+    pOutput[0] = 0xF4192A6A; pOutput[1] = 0x4B85CA1E;
+    Test(AT91C_TDES_CIPHER,
+         AT91C_TDES_OPMOD_ECB,
+         pKey1,
+         0, 0, 0,
+         pInput,
+         pOutput);
+
+    // Single-DES ECB decrypt
+    pKey1[0] = 0x67452301; pKey1[1] = 0xEFCDAB89;
+    pInput[0] = 0x20776F4E; pInput[1] = 0x74207369;
+    pOutput[0] = 0x2f4fd6cd; pOutput[1] = 0x5dc12794;
+    Test(0,
+         AT91C_TDES_OPMOD_ECB,
+         pKey1,
+         0, 0, 0,
+         pInput,
+         pOutput);
+
+    // Triple-DES/2 keys ECB encryption
+    pKey1[0] = 0x67452301; pKey1[1] = 0xEFCDAB89;
+    pKey2[0] = 0x89674523; pKey2[1] = 0x01efcdab;
+    pInput[0] = 0x20776F4E; pInput[1] = 0x74207369;
+    pOutput[0] = 0x5b9fe603; pOutput[1] = 0x42eb58fa;
+    Test(AT91C_TDES_CIPHER,
+         AT91C_TDES_OPMOD_ECB,
+         pKey1,
+         pKey2,
+         0, 0,
+         pInput,
+         pOutput);
+
+    // Triple-DES/2 keys ECB decryption
+    pKey1[0] = 0x67452301; pKey1[1] = 0xEFCDAB89;
+    pKey2[0] = 0x89674523; pKey2[1] = 0x01efcdab;
+    pInput[0] = 0x20776F4E; pInput[1] = 0x74207369;
+    pOutput[0] = 0xfac89669; pOutput[1] = 0xebaba247;
+    Test(0,
+         AT91C_TDES_OPMOD_ECB,
+         pKey1,
+         pKey2,
+         0, 0,
+         pInput,
+         pOutput);
+
+    // Triple-DES/3 keys ECB encryption
+    pKey1[0] = 0x67452301; pKey1[1] = 0xEFCDAB89;
+    pKey2[0] = 0x89674523; pKey2[1] = 0x01efcdab;
+    pKey3[0] = 0xab896745; pKey3[1] = 0x2301efcd;
+    pInput[0] = 0x20776F4E; pInput[1] = 0x74207369;
+    pOutput[0] = 0xb8e817dd; pOutput[1] = 0x32d237b4;
+    Test(AT91C_TDES_CIPHER,
+         AT91C_TDES_OPMOD_ECB,
+         pKey1,
+         pKey2,
+         pKey3,
+         0,
+         pInput,
+         pOutput);
+
+    // Triple-DES/3 keys ECB decryption
+    pKey1[0] = 0x67452301; pKey1[1] = 0xEFCDAB89;
+    pKey2[0] = 0x89674523; pKey2[1] = 0x01efcdab;
+    pKey3[0] = 0xab896745; pKey3[1] = 0x2301efcd;
+    pInput[0] = 0x20776F4E; pInput[1] = 0x74207369;
+    pOutput[0] = 0x76392583; pOutput[1] = 0x0a1a0944;
+    Test(0,
+         AT91C_TDES_OPMOD_ECB,
+         pKey1,
+         pKey2,
+         pKey3,
+         0,
+         pInput,
+         pOutput);
+
+    // Single-DES CBC encrypt
+    pKey1[0] = 0x67452301; pKey1[1] = 0xefcdab89;
+    pVector[0] = 0x78563412; pVector[1] = 0xefcdab90;
+    pInput[0] = 0x20776f4e; pInput[1] = 0x74207369;
+    pOutput[0] = 0xf65af154; pOutput[1] = 0xb4a4e3eb;
+    Test(AT91C_TDES_CIPHER,
+         AT91C_TDES_OPMOD_CBC,
+         pKey1,
+         0, 0,
+         pVector,
+         pInput,
+         pOutput);
+
+    // Single-DES CBC decrypt
+    pKey1[0] = 0x67452301; pKey1[1] = 0xefcdab89;
+    pVector[0] = 0x78563412; pVector[1] = 0xefcdab90;
+    pInput[0] = 0x20776f4e; pInput[1] = 0x74207369;
+    pOutput[0] = 0xb9409f12; pOutput[1] = 0xb35600d2;
+    Test(0,
+         AT91C_TDES_OPMOD_CBC,
+         pKey1,
+         0, 0,
+         pVector,
+         pInput,
+         pOutput);
+    
+    // Triple-DES/2 keys CBC encryption
+    pKey1[0] = 0x67452301; pKey1[1] = 0xefcdab89;
+    pKey2[0] = 0x89674523; pKey2[1] = 0x01efcdab;
+    pVector[0] = 0x78563412; pVector[1] = 0xefcdab90;
+    pInput[0] = 0x20776f4e; pInput[1] = 0x74207369;
+    pOutput[0] = 0x56117635; pOutput[1] = 0x4d8ea15f;
+    Test(AT91C_TDES_CIPHER,
+         AT91C_TDES_OPMOD_CBC,
+         pKey1,
+         pKey2,
+         0,
+         pVector,
+         pInput,
+         pOutput);
+    
+    // Triple-DES/2 keys CBC decryption
+    pKey1[0] = 0x67452301; pKey1[1] = 0xefcdab89;
+    pKey2[0] = 0x89674523; pKey2[1] = 0x01efcdab;
+    pVector[0] = 0x78563412; pVector[1] = 0xefcdab90;
+    pInput[0] = 0x20776f4e; pInput[1] = 0x74207369;
+    pOutput[0] = 0x9afc0e47; pOutput[1] = 0x93e38e6b;
+    Test(0,
+         AT91C_TDES_OPMOD_CBC,
+         pKey1,
+         pKey2,
+         0,
+         pVector,
+         pInput,
+         pOutput);
+    
+    // Triple-DES/3 keys CBC encryption
+    pKey1[0] = 0x67452301; pKey1[1] = 0xefcdab89;
+    pKey2[0] = 0x89674523; pKey2[1] = 0x01efcdab;
+    pKey3[0] = 0xab896745; pKey3[1] = 0x2301efcd;
+    pVector[0] = 0x78563412; pVector[1] = 0xefcdab90;
+    pInput[0] = 0x20776f4e; pInput[1] = 0x74207369;
+    pOutput[0] = 0x851f19cb; pOutput[1] = 0x3984edd1;
+    Test(AT91C_TDES_CIPHER,
+         AT91C_TDES_OPMOD_CBC,
+         pKey1,
+         pKey2,
+         pKey3,
+         pVector,
+         pInput,
+         pOutput);
+    
+    // Triple-DES/3 keys CBC decryption
+    pKey1[0] = 0x67452301; pKey1[1] = 0xefcdab89;
+    pKey2[0] = 0x89674523; pKey2[1] = 0x01efcdab;
+    pKey3[0] = 0xab896745; pKey3[1] = 0x2301efcd;
+    pVector[0] = 0x78563412; pVector[1] = 0xefcdab90;
+    pInput[0] = 0x20776f4e; pInput[1] = 0x74207369;
+    pOutput[0] = 0x63cfcec5; pOutput[1] = 0x4c51ecec;
+    Test(0,
+         AT91C_TDES_OPMOD_CBC,
+         pKey1,
+         pKey2,
+         pKey3,
+         pVector,
+         pInput,
+         pOutput);
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

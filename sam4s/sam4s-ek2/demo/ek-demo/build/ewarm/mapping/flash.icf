@@ -1,0 +1,41 @@
+/*###ICF### Section handled by ICF editor, don't touch! ****/
+/*-Editor annotation file-*/
+/* IcfEditorFile="$TOOLKIT_DIR$\config\ide\IcfEditor\a_v1_0.xml" */
+/*-Specials-*/
+define symbol __ICFEDIT_intvec_start__ = 0x00400000;
+/*-Memory Regions-*/
+define symbol __ICFEDIT_region_ROM_start__  = 0x00400000 ;
+define symbol __ICFEDIT_region_ROM_end__    = 0x004FFFFF ;
+define symbol __ICFEDIT_region_RAM_start__  = 0x20000000 ;
+define symbol __ICFEDIT_region_RAM_end__    = 0x2000FFFF ;
+/*-Sizes-*/
+define symbol __ICFEDIT_size_cstack__        = 0x3000 ;
+define symbol __ICFEDIT_size_heap__          = 0x4000 ;
+/**** End of ICF editor section. ###ICF###*/
+
+define symbol __size_parameters__    = 0x10000 ;
+
+define symbol __offset_parameters__  = __ICFEDIT_region_ROM_end__+1-__size_parameters__ ;
+export symbol __offset_parameters__ ;
+
+define symbol __vector_start__ = __ICFEDIT_intvec_start__ ; // Add for CMSIS
+export symbol __vector_start__ ;                            // Add for CMSIS
+
+define memory mem with size   = 4G ;
+define region RAM_region = mem:[from __ICFEDIT_region_RAM_start__ to __ICFEDIT_region_RAM_end__] ;
+define region ROM_region = mem:[from __ICFEDIT_region_ROM_start__ to __ICFEDIT_region_ROM_end__-__size_parameters__] ;
+define region Parameters_region = mem:[from __offset_parameters__ to __ICFEDIT_region_ROM_end__] ;
+
+define block CSTACK    with alignment = 8, size = __ICFEDIT_size_cstack__ {} ;
+define block HEAP      with alignment = 8, size = __ICFEDIT_size_heap__ {} ;
+
+define block DEMO_PARAMETERS with alignment = 8, size = __size_parameters__ {} ;
+
+place at address mem:__ICFEDIT_intvec_start__ { readonly section .intvec } ; // Add for CMSIS
+
+initialize by copy { readwrite } ;
+do not initialize { section .noinit } ;
+
+place in ROM_region { readonly } ;
+place in Parameters_region { block DEMO_PARAMETERS } ;
+place in RAM_region { readwrite, block CSTACK, block HEAP } ;

@@ -1,0 +1,93 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_keyboardmatrixmi_project0',this)" class="pathLink">basic-keyboardmatrix-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 296</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>()
+{
+    unsigned int div, tcclks;
+    unsigned int i;
+
+    // Configure DBGU
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_CONFIGURE1432879529',this); ">TRACE_CONFIGURE</a>(DBGU_STANDARD, 115200, BOARD_MCK);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Basic Keyboard Matrix Project %s --\n\r", SOFTPACK_VERSION);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- %s\n\r", BOARD_NAME);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
+
+    // Configure keyboard matrix pins
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- Configuring PIOs\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(pinsRow, <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_LISTSIZE2758449565',this); ">PIO_LISTSIZE</a>(pinsRow));
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(pinsCol, <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_LISTSIZE2758449565',this); ">PIO_LISTSIZE</a>(pinsCol));
+
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_InitializeInterrupts171142247',this); ">PIO_InitializeInterrupts</a>(0x0);
+    for (i=0; i &lt; <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_LISTSIZE2758449565',this); ">PIO_LISTSIZE</a>(pinsCol); i++) {
+
+        <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_ConfigureIt1036220330',this); ">PIO_ConfigureIt</a>(&amp;(pinsCol[i]), ISR_Pio);
+    }
+
+    // Configure LED0 to display 2ndF lock status
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/LED_Configure171142247',this); ">LED_Configure</a>(0);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/LED_Clear171142247',this); ">LED_Clear</a>(0);
+
+    // Configure TC0
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- Configuring TC0\n\r");
+    AT91C_BASE_PMC-&gt;PMC_PCER = 1 &lt;&lt; AT91C_ID_TC0;
+    ASSERT(<a href="#" onMouseOver="link('_member','../at91lib/peripherals/tc/TC_FindMckDivisor158492116',this); ">TC_FindMckDivisor</a>(SAMPLE_RATE, BOARD_MCK, &amp;div, &amp;tcclks),
+           "-F- Could not generate the desired timer frequency\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/tc/TC_Configure1961727705',this); ">TC_Configure</a>(AT91C_BASE_TC0, tcclks | AT91C_TC_WAVE | AT91C_TC_WAVESEL_UP_AUTO);
+    AT91C_BASE_TC0-&gt;TC_RC = <a href="#" onMouseOver="link('_member','../at91lib/boards/at91cap9-dk/BOARD_MCK3857385940',this); ">BOARD_MCK</a> / (<a href="#" onMouseOver="link('_member','SAMPLE_RATE1122568939',this); ">SAMPLE_RATE</a> * div);
+
+     // Configure TC0 interrupt
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_DisableIT171142247',this); ">IRQ_DisableIT</a>(AT91C_ID_TC0);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_ConfigureIT3223024299',this); ">IRQ_ConfigureIT</a>(AT91C_ID_TC0, 0, ISR_Tc0);
+    AT91C_BASE_TC0-&gt;TC_IER = AT91C_TC_CPCS;
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_EnableIT171142247',this); ">IRQ_EnableIT</a>(AT91C_ID_TC0);
+
+    // Initialize keyboard
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- Configuring keyboard matrix driver\n\r");
+    <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/KBMATRIX_Initialize3928160533',this); ">KBMATRIX_Initialize</a>(&amp;kbMatrix,
+                        pinsRow,
+                        <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_LISTSIZE2758449565',this); ">PIO_LISTSIZE</a>(pinsRow),
+                        pinsCol,
+                        <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_LISTSIZE2758449565',this); ">PIO_LISTSIZE</a>(pinsCol),
+                        KeyStateChanged);
+
+    // Start timer
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/tc/TC_Start136695210',this); ">TC_Start</a>(AT91C_BASE_TC0);
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- Press any key on the board\n\r");
+
+    // Infinite loop (key presses are treated in interrupt routines
+    while (1);
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

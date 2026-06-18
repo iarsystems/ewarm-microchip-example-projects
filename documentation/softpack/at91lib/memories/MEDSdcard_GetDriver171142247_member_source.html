@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - MEDSdcard_GetDriver</TITLE>
+<script type="text/javascript" src="../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../common/";
+ var relPathToHelpDir = "../../../common/help/";
+ var toSearchPage     = "_search','../../../search";
+ Body1();
+</script>
+<div class="headerPage">MEDSdcard_GetDriver</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','memories0',this)" class="pathLink">memories</A><img src="../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">MEDSdcard_GetDriver</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','MEDSdcard_GetDriver171142247','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','MEDSdcard_GetDriver171142247','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 651</div>
+<pre class="codeExamples">
+<a href="#" onMouseOver="link('_class','sdmmc/_SdCard0',this); ">SdCard</a> * <a href="#" onMouseOver="link('_member','MEDSdcard_GetDriver171142247',this); ">MEDSdcard_GetDriver</a>(unsigned int slot)
+{
+    if (slot &gt;= <a href="#" onMouseOver="link('_member','NUM_SD_SLOTS3422076917',this); ">NUM_SD_SLOTS</a>) return 0;
+    return &amp;sdDrv[slot];
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

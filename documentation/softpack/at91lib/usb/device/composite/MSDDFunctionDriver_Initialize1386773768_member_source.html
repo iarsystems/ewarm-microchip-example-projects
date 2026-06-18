@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - MSDDFunctionDriver_Initialize</TITLE>
+<script type="text/javascript" src="../../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../../common/";
+ var relPathToHelpDir = "../../../../../common/help/";
+ var toSearchPage     = "_search','../../../../../search";
+ Body1();
+</script>
+<div class="headerPage">MSDDFunctionDriver_Initialize</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../usb0',this)" class="pathLink">usb</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../device0',this)" class="pathLink">device</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','composite0',this)" class="pathLink">composite</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">MSDDFunctionDriver_Initialize</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','MSDDFunctionDriver_Initialize1386773768','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','MSDDFunctionDriver_Initialize1386773768','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 110</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','MSDDFunctionDriver_Initialize1386773768',this); ">MSDDFunctionDriver_Initialize</a>(<a href="#" onMouseOver="link('_class','../core/USBDDriver0',this); ">USBDDriver</a> *pUsbdDriver, <a href="#" onMouseOver="link('_class','../massstorage/MSDLun0',this); ">MSDLun</a> *luns, unsigned char numLuns, unsigned char interfaceNum, unsigned char bulkInEndpoint, unsigned char bulkOutEndpoint)
+{
+    TRACE_INFO("MSD init\n\r");
+    
+    msdFunDriver.pUsbdDriver = pUsbdDriver;
+    msdFunDriver.pMsdDriver = &amp;msdDriver;
+    msdFunDriver.interfaceNum = interfaceNum;
+    msdFunDriver.bulkInEndpoint = bulkInEndpoint;
+    msdFunDriver.bulkOutEndpoint = bulkOutEndpoint;
+
+    // Command state initialization
+    msdDriver.commandState.state = 0;
+    msdDriver.commandState.postprocess = 0;
+    msdDriver.commandState.length = 0;
+    msdDriver.commandState.transfer.semaphore = 0;
+
+    // LUNs
+    msdDriver.luns = <a href="#" onMouseOver="link('_member','../../../../usb-device-composite-cdcmsd-project/luns0',this); ">luns</a>;
+    msdDriver.maxLun = (unsigned char) (numLuns - 1);
+
+    // Reset BOT driver
+    MSDD_Reset();
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

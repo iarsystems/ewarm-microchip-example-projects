@@ -1,0 +1,106 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - NandFlashModel_Find</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">NandFlashModel_Find</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">NandFlashModel_Find</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','NandFlashModel_Find817418041','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','NandFlashModel_Find817418041','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 113</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','NandFlashModel_Find817418041',this); ">NandFlashModel_Find</a>(const struct <a href="#" onMouseOver="link('_class','NandFlashModel0',this); ">NandFlashModel</a> *modelList, unsigned int size, unsigned int id, struct <a href="#" onMouseOver="link('_class','NandFlashModel0',this); ">NandFlashModel</a> *model)
+{
+    unsigned char found = 0, id2, id4;
+    unsigned int i;
+    #if defined(CHIP_NAND_CTRL)
+    unsigned char pageSize = 0;
+    #endif
+    id2 = (unsigned char)(chipId&gt;&gt;8);
+    id4 = (unsigned char)(chipId&gt;&gt;24);
+
+    TRACE_INFO("Nandflash ID is 0x%08X\n\r", chipId);
+
+    for(i=0; i&lt;size; i++) {
+        if(modelList[i].<a href="#" onMouseOver="link('_member','deviceId144427375',this); ">deviceId</a> == id2) {
+            found = 1;
+
+            if(model) {
+
+                <a href="#" onMouseOver="link('_member','../../utility/memcpy1713522179',this); ">memcpy</a>(model, &amp;modelList[i], sizeof(struct <a href="#" onMouseOver="link('_class','NandFlashModel0',this); ">NandFlashModel</a>));
+
+                if(model-&gt;blockSizeInKBytes == 0 || model-&gt;pageSizeInBytes == 0) {
+                    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("Fetch from ID4(0x%.2x):\r\n", id4);
+                    #if !defined(OP_BOOTSTRAP_on)
+                    switch(id4 &amp; 0x03) {
+                        case 0x00: model-&gt;pageSizeInBytes = 1024; break;
+                        case 0x01: model-&gt;pageSizeInBytes = 2048; break;
+                        case 0x02: model-&gt;pageSizeInBytes = 4096; break;
+                        case 0x03: model-&gt;pageSizeInBytes = 8192; break;
+                    }
+                    switch(id4 &amp; 0x30) {
+                        case 0x00: model-&gt;blockSizeInKBytes = 64;  break;
+                        case 0x10: model-&gt;blockSizeInKBytes = 128; break;
+                        case 0x20: model-&gt;blockSizeInKBytes = 256; break;
+                        case 0x30: model-&gt;blockSizeInKBytes = 512; break;
+                    }
+                    #else
+                    model-&gt;pageSizeInBytes = 1024 &lt;&lt; (id4 &amp; 0x03);
+                    model-&gt;blockSizeInKBytes = (64) &lt;&lt; ((id4 &amp; 0x30) &gt;&gt;4);
+                    #endif
+                }
+                #if defined(CHIP_NAND_CTRL)
+                    switch(model-&gt;pageSizeInBytes) {
+                        case 1024: pageSize = AT91C_HSMC4_PAGESIZE_1056_Bytes; break;
+                        case 2048: pageSize = AT91C_HSMC4_PAGESIZE_2112_Bytes; break;
+                        case 4096: pageSize = AT91C_HSMC4_PAGESIZE_4224_Bytes; break;
+                        default: TRACE_ERROR("Unsupportted page size for NAND Flash Controller\n\r");
+                    }
+                    HSMC4_SetMode(pageSize | AT91C_HSMC4_DTOMUL_1048576 | AT91C_HSMC4_EDGECTRL |AT91C_HSMC4_DTOCYC | AT91C_HSMC4_RSPARE);
+                #endif
+            }
+            <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("NAND Model found:\r\n");
+            <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>(" * deviceId = 0x%02X\r\n", model-&gt;deviceId);
+            <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>(" * deviceSizeInMegaBytes = %d\r\n", model-&gt;deviceSizeInMegaBytes);
+            <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>(" * blockSizeInkBytes = %d\r\n", model-&gt;blockSizeInKBytes);
+            <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>(" * pageSizeInBytes = %d\r\n", model-&gt;pageSizeInBytes);
+            <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>(" * options = 0x%02X\r\n", model-&gt;options);
+            break;
+        }
+    }
+
+    // Check if chip has been detected
+    if (found) {
+
+        return 0;
+    }
+    else {
+
+        return <a href="#" onMouseOver="link('_member','NandCommon_ERROR_UNKNOWNMODEL3454457112',this); ">NandCommon_ERROR_UNKNOWNMODEL</a>;
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

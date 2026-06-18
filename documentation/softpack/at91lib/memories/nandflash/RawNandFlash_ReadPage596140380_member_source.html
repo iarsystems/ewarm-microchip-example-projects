@@ -1,0 +1,99 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - RawNandFlash_ReadPage</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">RawNandFlash_ReadPage</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">RawNandFlash_ReadPage</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','RawNandFlash_ReadPage596140380','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','RawNandFlash_ReadPage596140380','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 614</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','RawNandFlash_ReadPage596140380',this); ">RawNandFlash_ReadPage</a>(const struct <a href="#" onMouseOver="link('_class','RawNandFlash0',this); ">RawNandFlash</a> *raw, unsigned short block, unsigned short page, void *data, void *spare)
+{
+    unsigned char hasSmallBlocks = <a href="#" onMouseOver="link('_member','NandFlashModel_HasSmallBlocks4019471155',this); ">NandFlashModel_HasSmallBlocks</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(raw));
+    unsigned int pageDataSize = <a href="#" onMouseOver="link('_member','NandFlashModel_GetPageDataSize4019471155',this); ">NandFlashModel_GetPageDataSize</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(raw));
+    unsigned int pageSpareSize = <a href="#" onMouseOver="link('_member','NandFlashModel_GetPageSpareSize4019471155',this); ">NandFlashModel_GetPageSpareSize</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(raw));
+    unsigned int colAddress;
+    unsigned int rowAddress;
+
+    ASSERT(data || spare, "RawNandFlash_ReadPage: At least one area must be read\n\r");
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("RawNandFlash_ReadPage(B#%d:P#%d)\r\n", block, page);
+
+    // Calculate actual address of the page
+    rowAddress = block * <a href="#" onMouseOver="link('_member','NandFlashModel_GetBlockSizeInPages4019471155',this); ">NandFlashModel_GetBlockSizeInPages</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(raw)) + page;
+
+    // Start operation
+    ENABLE_CE(raw);
+
+    if (<a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a>) {
+        colAddress = 0;
+    }
+    else {
+        // to read spare area in sequential access
+        colAddress = pageDataSize;
+    }
+
+    // Use either small blocks or large blocks data area read
+    if (hasSmallBlocks) {
+
+        WRITE_COMMAND(raw, COMMAND_READ_A);
+        WriteColumnAddress(raw, colAddress);
+        WriteRowAddress(raw, rowAddress);
+    }
+    else {
+
+        WRITE_COMMAND(raw, COMMAND_READ_1);
+        WriteColumnAddress(raw, colAddress);
+        WriteRowAddress(raw, rowAddress);
+        WRITE_COMMAND(raw, COMMAND_READ_2);
+    }
+
+    // Wait for the nand to be ready
+    WaitReady(raw);
+
+    // Read data area if needed
+    if (<a href="#" onMouseOver="link('_member','../../../basic-fatfs-project/data0',this); ">data</a>) {
+        WRITE_COMMAND(raw, COMMAND_READ_1);
+        ReadData(raw, (unsigned char *) data, pageDataSize);
+
+        if (spare) {
+            ReadData(raw, (unsigned char *) spare, pageSpareSize);
+        }
+    }
+    else {
+        // Read spare area only
+        WRITE_COMMAND(raw, COMMAND_READ_1);
+        ReadData(raw, (unsigned char *) spare, pageSpareSize);
+    }
+
+    // Disable CE
+    DISABLE_CE(raw);
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

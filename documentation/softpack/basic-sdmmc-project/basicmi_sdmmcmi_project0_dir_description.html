@@ -1,0 +1,131 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - basic-sdmmc-project</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">basic-sdmmc-project</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">basic-sdmmc-project</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("divID73972","aID73972","headerLeftMenuActive","leftMenuLinkHeadActive");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_dir','basicmi_sdmmcmi_project0','_description',this)" class="tabLinkActive">Description</a></span>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_dir','basicmi_sdmmcmi_project0','_dirgraph',this)" class="tabLinkInActive">Graph</a></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<span class="paragraph1">basic-sdmmc-project</span>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="padding"><div class="userParagraph1">Purpose</div>
+The Basic-sdmmc-project will help you to get familiar with <a href="#" OnMouseOver="link('_page','../at91lib/memories/sdmmc/sdmmc_mci0',this)">sdmmc_mci</a> interface on AT91SAM microcontrollers. It <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> also help you to get familiar with the SD &amp; MMC operation flow which <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> be used for fast implementation of your own SD <a href="#" OnMouseOver="link('_dir','../at91lib/drivers/drivers0',this)">drivers</a> and other applications related.<br>
+<br>
+</div>
+<div class="padding">You <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> find following information depends on your needs:<ul>
+<li>Usage of auto detection of sdcard insert and sdcard write-protection</li>
+<li>MCI interface initialize sequence and interrupt installation</li>
+<li>SD/MMC card driver implementation based on MCI interface</li>
+<li>SD card physical layer initialize sequence implementation</li>
+<li>MMC card physical layer initialize sequence implementation</li>
+<li>Sample usage of SD/MMC card write and read</li>
+</ul>
+
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">See</div>
+<ul>
+<li><a href="#" OnMouseOver="link('_page','../at91lib/memories/sdmmc/sdmmc_mci0',this)">sdmmc_mci</a> : SD/MMC card driver with mci-interface</li>
+<li><a href="#" OnMouseOver="link('_page','../at91lib/peripherals/mci/mci0',this)">mci</a> : sdcard physical layer driver with mci-interface</li>
+<li>mci_hs : sdcard physical layer driver with mci2-interface</li>
+</ul>
+
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Requirements</div>
+ This package <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> be used with all Atmel evaluation kits that have MCI/MCI2 interface, the package runs at SDRAM or DDRAM, so EBI interface and SDRAM <a href="#" OnMouseOver="link('_dir','../at91lib/usb/device/device0',this)">device</a> is needed.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Description</div>
+ Open HyperTerminal before running this program, use SAM-BA to download this program to SDRAM or DDRAM, make the program run, the HyperTerminal will give out the test hints, you <a href="#" OnMouseOver="link('_dir','../at91lib/peripherals/can/can0',this)">can</a> run different tests on a inserted card.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph1">Usage</div>
+<ol>
+<li>Build the program and download it inside the evaluation board. Please refer to the <a href="http://www.atmel.com/dyn/resources/prod_documents/doc6224.pdf">SAM-BA User Guide</a>, the <a href="http://www.atmel.com/dyn/resources/prod_documents/doc6310.pdf">GNU-Based Software Development</a> application note or to the <a href="ftp://ftp.iar.se/WWWfiles/arm/Guides/EWARM_UserGuide.ENU.pdf">IAR EWARM User Guide</a>, depending on your chosen solution.</li>
+<li>On the computer, open and configure a terminal application (e.g. HyperTerminal on Microsoft Windows) with these settings:<ul>
+<li>115200 bauds</li>
+<li>8 bits of <a href="#" OnMouseOver="link('_member','../basic-fatfs-nandflash-project/data0',this)">data</a></li>
+<li>No parity</li>
+<li>1 stop bit</li>
+<li>No flow control</li>
+</ul>
+
+</li>
+<li>Start the application</li>
+<li>In HyperTerminal, it will show something like on start up   <table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+  <TR VALIGN="top">
+  <TD class="paddingHeadMultiColumn2">
+<pre class="codeExamples">
+-- Basic SD/MMC MCI Mode Project xxx --
+-- AT91xxxxxx-xx
+-- Compiled: xxx xx xxxx xx:xx:xx --
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- Cannot check if SD card is write-protected
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- <a href="#" onMouseOver="link('_member','../at91lib/drivers/dmad/DMAD_Initialize2593655934',this); ">DMAD_Initialize</a> channel 0  
+TC Start ... OK
+
+==========================================
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- Card Type 1, CSD_STRUCTURE 0
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- SD 4-BITS BUS
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- CMD6(1) arg 0x80FFFF01
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- SD HS Not Supported
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- SD/MMC TRANS SPEED 25000 KBit/s
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- SD/MMC card initialization successful
+-<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/I2322502027',this); ">I</a>- Card size: 483 MB, 990976 * 512<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/B2322502027',this); ">B</a>
+...
+</pre>  </TD>
+  </TR>
+  </TABLE>
+</li>
+<li>Test function menu is like this   <table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+  <TR VALIGN="top">
+  <TD class="paddingHeadMultiColumn2">
+<pre class="codeExamples">
+# 0,1,2 : Block read test
+# w,W   : Write block test(With data or 0)
+# b,B   : eMMC boot mode or access boot partition change
+# i,I   : Re-initialize card
+# t     : Disk R/W/Verify test
+# T     : Disk performance test
+# p     : Change number of blocks in one access for test
+# s     : Change MCI Clock for general test
+</pre>  </TD>
+  </TR>
+  </TABLE>
+</li>
+</ol>
+
+</div>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="paragraph2">Source</div>
+<div class="paddingMembers">The documentation for this Directory was generated from the following files:</div>
+<div class="paddingMembers"><LI>main.c<br></div>
+<div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_dir','_description');
+</script>

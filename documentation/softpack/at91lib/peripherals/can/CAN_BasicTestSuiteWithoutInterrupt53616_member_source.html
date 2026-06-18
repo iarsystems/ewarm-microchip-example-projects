@@ -1,0 +1,283 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - CAN_BasicTestSuiteWithoutInterrupt</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">CAN_BasicTestSuiteWithoutInterrupt</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../peripherals0',this)" class="pathLink">peripherals</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','can0',this)" class="pathLink">can</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">CAN_BasicTestSuiteWithoutInterrupt</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','CAN_BasicTestSuiteWithoutInterrupt53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','CAN_BasicTestSuiteWithoutInterrupt53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 568</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','CAN_BasicTestSuiteWithoutInterrupt53616',this); ">CAN_BasicTestSuiteWithoutInterrupt</a>(void)
+{
+#if defined AT91C_BASE_CAN1
+    unsigned int status;
+    unsigned int tick=0;
+
+    TRACE_INFO("Without Interrupt ");
+    TRACE_INFO("CAN0 Mailbox 0 transmitting to CAN1 Mailbox 0\n\r");
+    // Init CAN0 Mailbox 0, transmit
+    <a href="#" onMouseOver="link('_member','CAN_ResetTransfer2610120733',this); ">CAN_ResetTransfer</a>( pCAN0Transfer );
+    pCAN0Transfer-&gt;can_number = 0;
+    pCAN0Transfer-&gt;mailbox_number = 0;
+    pCAN0Transfer-&gt;mode_reg = AT91C_CAN_MOT_TX | AT91C_CAN_PRIOR;
+    pCAN0Transfer-&gt;acceptance_mask_reg = 0x00000000;
+    pCAN0Transfer-&gt;identifier = AT91C_CAN_MIDvA &amp; (0x07&lt;&lt;18);
+    pCAN0Transfer-&gt;data_low_reg = 0x11223344;
+    pCAN0Transfer-&gt;data_high_reg = 0x01234567;
+    pCAN0Transfer-&gt;control_reg = (AT91C_CAN_MDLC &amp; (0x8&lt;&lt;16));
+    <a href="#" onMouseOver="link('_member','CAN_InitMailboxRegisters2610120733',this); ">CAN_InitMailboxRegisters</a>( pCAN0Transfer );
+
+    // Init CAN1 Mailbox 0, receive, 
+    <a href="#" onMouseOver="link('_member','CAN_ResetTransfer2610120733',this); ">CAN_ResetTransfer</a>( pCAN1Transfer );
+    pCAN1Transfer-&gt;can_number = 1;
+    pCAN1Transfer-&gt;mailbox_number = 0;
+    pCAN1Transfer-&gt;mode_reg = AT91C_CAN_MOT_RX;
+    pCAN1Transfer-&gt;acceptance_mask_reg = AT91C_CAN_MIDvA | AT91C_CAN_MIDvB;
+    pCAN1Transfer-&gt;identifier = AT91C_CAN_MIDvA &amp; (0x07&lt;&lt;18);
+    pCAN1Transfer-&gt;data_low_reg = 0x00000000;
+    pCAN1Transfer-&gt;data_high_reg = 0x00000000;
+    pCAN1Transfer-&gt;control_reg = 0x00000000;
+    <a href="#" onMouseOver="link('_member','CAN_InitMailboxRegisters2610120733',this); ">CAN_InitMailboxRegisters</a>( pCAN1Transfer );
+
+    // Transfer Request for Mailbox 0
+    AT91C_BASE_CAN0-&gt;CAN_TCR = AT91C_CAN_MB0;
+
+    tick = 0;
+    do {
+        // CAN Message Status Register
+        status = AT91C_BASE_CAN0_MB0-&gt;CAN_MB_MSR;
+    }
+    while( !(status &amp; AT91C_CAN_MRDY) &amp;&amp; (++tick &lt; AT91C_CAN_TIMEOUT) );
+
+    if (tick == AT91C_CAN_TIMEOUT) {
+        TRACE_ERROR("Test FAILED\n\r");
+    } 
+    else {
+        <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("Transfer completed: CAN1 Mailbox 0 MRDY flag has raised\n\r");
+        if( AT91C_BASE_CAN0_MB0-&gt;CAN_MB_MDL != AT91C_BASE_CAN1_MB0-&gt;CAN_MB_MDL ) {
+            TRACE_ERROR("Data Corrupted\n\r");
+        }
+        else if( AT91C_BASE_CAN0_MB0-&gt;CAN_MB_MDH != AT91C_BASE_CAN1_MB0-&gt;CAN_MB_MDH ) {
+            TRACE_ERROR("Data Corrupted\n\r");
+        }
+        else {
+            TRACE_INFO("Test passed\n\r");
+        }
+    }
+
+    <a href="#" onMouseOver="link('_member','CAN_ResetAllMailbox53616',this); ">CAN_ResetAllMailbox</a>();
+
+    TRACE_INFO("Without Interrupt ");
+    TRACE_INFO("CAN0 Mailboxes 1 &amp; 2 transmitting to CAN1 Mailbox 15\n\r");
+    // Init CAN0 Mailbox 1, transmit
+    <a href="#" onMouseOver="link('_member','CAN_ResetTransfer2610120733',this); ">CAN_ResetTransfer</a>( pCAN0Transfer );
+    pCAN0Transfer-&gt;can_number = 0;
+    pCAN0Transfer-&gt;mailbox_number = 1;
+    pCAN0Transfer-&gt;mode_reg = AT91C_CAN_MOT_TX | AT91C_CAN_PRIOR;
+    pCAN0Transfer-&gt;acceptance_mask_reg = 0x00000000;
+    pCAN0Transfer-&gt;identifier = AT91C_CAN_MIDvA &amp; (0x09&lt;&lt;18);      // ID 9
+    pCAN0Transfer-&gt;data_low_reg = 0xAABBCCDD;
+    pCAN0Transfer-&gt;data_high_reg = 0xCAFEDECA;
+    pCAN0Transfer-&gt;control_reg = (AT91C_CAN_MDLC &amp; (0x8&lt;&lt;16)); // Mailbox Data Length Code
+    <a href="#" onMouseOver="link('_member','CAN_InitMailboxRegisters2610120733',this); ">CAN_InitMailboxRegisters</a>( pCAN0Transfer );
+
+    // Init CAN0 Mailbox 2, transmit
+    pCAN0Transfer-&gt;can_number = 0;
+    pCAN0Transfer-&gt;mailbox_number = 2;
+    pCAN0Transfer-&gt;mode_reg = AT91C_CAN_MOT_TX | (AT91C_CAN_PRIOR-(1&lt;&lt;16));
+    pCAN0Transfer-&gt;acceptance_mask_reg = 0x00000000;
+    pCAN0Transfer-&gt;identifier = AT91C_CAN_MIDvA &amp; (0x0A&lt;&lt;18);      // ID 10
+    pCAN0Transfer-&gt;data_low_reg = 0x55667788;
+    pCAN0Transfer-&gt;data_high_reg = 0x99AABBCC;
+    pCAN0Transfer-&gt;control_reg = (AT91C_CAN_MDLC &amp; (0x8&lt;&lt;16)); // Mailbox Data Length Code
+    <a href="#" onMouseOver="link('_member','CAN_InitMailboxRegisters2610120733',this); ">CAN_InitMailboxRegisters</a>( pCAN0Transfer );
+
+    // Init CAN1 Mailbox 15, reception with overwrite
+    <a href="#" onMouseOver="link('_member','CAN_ResetTransfer2610120733',this); ">CAN_ResetTransfer</a>( pCAN1Transfer );
+    pCAN1Transfer-&gt;can_number = 1;
+    pCAN1Transfer-&gt;mailbox_number = 15;
+    pCAN1Transfer-&gt;mode_reg = AT91C_CAN_MOT_RXOVERWRITE;
+    pCAN1Transfer-&gt;acceptance_mask_reg = 0;
+    pCAN1Transfer-&gt;identifier = 0x0;
+    pCAN1Transfer-&gt;data_low_reg = 0x00000000;
+    pCAN1Transfer-&gt;data_high_reg = 0x00000000;
+    pCAN1Transfer-&gt;control_reg = 0x00000000;
+    <a href="#" onMouseOver="link('_member','CAN_InitMailboxRegisters2610120733',this); ">CAN_InitMailboxRegisters</a>( pCAN1Transfer );
+
+    // Ask Transmissions on Mailbox 1 &amp; 2 --&gt; AT91C_CAN_MRDY &amp; AT91C_CAN_MMI raises for Mailbox 15 CAN_MB_SR
+    AT91C_BASE_CAN0-&gt;CAN_TCR = AT91C_CAN_MB1 | AT91C_CAN_MB2;
+    
+    // Wait for Last Transmit Mailbox
+    tick = 0;
+    do  {
+        status = AT91C_BASE_CAN1_MB15-&gt;CAN_MB_MSR;
+    }
+    while( !(status &amp; AT91C_CAN_MMI) &amp;&amp; (++tick &lt; AT91C_CAN_TIMEOUT) );
+
+    if (tick == AT91C_CAN_TIMEOUT) {
+    }
+    else {
+        <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("Transfer completed: CAN1 Mailbox 15 MRDY and MMI flags have raised\n\r");
+        if( AT91C_BASE_CAN0_MB1-&gt;CAN_MB_MDL != AT91C_BASE_CAN1_MB15-&gt;CAN_MB_MDL ) {
+            TRACE_ERROR("Data Corrupted\n\r");
+        }
+        else if( AT91C_BASE_CAN0_MB1-&gt;CAN_MB_MDH != AT91C_BASE_CAN1_MB15-&gt;CAN_MB_MDH ) {
+            TRACE_ERROR("Data Corrupted\n\r");
+        }
+        else {
+            TRACE_INFO("Test passed\n\r");
+        }
+    }
+
+    <a href="#" onMouseOver="link('_member','CAN_ResetAllMailbox53616',this); ">CAN_ResetAllMailbox</a>();
+    TRACE_INFO("Without Interrupt ");
+    TRACE_INFO("CAN0 Mailboxes 1 &amp; 2 transmitting to CAN1 Mailbox 15\n\r");
+    // Init CAN0 Mailbox 1, transmit
+    <a href="#" onMouseOver="link('_member','CAN_ResetTransfer2610120733',this); ">CAN_ResetTransfer</a>( pCAN0Transfer );
+    pCAN0Transfer-&gt;can_number = 0;
+    pCAN0Transfer-&gt;mailbox_number = 1;
+    pCAN0Transfer-&gt;mode_reg = AT91C_CAN_MOT_TX | AT91C_CAN_PRIOR;
+    pCAN0Transfer-&gt;acceptance_mask_reg = 0x00000000;
+    pCAN0Transfer-&gt;identifier = AT91C_CAN_MIDvA &amp; (0x09&lt;&lt;18);      // ID 9
+    pCAN0Transfer-&gt;data_low_reg = 0xAABBCCDD;
+    pCAN0Transfer-&gt;data_high_reg = 0xCAFEDECA;
+    pCAN0Transfer-&gt;control_reg = (AT91C_CAN_MDLC &amp; (0x8&lt;&lt;16)); // Mailbox Data Length Code
+    <a href="#" onMouseOver="link('_member','CAN_InitMailboxRegisters2610120733',this); ">CAN_InitMailboxRegisters</a>( pCAN0Transfer );
+
+    // Init CAN0 Mailbox 2, transmit
+    pCAN0Transfer-&gt;can_number = 0;
+    pCAN0Transfer-&gt;mailbox_number = 2;
+    pCAN0Transfer-&gt;mode_reg = AT91C_CAN_MOT_TX | (AT91C_CAN_PRIOR-(1&lt;&lt;16));
+    pCAN0Transfer-&gt;acceptance_mask_reg = 0x00000000;
+    pCAN0Transfer-&gt;identifier = AT91C_CAN_MIDvA &amp; (0x0A&lt;&lt;18);      // ID 10
+    pCAN0Transfer-&gt;data_low_reg = 0x55667788;
+    pCAN0Transfer-&gt;data_high_reg = 0x99AABBCC;
+    pCAN0Transfer-&gt;control_reg = (AT91C_CAN_MDLC &amp; (0x8&lt;&lt;16)); // Mailbox Data Length Code
+    <a href="#" onMouseOver="link('_member','CAN_InitMailboxRegisters2610120733',this); ">CAN_InitMailboxRegisters</a>( pCAN0Transfer );
+
+    // Init CAN1 Mailbox 15, reception with overwrite
+    <a href="#" onMouseOver="link('_member','CAN_ResetTransfer2610120733',this); ">CAN_ResetTransfer</a>( pCAN1Transfer );
+    pCAN1Transfer-&gt;can_number = 1;
+    pCAN1Transfer-&gt;mailbox_number = 15;
+    pCAN1Transfer-&gt;mode_reg = AT91C_CAN_MOT_RX;
+    pCAN1Transfer-&gt;acceptance_mask_reg = 0;
+    pCAN1Transfer-&gt;identifier = 0x0;
+    pCAN1Transfer-&gt;data_low_reg = 0x00000000;
+    pCAN1Transfer-&gt;data_high_reg = 0x00000000;
+    pCAN1Transfer-&gt;control_reg = 0x00000000;
+    <a href="#" onMouseOver="link('_member','CAN_InitMailboxRegisters2610120733',this); ">CAN_InitMailboxRegisters</a>( pCAN1Transfer );
+
+    // Ask Transmissions on Mailbox 1 &amp; 2 --&gt; AT91C_CAN_MRDY &amp; AT91C_CAN_MMI raises for Mailbox 15 CAN_MB_SR
+    AT91C_BASE_CAN0-&gt;CAN_TCR = AT91C_CAN_MB1 | AT91C_CAN_MB2;
+    
+    // Wait for Last Transmit Mailbox
+    tick = 0;
+    do  {
+        status = AT91C_BASE_CAN1_MB15-&gt;CAN_MB_MSR;
+    }
+    while( !(status &amp; AT91C_CAN_MMI) &amp;&amp; (++tick &lt; AT91C_CAN_TIMEOUT) );
+
+    if (tick == AT91C_CAN_TIMEOUT) {
+    TRACE_ERROR("Test FAILED\n\r");
+    }
+    else {
+        <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("Transfer completed: CAN1 Mailbox 15 MRDY and MMI flags have raised\n\r");
+        <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("MB_MDL: 0x%X\n\r", AT91C_BASE_CAN1_MB15-&gt;CAN_MB_MDL);
+        <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("MB_MDLH: 0x%X\n\r", AT91C_BASE_CAN1_MB15-&gt;CAN_MB_MDH);
+        if( AT91C_BASE_CAN0_MB2-&gt;CAN_MB_MDL != AT91C_BASE_CAN1_MB15-&gt;CAN_MB_MDL ) {
+            TRACE_ERROR("Data Corrupted\n\r");
+        }
+        else if( AT91C_BASE_CAN0_MB2-&gt;CAN_MB_MDH != AT91C_BASE_CAN1_MB15-&gt;CAN_MB_MDH ) {
+            TRACE_ERROR("Data Corrupted\n\r");
+        }
+        else {
+            TRACE_INFO("Test passed\n\r");
+        }
+    }
+
+    <a href="#" onMouseOver="link('_member','CAN_ResetAllMailbox53616',this); ">CAN_ResetAllMailbox</a>();
+    TRACE_INFO("Without Interrupt ");
+    TRACE_INFO("CAN0 Mailbox 3 asking for CAN1 Mailbox 3 transmission\n\r");
+    // Init CAN0 Mailbox 3, consumer mailbox
+    // Sends a remote frame and waits for an answer
+    <a href="#" onMouseOver="link('_member','CAN_ResetTransfer2610120733',this); ">CAN_ResetTransfer</a>( pCAN0Transfer );
+    pCAN0Transfer-&gt;can_number = 0;
+    pCAN0Transfer-&gt;mailbox_number = 3;
+    pCAN0Transfer-&gt;mode_reg = AT91C_CAN_MOT_CONSUMER | AT91C_CAN_PRIOR;
+    pCAN0Transfer-&gt;acceptance_mask_reg = AT91C_CAN_MIDvA | AT91C_CAN_MIDvB;
+    pCAN0Transfer-&gt;identifier = AT91C_CAN_MIDvA &amp; (0x0B&lt;&lt;18);     // ID 11
+    pCAN0Transfer-&gt;data_low_reg = 0x00000000;
+    pCAN0Transfer-&gt;data_high_reg = 0x00000000;
+    pCAN0Transfer-&gt;control_reg = 0x00000000;
+    <a href="#" onMouseOver="link('_member','CAN_InitMailboxRegisters2610120733',this); ">CAN_InitMailboxRegisters</a>( pCAN0Transfer );
+
+    // Init CAN1 Mailbox 3, porducer mailbox
+    // Waits to receive a Remote Frame before sending its contents
+    <a href="#" onMouseOver="link('_member','CAN_ResetTransfer2610120733',this); ">CAN_ResetTransfer</a>( pCAN1Transfer );
+    pCAN1Transfer-&gt;can_number = 1;
+    pCAN1Transfer-&gt;mailbox_number = 3;
+    pCAN1Transfer-&gt;mode_reg = AT91C_CAN_MOT_PRODUCER | AT91C_CAN_PRIOR;
+    pCAN1Transfer-&gt;acceptance_mask_reg = 0;
+    pCAN1Transfer-&gt;identifier = AT91C_CAN_MIDvA &amp; (0x0B&lt;&lt;18);     // ID 11
+    pCAN1Transfer-&gt;data_low_reg = 0xEEDDFF00;
+    pCAN1Transfer-&gt;data_high_reg = 0x34560022;
+    pCAN1Transfer-&gt;control_reg = (AT91C_CAN_MDLC &amp; (0x8&lt;&lt;16));
+    <a href="#" onMouseOver="link('_member','CAN_InitMailboxRegisters2610120733',this); ">CAN_InitMailboxRegisters</a>( pCAN1Transfer );
+
+    // Ask Transmissions on Mailbox 3 --&gt; AT91C_CAN_MRDY raises for Mailbox 3 CAN_MB_SR
+    AT91C_BASE_CAN1-&gt;CAN_TCR = AT91C_CAN_MB3;
+    AT91C_BASE_CAN0-&gt;CAN_TCR = AT91C_CAN_MB3;
+
+    // Wait for Last Transmit Mailbox
+    tick = 0;
+    do  {
+        status = AT91C_BASE_CAN0_MB3-&gt;CAN_MB_MSR;
+    }
+    while( !(status &amp; AT91C_CAN_MRDY) &amp;&amp; (++tick &lt; AT91C_CAN_TIMEOUT) );
+
+    if (tick == AT91C_CAN_TIMEOUT) {
+        TRACE_ERROR("Test FAILED\n\r");
+    }
+    else {
+        <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("Transfer Completed: CAN0 &amp; CAN1 Mailboxes 3 MRDY flags have raised\n\r");
+        if( AT91C_BASE_CAN0_MB3-&gt;CAN_MB_MDL != AT91C_BASE_CAN1_MB3-&gt;CAN_MB_MDL ) {
+            TRACE_ERROR("Data Corrupted\n\r");
+        }
+        else if( AT91C_BASE_CAN0_MB3-&gt;CAN_MB_MDH != AT91C_BASE_CAN1_MB3-&gt;CAN_MB_MDH ) {
+            TRACE_ERROR("Data Corrupted\n\r");
+        }
+        else {
+            TRACE_INFO("Test passed\n\r");
+        }
+    }
+#endif // AT91C_BASE_CAN1
+
+  return;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

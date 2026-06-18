@@ -1,0 +1,88 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - intel_Program</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">intel_Program</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','norflash0',this)" class="pathLink">norflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">intel_Program</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','intel_Program1666648206','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','intel_Program1666648206','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 199</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','intel_Program1666648206',this); ">intel_Program</a>(struct <a href="#" onMouseOver="link('_class','NorFlashInfo0',this); ">NorFlashInfo</a> *pNorFlashInfo, unsigned int address, unsigned int data)
+{
+    unsigned int status;
+    unsigned int datain;
+    volatile unsigned int busAddress;
+    unsigned char done = 0;
+    unsigned char busWidth;
+    
+    busWidth = <a href="#" onMouseOver="link('_member','NorFlash_GetDataBusWidth3904423740',this); ">NorFlash_GetDataBusWidth</a>(pNorFlashInfo);
+     // Issue Read Array Command - just in case that the flash is not in Read Array mode 
+    <a href="#" onMouseOver="link('_member','intel_Reset3806251491',this); ">intel_Reset</a>(pNorFlashInfo, address);    
+    
+    busAddress = <a href="#" onMouseOver="link('_member','NorFlash_GetAddressInChip3806251491',this); ">NorFlash_GetAddressInChip</a>(pNorFlashInfo, address);
+    /*
+    // Check if the data already have been erased.
+    ReadRawData(busWidth, busAddress, (unsigned char*)&amp;datain);
+    if((datain &amp; data)!= data) {
+        return NorCommon_ERROR_CANNOTWRITE;
+    }
+    */
+    // Word programming operations are initiated by writing the Word Program Setup command to the device.
+    <a href="#" onMouseOver="link('_member','WriteCommand342970182',this); ">WriteCommand</a>(busWidth, busAddress, INTEL_CMD_PROGRAM_WORD);
+    // This is followed by a second write to the device with the address and data to be programmed.
+    <a href="#" onMouseOver="link('_member','WriteRawData1593415754',this); ">WriteRawData</a>(busWidth, busAddress, (unsigned char*)&amp;data);
+    
+    // Status register polling 
+    do {
+        status = <a href="#" onMouseOver="link('_member','intel_ReadStatus3806251491',this); ">intel_ReadStatus</a>(pNorFlashInfo,address);
+        // Check if the device is ready.
+        if ((status &amp; <a href="#" onMouseOver="link('_member','INTEL_STATUS_DWS2607915005',this); ">INTEL_STATUS_DWS</a>) == <a href="#" onMouseOver="link('_member','INTEL_STATUS_DWS2607915005',this); ">INTEL_STATUS_DWS</a> ) {
+            // check if VPP within acceptable limits during program or erase operation.
+            if ((status &amp; INTEL_STATUS_VPPS) == INTEL_STATUS_VPPS ) {
+                return <a href="#" onMouseOver="link('_member','NorCommon_ERROR_CANNOTWRITE2638405329',this); ">NorCommon_ERROR_CANNOTWRITE</a>;
+            }
+            // Check if the erase block operation is completed. 
+            if ((status &amp; INTEL_STATUS_PS) == INTEL_STATUS_PS ) {
+                return <a href="#" onMouseOver="link('_member','NorCommon_ERROR_CANNOTWRITE2638405329',this); ">NorCommon_ERROR_CANNOTWRITE</a>;
+            }
+            // check if Block locked during program or erase, operation aborted.
+                else if ((status &amp; INTEL_STATUS_BLS) == INTEL_STATUS_BLS ) {
+                    return <a href="#" onMouseOver="link('_member','NorCommon_ERROR_CANNOTWRITE2638405329',this); ">NorCommon_ERROR_CANNOTWRITE</a>;
+            }
+            else {
+                done = 1;
+            }
+        }
+    } while (!done);
+    
+    <a href="#" onMouseOver="link('_member','intel_ClearStatus3904423740',this); ">intel_ClearStatus</a>(pNorFlashInfo);
+    <a href="#" onMouseOver="link('_member','intel_Reset3806251491',this); ">intel_Reset</a>(pNorFlashInfo, address);
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

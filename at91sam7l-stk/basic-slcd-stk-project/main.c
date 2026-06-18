@@ -1,0 +1,260 @@
+/* ----------------------------------------------------------------------------
+ *         ATMEL Microcontroller Software Support 
+ * ----------------------------------------------------------------------------
+ * Copyright (c) 2008, Atmel Corporation
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the disclaimer below.
+ *
+ * Atmel's name may not be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * DISCLAIMER: THIS SOFTWARE IS PROVIDED BY ATMEL "AS IS" AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT ARE
+ * DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ----------------------------------------------------------------------------
+ */
+
+//------------------------------------------------------------------------------
+/// \dir "Segment LCD STK Project"
+///
+/// !!!Purpose
+///
+/// This example shows how to use the Segment LCD Controller (SLCDC) to display 
+/// information on the LCD screen available on the AT91SAM7L-STK. 
+///
+/// !See
+/// - slcdc: Segment LCD controller driver
+/// - pit: Periodic interval timer driver
+/// - s7lstklcd: APIs for segment LCD display of AT91SAM7L-STK board
+///
+/// !!!Description
+/// The program display an horizontally-scrolling string on the dot matrix. 
+///
+/// !!!Usage
+///
+/// -# Build the program and download it inside the evaluation board. 
+/// Please refer to the
+///    <a href="http://www.atmel.com/dyn/resources/prod_documents/doc6224.pdf">
+///    SAM-BA User Guide</a>, the 
+///    <a href="http://www.atmel.com/dyn/resources/prod_documents/doc6310.pdf">
+///    GNU-Based Software Development</a>, application note or to the 
+///    <a href="http://www.iar.se/website1/1.0.1.0/78/1/index.php?">
+///    IAR EWARM User Guide</a>, depending on your chosen solution. 
+/// -# Start the application. 
+/// In addition, the SLCD will display the aforementioned information. 
+///
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+/// \unit
+///
+/// !Purpose
+///
+/// This file contains all the specific code for the 
+/// basic-slcd-stk-project.
+///
+/// !Contents
+///
+/// The code can be roughly broken down as follows:
+///    - Interrupt handlers
+///    - The main function, which implements the program behavior
+///       - Initialize SLCD
+///       - Configure timer for interrupt every 250ms
+///       - Display an horizontally-scrolling string on the dot matrix
+///
+/// Please refer to the list of functions in the #Overview# tab of this unit
+/// for more detailed information.
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+//         Headers
+//------------------------------------------------------------------------------
+
+#include <board.h>
+#include <irq/irq.h>
+#include <pit/pit.h>
+#include <slcdc/slcdc.h>
+#include <supc/supc.h>
+#include <pio/pio.h>
+#include <tc/tc.h>
+#include <slcd/s7lstklcd/s7lstklcd.h>
+
+//------------------------------------------------------------------------------
+//         Local definitions
+//------------------------------------------------------------------------------
+
+/// Scrolling frequency in Hz.
+#define SCROLLING_FREQUENCY     8
+
+/// String is scrolling to the left
+#define SCROLL_LEFT             0
+/// String is scrolling to the right
+#define SCROLL_RIGHT            1
+
+/// Master clock frequency in Hz
+#define MCK                     32768
+
+//------------------------------------------------------------------------------
+//         Local variables
+//------------------------------------------------------------------------------
+
+/// Pins to configure for the application
+static const Pin pPins[] = {BOARD_MAX3318E_ENABLE_FORCEOFF, BOARD_MAX3318E_DISABLE_PULLUPS};
+
+/// String to display.
+static const char pString[] = "Atmel AT91SAM7L-STK";
+/// Width in pixels of string to display.
+static signed int stringWidth;
+
+/// Scroll direction.
+static unsigned char scrollDirection = SCROLL_LEFT;
+
+/// Number of ENDFRAME interrupts generated by the SLCD.
+static volatile unsigned int endframe = 0;
+
+//------------------------------------------------------------------------------
+//         Local functions
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+/// Initializes the SLCD controller with the board parameters.
+//------------------------------------------------------------------------------
+static void InitializeSlcd(void)
+{
+    // Enable SLCD internal power supply (3V)
+    SUPC_EnableSlcd(AT91C_SUPC_LCDMODE_INTERNAL);
+    SUPC_SetSlcdVoltage(0x9);
+    
+    // Disable SLCD
+    SLCDC_Disable();
+    
+    //  Define the number of COM and SEG, Buffer driving time; select the bias
+    SLCDC_Configure(S7LSTKLCD_NUM_COMMONS,
+                    S7LSTKLCD_NUM_SEGMENTS,
+                    AT91C_SLCDC_BIAS_1_3,
+                    AT91C_SLCDC_BUFTIME_0_percent);
+    
+    // Set frame rate 30 Hz
+    SLCDC_SetFrameFreq(AT91C_SLCDC_PRESC_SCLK_32, AT91C_SLCDC_DIV_2);
+    
+    //  Enable SLCD
+    SLCDC_Enable();
+}
+
+//------------------------------------------------------------------------------
+/// Interrupt handler for the SLCD controller. Counts the number of endframe
+/// signals received.
+//------------------------------------------------------------------------------
+static void ISR_Slcdc(void)
+{
+    // End of frame signals
+    if ((AT91C_BASE_SLCDC->SLCDC_ISR & AT91C_SLCDC_ENDFRAME) == AT91C_SLCDC_ENDFRAME) {
+
+        endframe++;
+    }
+}
+
+//------------------------------------------------------------------------------
+/// Interrupt service routine for the Timer Counter 0. Makes the displayed
+/// string scroll from left to right.
+//------------------------------------------------------------------------------
+static void ISR_Tc0(void)
+{
+    static signed int offset = 0;
+
+    AT91C_BASE_TC0->TC_SR;
+    
+    // Display string
+    // Uses Buffer Only Load Mode to reduce flickering, must be synchronized with ENDFRAMEs
+    
+    // Switch to Buffer Only Load Mode
+    endframe = 0;
+    while (endframe == 0);
+    SLCDC_SetDisplayMode(6);
+    
+    // Change buffer
+    SLCDC_Clear();
+    S7LSTKLCD_String(offset, 1, pString);
+    SLCDC_SetDisplayMode(AT91C_SLCDC_DISPMODE_NORMAL);
+    
+    // Switch back to normal mode
+    endframe = 0;
+    while (endframe < 2);
+
+    // And back to Buffer Only Load
+    SLCDC_SetDisplayMode(6);
+    
+    // Scroll
+    switch (scrollDirection) {
+
+        case SCROLL_LEFT:
+            if ((offset + stringWidth) <= S7LSTKLCD_WIDTH) {
+
+                scrollDirection = SCROLL_RIGHT;
+            }
+            else {
+
+                offset--;
+            }
+            break;
+
+        case SCROLL_RIGHT:
+            if (offset >= 0) {
+
+                scrollDirection = SCROLL_LEFT;
+            }
+            else {
+
+                offset++;
+            }
+            break;
+    }
+}
+
+//------------------------------------------------------------------------------
+//         Global functions
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+/// Main function
+//------------------------------------------------------------------------------
+int main(void)
+{   
+    unsigned int div, tcclks;
+    
+    PIO_Configure(pPins, PIO_LISTSIZE(pPins));
+    
+    // Initialize SLCD
+    InitializeSlcd();
+    IRQ_ConfigureIT(AT91C_ID_SLCD, 7, ISR_Slcdc);
+    IRQ_EnableIT(AT91C_ID_SLCD);
+    SLCDC_EnableInterrupts(AT91C_SLCDC_ENDFRAME);
+    SLCDC_Clear();
+    S7LSTKLCD_GetStringSize(pString, &stringWidth, 0);
+
+    // Configure timer for interrupt every 250ms
+    AT91C_BASE_PMC->PMC_PCER = 1 << AT91C_ID_TC0;
+    TC_FindMckDivisor(SCROLLING_FREQUENCY, MCK, &div, &tcclks);
+    TC_Configure(AT91C_BASE_TC0, tcclks | AT91C_TC_CPCTRG);
+    AT91C_BASE_TC0->TC_RC = (MCK / div) / SCROLLING_FREQUENCY;
+    IRQ_ConfigureIT(AT91C_ID_TC0, 0, ISR_Tc0);
+    IRQ_EnableIT(AT91C_ID_TC0);
+    AT91C_BASE_TC0->TC_IER = AT91C_TC_CPCS;
+    TC_Start(AT91C_BASE_TC0);
+
+    // Infinite loop
+    while(1);
+}

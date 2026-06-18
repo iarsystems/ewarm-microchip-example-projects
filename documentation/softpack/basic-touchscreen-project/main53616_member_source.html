@@ -1,0 +1,84 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_touchscreenmi_project0',this)" class="pathLink">basic-touchscreen-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 231</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>(void)
+{
+    unsigned int bResult;
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_CONFIGURE1432879529',this); ">TRACE_CONFIGURE</a>(DBGU_STANDARD, 115200, BOARD_MCK);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Basic Touchscreen Project %s --\n\r", SOFTPACK_VERSION);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- %s\n\r", BOARD_NAME);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
+
+#if (!defined(sdram) &amp;&amp; !defined(cortexm3))
+    <a href="#" onMouseOver="link('_member','../at91lib/boards/at91sam9xe-ek/BOARD_ConfigureSdram2593655934',this); ">BOARD_ConfigureSdram</a>(BOARD_SDRAM_BUSWIDTH);
+#endif
+
+#if (!defined(ddram) &amp;&amp; defined(AT91C_DDR2))
+    <a href="#" onMouseOver="link('_member','../at91lib/boards/at91sam9m11-ek/BOARD_ConfigureDdram898012104',this); ">BOARD_ConfigureDdram</a>(DDR_MICRON_MT47H64M8, BOARD_DDRAM_BUSWIDTH);
+#endif
+
+#if defined(cortexm3)
+    // Configuration 1ms tick
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/systick/SysTick_Configure673314575',this); ">SysTick_Configure</a>(1, BOARD_MCK/1000, SysTick_Handler);
+#endif
+
+    // Initialize LCD
+    <a href="#" onMouseOver="link('_member','../at91lib/drivers/lcd/LCDD_Initialize53616',this); ">LCDD_Initialize</a>();
+    <a href="#" onMouseOver="link('_member','../at91lib/drivers/lcd/LCDD_Fill973266047',this); ">LCDD_Fill</a>(pLcdBuffer, COLOR_WHITE);
+#ifdef BOARD_LCD_HX8347   
+    <a href="#" onMouseOver="link('_member','../at91lib/drivers/lcd/LCDD_Start53616',this); ">LCDD_Start</a>();
+#else    // peripheral LCDC
+    <a href="#" onMouseOver="link('_member','../at91lib/drivers/lcd/LCDD_DisplayBuffer86143056',this); ">LCDD_DisplayBuffer</a>(pLcdBuffer);
+#endif
+
+    // Initialize touchscreen without calibration
+    TSD_Initialize(0);
+
+    while(1) {
+        bResult = TSD_Calibrate(pLcdBuffer);
+        if(bResult) {
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- Calibration successful !\n\r");
+            break;
+        }
+        else {
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-E- Error too big ! Retry...\n\r");
+        }
+    }
+
+    // Infinite loop
+    while (1);
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

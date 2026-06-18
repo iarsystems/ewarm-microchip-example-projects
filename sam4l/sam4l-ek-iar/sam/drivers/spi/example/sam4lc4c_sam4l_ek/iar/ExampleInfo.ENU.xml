@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<infocenter_data version="1.0">
+  <iar_name>spi_example</iar_name>               <!--App-->
+  <iar_description>This example uses Serial Peripheral Interface (SPI) of one EK board in slave mode to communicate with another EK board's SPI in master mode.</iar_description>  <!--App short description-->
+  <iar_curdir>$CUR_DIR$</iar_curdir>
+</infocenter_data>

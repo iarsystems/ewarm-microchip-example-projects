@@ -1,0 +1,64 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - EccNandFlash_Initialize</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">EccNandFlash_Initialize</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">EccNandFlash_Initialize</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','EccNandFlash_Initialize2676092217','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','EccNandFlash_Initialize2676092217','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 75</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','EccNandFlash_Initialize2676092217',this); ">EccNandFlash_Initialize</a>(struct <a href="#" onMouseOver="link('_class','EccNandFlash0',this); ">EccNandFlash</a> *ecc, const struct <a href="#" onMouseOver="link('_class','NandFlashModel0',this); ">NandFlashModel</a> *model, unsigned int commandAddress, unsigned int addressAddress, unsigned int dataAddress, const <a href="#" onMouseOver="link('_class','../../peripherals/pio/Pin0',this); ">Pin</a> pinChipEnable, const <a href="#" onMouseOver="link('_class','../../peripherals/pio/Pin0',this); ">Pin</a> pinReadyBusy)
+{
+    unsigned char rc;
+    rc = <a href="#" onMouseOver="link('_member','RawNandFlash_Initialize2663508270',this); ">RawNandFlash_Initialize</a>(RAW(ecc),
+                                 model,
+                                 commandAddress,
+                                 addressAddress,
+                                 dataAddress,
+                                 pinChipEnable,
+                                 pinReadyBusy);
+#if defined(HARDWARE_ECC)
+    {   unsigned int ecc_page;
+        switch(<a href="#" onMouseOver="link('_member','NandFlashModel_GetPageDataSize4019471155',this); ">NandFlashModel_GetPageDataSize</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(ecc))) {
+        case  512: ecc_page = AT91C_HSMC4_PAGESIZE_528_Bytes;  break;
+        case 1024: ecc_page = AT91C_HSMC4_PAGESIZE_1056_Bytes; break;
+        case 2048: ecc_page = AT91C_HSMC4_PAGESIZE_2112_Bytes; break;
+        case 4096: ecc_page = AT91C_HSMC4_PAGESIZE_4224_Bytes; break;
+        default:
+            TRACE_ERROR("PageSize %d not compatible with ECC\n\r",
+                        <a href="#" onMouseOver="link('_member','NandFlashModel_GetPageDataSize4019471155',this); ">NandFlashModel_GetPageDataSize</a>(<a href="#" onMouseOver="link('_member','../MODEL4151345288',this); ">MODEL</a>(ecc)));
+            return <a href="#" onMouseOver="link('_member','NandCommon_ERROR_ECC_NOT_COMPATIBLE3454457112',this); ">NandCommon_ERROR_ECC_NOT_COMPATIBLE</a>;
+        }
+        HSMC4_EccConfigure(AT91C_ECC_TYPCORRECT_ONE_EVERY_256_BYTES,
+                           ecc_page);
+    }
+#endif
+    return rc;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

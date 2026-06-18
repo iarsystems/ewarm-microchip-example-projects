@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<infocenter_data version="1.0">
+  <iar_template_variant>A</iar_template_variant>
+  <iar_name>Olimex SAM7-EX256 evaluation board</iar_name>                           <!--Board-->
+  <iar_title>Examples for Olimex SAM7-EX256 evaluation board</iar_title>            <!--Board-->
+</infocenter_data>

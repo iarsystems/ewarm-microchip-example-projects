@@ -1,0 +1,295 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_sdmmcmi_testmi_project0',this)" class="pathLink">basic-sdmmc-test-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 1249</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>(void)
+{
+    unsigned int i;
+    unsigned char sdConnected = 0, usbConnected = 0;
+    unsigned char speedNdx = 0;
+    unsigned char sdInitErrorCnt = 0, sdInitExecDelay = 0;
+    unsigned int usbConnTick = 0;
+    
+    // Enable auto HS mode default
+  #if defined(MCI2_INTERFACE)
+    <a href="#" onMouseOver="link('_member','gSdmmcAutoHsEnable0',this); ">gSdmmcAutoHsEnable</a> = 1;
+  #endif
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_CONFIGURE1432879529',this); ">TRACE_CONFIGURE</a>(DBGU_STANDARD, 115200, BOARD_MCK);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Basic SD/MMC Test Project %s --\n\r", SOFTPACK_VERSION);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- %s @ %uHz\n\r", BOARD_NAME, BOARD_MCK);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Buffer@%x,size 0x%x\n\r",
+           (unsigned int)pBuffer, sizeof(pBuffer));
+    
+    // If there is on board power, switch it off
+  #ifdef PIN_USB_POWER_ENB
+  { const <a href="#" onMouseOver="link('_class','../at91lib/peripherals/pio/Pin0',this); ">Pin</a> pinUsbPwr = PIN_USB_POWER_ENB;
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(&amp;pinUsbPwr, 1);
+  }
+  #endif
+
+    // Configure PIO interrupts
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_InitializeInterrupts171142247',this); ">PIO_InitializeInterrupts</a>(0);
+
+    // Configure SDcard pins
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_Configure1657521108',this); ">PIO_Configure</a>(pinsSd, <a href="#" onMouseOver="link('_member','../at91lib/peripherals/pio/PIO_LISTSIZE2758449565',this); ">PIO_LISTSIZE</a>(pinsSd));
+
+    // Wait for SD card connection (if supported)
+    CardDetectConfigure();
+
+    // Check if card is write-protected (if supported)
+    <a href="#" onMouseOver="link('_member','../basic-sd-spi-project/CheckProtection53616',this); ">CheckProtection</a>(0);
+
+    // Initialize the SD card driver
+    // Initialize the MCI driver
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_ConfigureIT3223024299',this); ">IRQ_ConfigureIT</a>(BOARD_SD_MCI_ID,  1, MCI0_IrqHandler);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_EnableIT171142247',this); ">IRQ_EnableIT</a>(BOARD_SD_MCI_ID);
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-I- TC Start ... ");
+    <a href="#" onMouseOver="link('_member','../basic-sdmmc-project/ConfigureTc053616',this); ">ConfigureTc0</a>();
+    i = tick100u;
+    while(i == tick100u);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("OK\n\r");
+
+    // MSD LUNs initialization
+    MemoryInitialization();
+    // BOT driver initialization
+    <a href="#" onMouseOver="link('_member','../at91lib/usb/device/massstorage/MSDDriver_Initialize3687359460',this); ">MSDDriver_Initialize</a>(luns, MAX_LUNS);
+    // connect if needed
+    <a href="#" onMouseOver="link('_member','../usb-device-ccid-project/VBUS_CONFIGURE3880171460',this); ">VBUS_CONFIGURE</a>();
+
+    // Card insert detection loop
+    for(;;) {
+
+        if (usbConnected) {
+            // SD Card disconnection in MSD mode
+            if (CardIsConnected(0)) {
+                if (sdConnected == 0) {
+                    // Try several times
+                    if (sdInitExecDelay == 0) {
+                        sdInitExecDelay = sdInitErrorCnt + 1;
+                    }
+                }
+            }
+            else if (sdConnected) {
+                sdConnected = 0;
+                msdReadPeak = 0;
+                msdWritePeak = 0;
+                sdInitErrorCnt = 0;
+                SDConnectionUpdate(0);
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r-MSD- SD removed!\n\r");
+            }
+            // MSD general task
+            if (<a href="#" onMouseOver="link('_member','../at91lib/usb/device/core/USBD_GetState53616',this); ">USBD_GetState</a>() &lt; <a href="#" onMouseOver="link('_member','../at91lib/usb/device/core/USBD_STATE_CONFIGURED2292695961',this); ">USBD_STATE_CONFIGURED</a>) {
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\rQuit MSD mode\n\r");
+                msdReadPeak = 0;
+                msdWritePeak = 0;
+                usbConnected = 0;
+                SDDeInitExec();
+                sdConnected = 0;
+            }
+            else <a href="#" onMouseOver="link('_member','../at91lib/usb/device/massstorage/MSDDriver_StateMachine53616',this); ">MSDDriver_StateMachine</a>();
+            // Update MSD status view
+            if (<a href="#" onMouseOver="link('_member','../usb-device-massstorage-project/updateView0',this); ">updateView</a>) {
+
+                <a href="#" onMouseOver="link('_member','../usb-device-massstorage-project/updateView0',this); ">updateView</a> = 0;
+                if (<a href="#" onMouseOver="link('_member','../usb-device-massstorage-project/msdReadTotal0',this); ">msdReadTotal</a> &gt; msdReadPeak)
+                    msdReadPeak = <a href="#" onMouseOver="link('_member','../usb-device-massstorage-project/msdReadTotal0',this); ">msdReadTotal</a>;
+                if (msdWriteTotal &gt; msdWritePeak)
+                    msdWritePeak = msdWriteTotal;
+
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("Read %5dK, Max %5dK; Write %5dK, Max %5dK; IO %5dK\r",
+                       msdReadTotal / (UPDATE_DELAY/10),
+                       msdReadPeak / (UPDATE_DELAY/10),
+                       msdWriteTotal / (UPDATE_DELAY/10),
+                       msdWritePeak / (UPDATE_DELAY/10),
+                       (msdReadTotal+msdWriteTotal) / (UPDATE_DELAY/10));
+
+                <a href="#" onMouseOver="link('_member','../usb-device-massstorage-project/msdReadTotal0',this); ">msdReadTotal</a> = 0;
+                msdWriteTotal = 0;
+     
+                if (sdInitExecDelay) {
+                    if (0 == --sdInitExecDelay) {
+                        sdConnected = SDConnectionUpdate(1);
+                        if (!sdConnected) {
+                            if (<a href="#" onMouseOver="link('_member','../usb-device-massstorage-project/SD_INIT_RETRY1624518674',this); ">SD_INIT_RETRY</a> &lt;= sdInitErrorCnt++) {
+                                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r-MSD- SD inserted but init fail!\n\r");
+                                sdConnected = 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            // Check USB connection
+            if (!usbConnected) {
+                if (<a href="#" onMouseOver="link('_member','../at91lib/usb/device/core/USBD_GetState53616',this); ">USBD_GetState</a>() &gt;= <a href="#" onMouseOver="link('_member','../at91lib/usb/device/core/USBD_STATE_CONFIGURED2292695961',this); ">USBD_STATE_CONFIGURED</a> ||
+                    usbConnTick) {
+                    if (usbConnTick == 0) {
+                        usbConnTick = tick100u;
+                    }
+                    else if (<a href="#" onMouseOver="link('_member','GetDelayInTicks3363666690',this); ">GetDelayInTicks</a>(usbConnTick,
+                                             tick100u) &gt;= <a href="#" onMouseOver="link('_member','USB_CONN_DELAY1639424241',this); ">USB_CONN_DELAY</a>) {
+                        SDDeInitExec();
+                        usbConnected = 1; sdConnected = 0;
+                        usbConnTick = 0;
+                        <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+                    }
+                    continue;
+                }
+            }
+
+            if (CardIsConnected(0)) {
+                if (sdConnected == 0) {
+                    sdConnected = 1;
+
+                    // Delay before card initialize
+                    <a href="#" onMouseOver="link('_member','DelayMs2593655934',this); ">DelayMs</a>(200);
+
+                    // Do card test
+                    <a href="#" onMouseOver="link('_member','CardInit2593655934',this); ">CardInit</a>(0);
+                }
+            }
+            else if (sdConnected) {
+                sdConnected = 0;
+                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("** Card Disconnected\n\r");
+                //SD_Stop(&amp;sdDrv, (SdDriver *)&amp;mciDrv);
+                SDDeInitExec();
+            }
+
+            if (sdConnected) {
+
+                if (<a href="#" onMouseOver="link('_member','../at91lib/peripherals/dbgu/DBGU_IsRxReady53616',this); ">DBGU_IsRxReady</a>()) {
+                    switch(<a href="#" onMouseOver="link('_member','../at91lib/peripherals/dbgu/DBGU_GetChar53616',this); ">DBGU_GetChar</a>()) {
+                        case '0':  <a href="#" onMouseOver="link('_member','BlockTest361150951',this); ">BlockTest</a>(0, 0);             break;
+                        case '1':  <a href="#" onMouseOver="link('_member','BlockTest361150951',this); ">BlockTest</a>(0, 1);             break;
+                        case '2':  <a href="#" onMouseOver="link('_member','BlockTest361150951',this); ">BlockTest</a>(0, 2);             break;
+                        case 'd':  <a href="#" onMouseOver="link('_member','BlockDump2593655934',this); ">BlockDump</a>(0);                break;
+                        case 'w':  <a href="#" onMouseOver="link('_member','WriteTest3110917852',this); ">WriteTest</a>(0, 0, 0);          break;
+                        case 'W':  <a href="#" onMouseOver="link('_member','WriteTest3110917852',this); ">WriteTest</a>(0, 0, 1);          break;
+                        // Initialize the card again
+                        case 'I':  case 'i':
+                            //SD_Stop(&amp;sdDrv, (SdDriver *)&amp;mciDrv);
+                            SDDeInitExec();
+                            <a href="#" onMouseOver="link('_member','CardInit2593655934',this); ">CardInit</a>(0);
+                            break;
+
+                        // Run test on whole disk
+                        case 't':
+                            <a href="#" onMouseOver="link('_member','DiskTest3056181015',this); ">DiskTest</a>(0, 1, 1, 1);
+                            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+                            break;
+
+                        // Run performence test
+                        case 'T':
+                            <a href="#" onMouseOver="link('_member','PerformanceTest3056181015',this); ">PerformanceTest</a>(0, 1, 1, 0);
+                            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+                            break;
+
+                        // Read/Verify ONLY test
+                        case 'v':
+                            <a href="#" onMouseOver="link('_member','DiskTest3056181015',this); ">DiskTest</a>(0, 0, 0, 1);
+                            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+                            break;
+                        case 'V':
+                            <a href="#" onMouseOver="link('_member','PerformanceTest3056181015',this); ">PerformanceTest</a>(0, 0, 1, 1);
+                            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r");
+                            break;
+
+                        // Change card speed
+                        case 's':
+                        {   unsigned int newSpeed =
+                                speedList[speedNdx] * 1000000;
+                            if (<a href="#" onMouseOver="link('_member','ChangeMciSpeed361150951',this); ">ChangeMciSpeed</a>(0, newSpeed)) {
+                                speedNdx = 0;
+                            }
+                            else {
+                                speedNdx ++;
+                                if (speedNdx &gt; sizeof(speedList)) speedNdx = 0;
+                            }
+                            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-!- Change MCI CLOCK -&gt; %d\n\r", sdSpeed);
+                        }
+                            break;
+
+                        // Change performance test block size
+                        case 'p':
+                        {   if (performanceMultiBlock &gt;= <a href="#" onMouseOver="link('_member','../basic-sdmmc-project/NB_MULTI_BLOCKS1584368743',this); ">NB_MULTI_BLOCKS</a>) {
+                                performanceMultiBlock += NB_MULTI_STEP;
+                                if (performanceMultiBlock &gt;= NB_MULTI_MAX) {
+                                    performanceMultiBlock = 1;
+                                }
+                            }
+                            else
+                                performanceMultiBlock &lt;&lt;= 1;
+                            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-!- Performance Multi set to %d\n\r",
+                                performanceMultiBlock);
+                        }
+                            break;
+                        
+                        // Auto HS mode enable/disable
+                        case 'h':
+                            if (<a href="#" onMouseOver="link('_member','gSdmmcAutoHsEnable0',this); ">gSdmmcAutoHsEnable</a>) {
+                                <a href="#" onMouseOver="link('_member','gSdmmcAutoHsEnable0',this); ">gSdmmcAutoHsEnable</a> = 0;
+                                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-!- Auto HS Disabled");
+                            }
+                            else {
+                                <a href="#" onMouseOver="link('_member','gSdmmcAutoHsEnable0',this); ">gSdmmcAutoHsEnable</a> = 1;
+                                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-!- Auto HS Enabled");
+                            }
+                            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>(", Use 'i' to re-init card\n\r");
+                            break;
+                        // Test Value Setup
+                        case 'f':
+                        {   unsigned int input;
+                            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-!- Input new test value: 0x");
+                            if (GetHexInput(8, &amp;input) == 0) {
+                                <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r-!- Test Value 0x%x -&gt; 0x%x\n\r",
+                                    testFillValue, input);
+                                testFillValue = input;
+                            }
+                        }
+                            break;
+                        // Show help information
+                        default:    <a href="#" onMouseOver="link('_member','../basic-sdmmc-project/DumpMenu53616',this); ">DumpMenu</a>();
+                    }
+                }
+            }
+        }
+    }
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

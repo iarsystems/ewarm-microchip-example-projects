@@ -1,0 +1,193 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - main</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">main</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','basicmi_rtcmi_project0',this)" class="pathLink">basic-rtc-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">main</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','main53616','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 478</div>
+<pre class="codeExamples">
+int <a href="#" onMouseOver="link('_member','../basic-ac97-project/main53616',this); ">main</a>(void)
+{
+    unsigned char key;
+//    unsigned char hour,minute,second;
+
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/TRACE_CONFIGURE1432879529',this); ">TRACE_CONFIGURE</a>(DBGU_STANDARD, 115200, BOARD_MCK);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r\n\r\n\r");//create display distance from history
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Basic RTC Project %s --\n\r", SOFTPACK_VERSION);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- %s\n\r", BOARD_NAME);
+    <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
+    
+//    RTC_SetHourMode(1);//12 hour mode
+//    hour = minute = second = 13;
+//    printf("\n\r Seting 13:13:13 %s", RTC_SetTime(hour, minute, second)? "fail": "OK");
+//    hour = minute = second = 22;
+//    printf("\n\r Setting 22:22:22 %s", RTC_SetTime(hour, minute, second)? "fail": "OK");
+//    
+//    RTC_GetTime(&amp;hour, &amp;minute, &amp;second);
+//    printf("\n\r Now time is %02d:%02d:%02d",hour, minute, second);
+//    
+//    printf("\n\r Press any key to set time");
+//    key=DBGU_GetChar();
+//    printf("\n\r Setting %s", RTC_SetTime(hour, minute, second)? "fail": "OK");
+    
+#if defined(at91sam7l64) || defined(at91sam7l128)
+    // Enable RTC in the supply controller
+    AT91C_BASE_SUPC-&gt;SUPC_MR |= (0xA5 &lt;&lt; 24) | AT91C_SUPC_RTCON;
+    while ((AT91C_BASE_SUPC-&gt;SUPC_SR &amp; AT91C_SUPC_RTS) != AT91C_SUPC_RTS);
+#endif
+
+    // Default RTC configuration
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/rtc/RTC_SetHourMode171142247',this); ">RTC_SetHourMode</a>(0); // 24-hour mode
+    if(<a href="#" onMouseOver="link('_member','../at91lib/peripherals/rtc/RTC_SetTimeAlarm10097815',this); ">RTC_SetTimeAlarm</a>(0, 0, 0))
+      <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r Disable time alarm fail!");
+    
+    if(<a href="#" onMouseOver="link('_member','../at91lib/peripherals/rtc/RTC_SetDateAlarm3757891290',this); ">RTC_SetDateAlarm</a>(0, 0))
+      <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r Disable date alarm fail!");
+
+    // Configure RTC interrupts
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_ConfigureIT3223024299',this); ">IRQ_ConfigureIT</a>(BOARD_RTC_ID, 0, RTC_IrqHandler);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/rtc/RTC_EnableIt171142247',this); ">RTC_EnableIt</a>(AT91C_RTC_SECEV | AT91C_RTC_ALARM);
+    <a href="#" onMouseOver="link('_member','../at91lib/peripherals/irq/IRQ_EnableIT171142247',this); ">IRQ_EnableIT</a>(BOARD_RTC_ID);
+
+    // Refresh display once
+    <a href="#" onMouseOver="link('_member','../basic-rtt-project/RefreshDisplay53616',this); ">RefreshDisplay</a>();
+
+    // Handle keypresses
+    while (1) {
+
+      key = <a href="#" onMouseOver="link('_member','../at91lib/peripherals/dbgu/DBGU_GetChar53616',this); ">DBGU_GetChar</a>();
+      
+      /* set time */
+      if(key == 't') {
+        bState = <a href="#" onMouseOver="link('_member','STATE_SET_TIME1214341211',this); ">STATE_SET_TIME</a>;
+        
+        do {
+          <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r\n\r Set time(hh:mm:ss): ");
+        } while(GetNewTime());
+        
+        // if valid input, none of variable for time is 0xff
+        if(newHour != 0xFF) {
+          if(<a href="#" onMouseOver="link('_member','../at91lib/peripherals/rtc/RTC_SetTime3110917852',this); ">RTC_SetTime</a>(newHour, newMinute, newSecond)) {
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r Time not set, invalid input!\n\r");
+          }
+        }
+        
+          bState = <a href="#" onMouseOver="link('_member','STATE_MENU1214341211',this); ">STATE_MENU</a>;
+          bMenuShown = 0;
+          <a href="#" onMouseOver="link('_member','../basic-rtt-project/RefreshDisplay53616',this); ">RefreshDisplay</a>();
+      }
+      
+      
+      /* set date */
+      if(key == 'd') {
+        bState = <a href="#" onMouseOver="link('_member','STATE_SET_DATE1214341211',this); ">STATE_SET_DATE</a>;
+        
+        do {
+          <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r\n\r Set date(mm/dd/yyyy): ");
+        }while(GetNewDate());
+        
+        //if valid input, none of variable for date is 0xff(ff)
+        if(newYear !=0xFFFF) {
+          if(<a href="#" onMouseOver="link('_member','../at91lib/peripherals/rtc/RTC_SetDate938524294',this); ">RTC_SetDate</a>(newYear, newMonth, newDay, newWeek)) {
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r Date not set, invalid input!\n\r");
+          }
+        }
+        
+        //only 'mm/dd' inputed
+        if(newMonth != 0xFF &amp;&amp; newYear == 0xFFFF) {
+          <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r Not Set for no year field!\n\r");
+        }
+        
+        bState = <a href="#" onMouseOver="link('_member','STATE_MENU1214341211',this); ">STATE_MENU</a>;
+        bMenuShown = 0;
+        <a href="#" onMouseOver="link('_member','../basic-rtt-project/RefreshDisplay53616',this); ">RefreshDisplay</a>();
+      }
+      
+      
+      /*set time alarm */
+      if(key == 'i') {
+        bState = <a href="#" onMouseOver="link('_member','STATE_SET_TIME_ALARM1214341211',this); ">STATE_SET_TIME_ALARM</a>;
+        
+        do {
+          <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r\n\r Set time alarm(hh:mm:ss): ");
+        }while(GetNewTime());
+        
+        if(newHour != 0xFF) {
+          if(<a href="#" onMouseOver="link('_member','../at91lib/peripherals/rtc/RTC_SetTimeAlarm10097815',this); ">RTC_SetTimeAlarm</a>(&amp;newHour, &amp;newMinute, &amp;newSecond)) {
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r Time alarm not set, invalid input!\n\r");
+          } else {
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r Time alarm is set at %02d:%02d:%02d!", newHour,newMinute,newSecond);
+          }
+        }
+        bState = <a href="#" onMouseOver="link('_member','STATE_MENU1214341211',this); ">STATE_MENU</a>;
+        bMenuShown = 0;
+        alarmTriggered = 0;
+        <a href="#" onMouseOver="link('_member','../basic-rtt-project/RefreshDisplay53616',this); ">RefreshDisplay</a>();        
+      }
+      
+      /* set date alarm */
+      if(key == 'm') {
+        bState = <a href="#" onMouseOver="link('_member','STATE_SET_DATE_ALARM1214341211',this); ">STATE_SET_DATE_ALARM</a>;
+        
+        do {
+          <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r\n\r Set date alarm(mm/dd/): ");
+        }while(GetNewDate());
+        
+        if(newYear == 0xFFFF &amp;&amp; newMonth != 0xFF) {
+          if(<a href="#" onMouseOver="link('_member','../at91lib/peripherals/rtc/RTC_SetDateAlarm3757891290',this); ">RTC_SetDateAlarm</a>(&amp;newMonth, &amp;newDay)) {
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r Date alarm not set, invalid input!\n\r");
+          } else {
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/printf186537041',this); ">printf</a>("\n\r Date alarm is set on %02d/%02d!",newMonth, newDay);
+          }
+          
+        }
+        bState = <a href="#" onMouseOver="link('_member','STATE_MENU1214341211',this); ">STATE_MENU</a>;
+        bMenuShown = 0;
+        alarmTriggered = 0;
+        <a href="#" onMouseOver="link('_member','../basic-rtt-project/RefreshDisplay53616',this); ">RefreshDisplay</a>();
+      }
+      
+      /* clear trigger flag */
+      if(key == 'c') {
+          alarmTriggered = 0;
+          bMenuShown = 0;
+          <a href="#" onMouseOver="link('_member','../basic-rtt-project/RefreshDisplay53616',this); ">RefreshDisplay</a>();
+      }
+      
+      /* quit */
+      if(key == 'q') {
+        break;
+      }
+
+    }
+    
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

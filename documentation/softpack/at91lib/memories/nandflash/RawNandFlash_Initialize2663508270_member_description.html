@@ -1,0 +1,130 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - RawNandFlash_Initialize</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">RawNandFlash_Initialize</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">RawNandFlash_Initialize</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','RawNandFlash_Initialize2663508270','_description',this)" class="tabLinkActive">Description</a></span>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','RawNandFlash_Initialize2663508270','_source',this)" class="tabLinkInActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<span class="paragraph1">RawNandFlash_Initialize</span>
+<div class="paragraph2">Initializes a <a href="#" OnMouseOver="link('_class','RawNandFlash0',this)">RawNandFlash</a> instance based on the given model and physical interface.<br>
+</div>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="paragraph2"><span id="descFunSynExpSpan" style="display:none;visibility:hidden"><a href="javascript:showElement( 'descFunSynColSpan' );javascript:hideElement( 'descFunSynExpSpan' );javascript:showElement( 'descFunSyn' );javascript:setMyCookie( cookieName, 'descFunSyn', 'show' );"><img src="../../../../common/expand.gif" border=0></a></span><span id="descFunSynColSpan"><a href="javascript:showElement( 'descFunSynExpSpan' );javascript:hideElement( 'descFunSynColSpan' );javascript:hideElement( 'descFunSyn' );javascript:setMyCookie( cookieName, 'descFunSyn', 'hide' );"><img src="../../../../common/collapse.gif" border=0></a></span>
+Syntax / parameters</div>
+<div id="descFunSyn" class="paddingMembersTableDiv"><table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+<TR VALIGN="top"><TD class="paddingHeadMultiColumn2"><span class="codeFont">unsigned char <a href="#" OnMouseOver="link('_member','RawNandFlash_Initialize2663508270',this)">RawNandFlash_Initialize</a> (struct <a href="#" OnMouseOver="link('_class','RawNandFlash0',this)">RawNandFlash</a> *raw, const struct <a href="#" OnMouseOver="link('_class','NandFlashModel0',this)">NandFlashModel</a> *model, unsigned int commandAddress, unsigned int addressAddress, unsigned int dataAddress, const <a href="#" OnMouseOver="link('_class','../../peripherals/pio/Pin0',this)">Pin</a> pinChipEnable, const <a href="#" OnMouseOver="link('_class','../../peripherals/pio/Pin0',this)">Pin</a> pinReadyBusy)<br>
+</span></TD></TR></TABLE>
+<br><table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderMembers">
+<TR VALIGN="top">
+<TD class="paddingHeadMultiColumn1"><span class="" align=left>Name</TD>
+<TD class="paddingHeadMultiColumn1"><span class="" align=left>Type</TD>
+<TD class="paddingHeadMultiColumn1"><span class="" align=left>Default</TD>
+<TD class="paddingHeadMultiColumn2"><span class="" align=left>Description</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>raw</TD>
+<TD class="paddingNormal1"><span class="codeFont" >struct <a href="#" OnMouseOver="link('_class','RawNandFlash0',this)">RawNandFlash</a> * <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" >Pointer to a <a href="#" OnMouseOver="link('_class','RawNandFlash0',this)">RawNandFlash</a> instance.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>model</TD>
+<TD class="paddingNormal1"><span class="codeFont" >const struct <a href="#" OnMouseOver="link('_class','NandFlashModel0',this)">NandFlashModel</a> * <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" >Pointer to the underlying nand chip model. Can be 0.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>commandAddress</TD>
+<TD class="paddingNormal1"><span class="codeFont" >unsigned int <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" >Address at which commands are sent.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>addressAddress</TD>
+<TD class="paddingNormal1"><span class="codeFont" >unsigned int <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" >Address at which addresses are sent.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>dataAddress</TD>
+<TD class="paddingNormal1"><span class="codeFont" >unsigned int <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" >Address at which <a href="#" OnMouseOver="link('_member','../../../basic-fatfs-nandflash-project/data0',this)">data</a> is sent.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>pinChipEnable</TD>
+<TD class="paddingNormal1"><span class="codeFont" >const <a href="#" OnMouseOver="link('_class','../../peripherals/pio/Pin0',this)">Pin</a> <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" ><a href="#" OnMouseOver="link('_class','../../peripherals/pio/Pin0',this)">Pin</a> controlling the CE signal of the NandFlash.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingNormal1"><span class="codeFont" align=left>pinReadyBusy</TD>
+<TD class="paddingNormal1"><span class="codeFont" >const <a href="#" OnMouseOver="link('_class','../../peripherals/pio/Pin0',this)">Pin</a> <br>
+</TD>
+<TD class="paddingNormal1"><span class="codeFont" align=left>&nbsp;</TD>
+<TD class="paddingNormal2"><span class="" ><a href="#" OnMouseOver="link('_class','../../peripherals/pio/Pin0',this)">Pin</a> used to monitor the ready/busy signal of the Nand.<br>
+</TD>
+</TR>
+<TR VALIGN="top">
+<TD class="paddingHeadBlank" colspan=4>&nbsp;</TD>
+</TR>
+<TR VALIGN="top">
+<TD width=20% class="paddingHeadMultiColumn1"><span class="" align=left>Return value</TD>
+<TD width=5% class="paddingNormal1"><span class="codeFont" >unsigned char<br>
+</TD>
+<TD width=5% class="paddingNormal1"><span class="" align=left>&nbsp;</TD>
+<TD width=70% class="paddingNormal2"><span class="" >&nbsp;</TD>
+</TR>
+</table>
+</div>
+<div class="paragraph2">Description</div>
+<div id="descDesc" class="paddingMembers">Initializes a <a href="#" OnMouseOver="link('_class','RawNandFlash0',this)">RawNandFlash</a> instance based on the given model and physical interface.<br>
+If no model is provided, then the function tries to autodetect it. Returns 0 if initialization is successful; otherwise returns <a href="#" OnMouseOver="link('_member','NandCommon_ERROR_UNKNOWNMODEL3454457112',this)">NandCommon_ERROR_UNKNOWNMODEL</a>.<br>
+</div>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="paragraph2">Source</div>
+<div class="paddingMembers">The documentation for this Member was generated from the following files:</div>
+<div class="paddingMembers"><LI>RawNandFlash.c<br></div>
+<div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_description');
+</script>

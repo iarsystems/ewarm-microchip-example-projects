@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<workspace>
+	<project>
+		<path>$WS_DIR$/ewp/at91cap9-stk.ewp</path>
+	</project>
+	<batchBuild>
+		<batchDefinition>
+			<name>All</name>&gt;
+			<member>
+				<project>at91cap9-stk</project>
+				<configuration>at91cap9_sdram</configuration>
+			</member>
+		</batchDefinition>
+	</batchBuild>
+</workspace>

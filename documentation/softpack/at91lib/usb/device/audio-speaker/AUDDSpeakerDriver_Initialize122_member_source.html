@@ -1,0 +1,58 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - AUDDSpeakerDriver_Initialize</TITLE>
+<script type="text/javascript" src="../../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../../common/";
+ var relPathToHelpDir = "../../../../../common/help/";
+ var toSearchPage     = "_search','../../../../../search";
+ Body1();
+</script>
+<div class="headerPage">AUDDSpeakerDriver_Initialize</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../usb0',this)" class="pathLink">usb</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../device0',this)" class="pathLink">device</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','audiomi_speaker0',this)" class="pathLink">audio-speaker</A><img src="../../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">AUDDSpeakerDriver_Initialize</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','AUDDSpeakerDriver_Initialize122','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','AUDDSpeakerDriver_Initialize122','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 240</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','AUDDSpeakerDriver_Initialize122',this); ">AUDDSpeakerDriver_Initialize</a>()
+{
+    // Initialize speaker channels
+    <a href="#" onMouseOver="link('_member','AUDDSpeakerChannel_Initialize3723514573',this); ">AUDDSpeakerChannel_Initialize</a>(&amp;(auddSpeakerDriver.channels[0]),
+                                  AUDDSpeakerDriver_MASTERCHANNEL,
+                                  0);
+    <a href="#" onMouseOver="link('_member','AUDDSpeakerChannel_Initialize3723514573',this); ">AUDDSpeakerChannel_Initialize</a>(&amp;(auddSpeakerDriver.channels[1]),
+                                  AUDDSpeakerDriver_LEFTCHANNEL,
+                                  0);
+    <a href="#" onMouseOver="link('_member','AUDDSpeakerChannel_Initialize3723514573',this); ">AUDDSpeakerChannel_Initialize</a>(&amp;(auddSpeakerDriver.channels[2]),
+                                  AUDDSpeakerDriver_RIGHTCHANNEL,
+                                  0);
+    
+    // Initialize the USB driver
+    <a href="#" onMouseOver="link('_member','../core/USBDDriver_Initialize3177187375',this); ">USBDDriver_Initialize</a>(&amp;(auddSpeakerDriver.usbdDriver),
+                          &amp;auddSpeakerDriverDescriptors,
+                          auddSpeakerDriverInterfaces);
+    <a href="#" onMouseOver="link('_member','../core/USBD_Init53616',this); ">USBD_Init</a>();
+
+    // Initialize the third LED to indicate when the audio interface is active
+    <a href="#" onMouseOver="link('_member','../../../utility/LED_Configure171142247',this); ">LED_Configure</a>(USBD_LEDOTHER);
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

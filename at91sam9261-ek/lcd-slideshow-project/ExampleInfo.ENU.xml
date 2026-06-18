@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<infocenter_data version="1.0">
+  <iar_name>lcd-slideshow-project</iar_name>                    <!--App-->
+  <iar_description>Displays a slideshow animation on the LCD, made up from BMP images sent over a USB virtual COM port. </iar_description>  <!--App short description-->
+  <iar_curdir>$CUR_DIR$</iar_curdir>
+</infocenter_data>

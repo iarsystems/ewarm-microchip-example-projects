@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<exampleInfo>
+  <copyDir>..\..\..\..\..\..\common\boards</copyDir>
+  <copyDir>..\..\..\..\..\..\common\services</copyDir>
+  <copyDir>..\..\..\..\..\..\common\utils</copyDir>
+  <copyDir>..\..\..\..\..\boards</copyDir>
+  <copyDir>..\..\..\..\..\drivers</copyDir>
+  <copyDir>..\..\..\..\..\utils</copyDir>
+</exampleInfo>

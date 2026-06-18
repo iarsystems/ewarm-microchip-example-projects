@@ -1,0 +1,110 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - MODE_BoardName</TITLE>
+<script type="text/javascript" src="../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../common/";
+ var relPathToHelpDir = "../../common/help/";
+ var toSearchPage     = "_search','../../search";
+ Body1();
+</script>
+<div class="headerPage">MODE_BoardName</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../index',this)" class="pathLink">Default mainpage</A><img src="../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','demomi_sam7lmi_ekmi_project0',this)" class="pathLink">demo-sam7l-ek-project</A><img src="../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">MODE_BoardName</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','MODE_BoardName2186267575','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','MODE_BoardName2186267575','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 146</div>
+<pre class="codeExamples">
+void * <a href="#" onMouseOver="link('_member','MODE_BoardName2186267575',this); ">MODE_BoardName</a>(signed char key, unsigned char refresh)
+{
+    unsigned char code = <a href="#" onMouseOver="link('_member','KBD_GetKeyCode2593655934',this); ">KBD_GetKeyCode</a>(key);
+
+    // Display the board name
+    if (refresh == <a href="#" onMouseOver="link('_member','MODE_REFRESH_RESTART1927943960',this); ">MODE_REFRESH_RESTART</a>) {
+
+        TRACE_INFO("Board name mode restart\n\r");
+
+        <a href="#" onMouseOver="link('_member','../at91lib/utility/memcpy1713522179',this); ">memcpy</a>(gpNewBoardName, gpBoardName, S7LEKLCD_MAX_CHARS);
+        <a href="#" onMouseOver="link('_member','gEdit0',this); ">gEdit</a> = 0;
+    }
+    else if (refresh == <a href="#" onMouseOver="link('_member','MODE_REFRESH_DISPLAY1927943960',this); ">MODE_REFRESH_DISPLAY</a>) {
+
+        TRACE_INFO("Board name mode refresh\n\r");
+    }
+
+    // Process key events
+    if (key &gt;= 0) {
+
+        // Escape key pressed
+        if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_ESCAPE3152668919',this); ">S7LEKKBM_ESCAPE</a>) {
+
+            return <a href="#" onMouseOver="link('_member','MODE_Menu2186267575',this); ">MODE_Menu</a>;
+        }
+        // Left arrow key pressed
+        else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_LEFTARROW3152668919',this); ">S7LEKKBM_LEFTARROW</a>) {
+
+            if (<a href="#" onMouseOver="link('_member','gEdit0',this); ">gEdit</a> &gt; 0) {
+
+                <a href="#" onMouseOver="link('_member','gEdit0',this); ">gEdit</a>--;
+            }
+        }
+        // Right arrow key pressed
+        else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_RIGHTARROW3152668919',this); ">S7LEKKBM_RIGHTARROW</a>) {
+
+            if (<a href="#" onMouseOver="link('_member','gEdit0',this); ">gEdit</a> &lt; (<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/S7LEKLCD_MAX_CHARS2322502027',this); ">S7LEKLCD_MAX_CHARS</a>-1)) {
+
+                <a href="#" onMouseOver="link('_member','gEdit0',this); ">gEdit</a>++;
+            }
+        }
+        // Delete key pressed
+        else if (code == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_DELETE3152668919',this); ">S7LEKKBM_DELETE</a>) {
+
+            // Delete current character without moving the cursor
+            <a href="#" onMouseOver="link('_member','gpNewBoardName0',this); ">gpNewBoardName</a>[<a href="#" onMouseOver="link('_member','gEdit0',this); ">gEdit</a>] = ' ';
+        }
+        // Ok key pressed
+        else if (<a href="#" onMouseOver="link('_member','KBD_GetNaturalKeyCode2593655934',this); ">KBD_GetNaturalKeyCode</a>(key) == <a href="#" onMouseOver="link('_member','../at91lib/components/kbmatrix/s7lekkbm/S7LEKKBM_OK3152668919',this); ">S7LEKKBM_OK</a>) {
+
+            <a href="#" onMouseOver="link('_member','../at91lib/utility/memcpy1713522179',this); ">memcpy</a>(gpBoardName, gpNewBoardName, S7LEKLCD_MAX_CHARS);
+            return <a href="#" onMouseOver="link('_member','MODE_Menu2186267575',this); ">MODE_Menu</a>;
+        }
+        // Other keys
+        else {
+
+            if (<a href="#" onMouseOver="link('_member','KBD_Code2Ascii2593655934',this); ">KBD_Code2Ascii</a>(code)) {
+
+                code = <a href="#" onMouseOver="link('_member','KBD_Code2Ascii2593655934',this); ">KBD_Code2Ascii</a>(code);
+                <a href="#" onMouseOver="link('_member','gpNewBoardName0',this); ">gpNewBoardName</a>[<a href="#" onMouseOver="link('_member','gEdit0',this); ">gEdit</a>] = code;
+                if (<a href="#" onMouseOver="link('_member','gEdit0',this); ">gEdit</a> &lt; (<a href="#" onMouseOver="link('_member','../at91lib/components/slcd/s7leklcd/S7LEKLCD_MAX_CHARS2322502027',this); ">S7LEKLCD_MAX_CHARS</a>-1)) {
+
+                    <a href="#" onMouseOver="link('_member','gEdit0',this); ">gEdit</a>++;
+                }
+            }
+        }
+    }
+
+    // Refresh string
+    <a href="#" onMouseOver="link('_member','SLCD_PutString3372848885',this); ">SLCD_PutString</a>(gpNewBoardName, 0);
+    <a href="#" onMouseOver="link('_member','SLCD_SetBlinking171142247',this); ">SLCD_SetBlinking</a>(1 &lt;&lt; gEdit);
+
+    return <a href="#" onMouseOver="link('_member','MODE_BoardName2186267575',this); ">MODE_BoardName</a>;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

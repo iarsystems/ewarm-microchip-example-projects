@@ -1,0 +1,85 @@
+;**************************************************
+;*                                                *
+;* olimexvcpdrv.inf - Virtual COM Port to USB     *
+;* Driver for Windows NT family                   *
+;*                                                *
+;* Copyright 2008 Olimex LTD                      *
+;*                                                *
+;**************************************************
+
+;
+; Modified for Windows 7 using this info:
+; http://blogs.6bit.com/josh/2009/10/usb-communications-device-class-on-64-bit-windows/
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=Ports
+ClassGUID={4d36e978-e325-11ce-bfc1-08002be10318}
+Provider=%Olimex%
+DriverVer=01/05/2011,1.0.2
+
+[SourceDisksFiles]
+
+[SourceDisksNames]
+
+[Manufacturer]
+%Olimex%=Olimex, NTx86, NTamd64
+
+[Olimex]
+%OLIMEX_CDC&PID_0019%=OlimexVirCOM,USB\VID_15BA&PID_0019
+%OLIMEX_CDC&PID_001A%=OlimexVirCOM,USB\VID_15BA&PID_001A
+
+[Olimex.NTx86]
+%OLIMEX_CDC&PID_0019%=OlimexVirCOM,USB\VID_15BA&PID_0019
+%OLIMEX_CDC&PID_001A%=OlimexVirCOM,USB\VID_15BA&PID_001A
+
+[Olimex.NTamd64]
+%OLIMEX_CDC&PID_0019%=OlimexVirCOM,USB\VID_15BA&PID_0019
+%OLIMEX_CDC&PID_001A%=OlimexVirCOM,USB\VID_15BA&PID_001A
+
+;**************************************************
+;*   Windows NT family                            *
+;**************************************************
+[OlimexVirCOM.NT]
+include=mdmcpq.inf
+CopyFiles=FakeModemCopyFileSection
+AddReg=OlimexVirCOM.NT.AddReg
+
+[OlimexVirCOM.NT.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,usbser.sys
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[OlimexVirCOM.NTx86]
+include=mdmcpq.inf
+CopyFiles=FakeModemCopyFileSection
+AddReg=OlimexVirCOM.NT.AddReg
+
+[OlimexVirCOM.NTx86.Services]
+AddService=usbser, 0x00000002,OlimexVirCOMService_Inst
+
+[OlimexVirCOM.NTamd64]
+include=mdmcpq.inf
+CopyFiles=FakeModemCopyFileSection
+AddReg=OlimexVirCOM.NT.AddReg
+
+[OlimexVirCOM.NTamd64.Services]
+AddService=usbser, 0x00000002,OlimexVirCOMService_Inst
+
+[OlimexVirCOMService_Inst]
+DisplayName=%OlimexVirCOM.SvcDesc%
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%12%\usbser.sys
+LoadOrderGroup=Base
+
+;**************************************************
+;* Strings                                        *
+;**************************************************
+[Strings]
+Olimex="Olimex LTD"
+OLIMEX_CDC&PID_0019="Olimex RF Virtual COM port Node A, Olimex SAM7-NRF24 board"
+OLIMEX_CDC&PID_001A="Olimex RF Virtual COM port Node B, Olimex SAM7-NRF24 board"
+OlimexVirCOM.SvcDesc="Olimex Virtual COM port"

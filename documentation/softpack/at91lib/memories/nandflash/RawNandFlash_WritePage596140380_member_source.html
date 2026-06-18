@@ -1,0 +1,54 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - RawNandFlash_WritePage</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">RawNandFlash_WritePage</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">RawNandFlash_WritePage</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','RawNandFlash_WritePage596140380','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','RawNandFlash_WritePage596140380','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 695</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','RawNandFlash_WritePage596140380',this); ">RawNandFlash_WritePage</a>(const struct <a href="#" onMouseOver="link('_class','RawNandFlash0',this); ">RawNandFlash</a> *raw, unsigned short block, unsigned short page, void *data, void *spare)
+{
+    unsigned char numTries = <a href="#" onMouseOver="link('_member','NUMWRITETRIES1550684396',this); ">NUMWRITETRIES</a>;
+
+    <a href="#" onMouseOver="link('_member','../../utility/TRACE_DEBUG2555923900',this); ">TRACE_DEBUG</a>("RawNandFlash_WritePage(B#%d:P#%d)\r\n", block, page);
+
+    while (numTries &gt; 0) {
+
+        if (!WritePage(raw, block, page, data, spare)) {
+
+            return 0;
+        }
+        numTries--;
+    }
+
+    TRACE_ERROR("RawNandFlash_WritePage: Failed to write page after %d tries\n\r", NUMWRITETRIES);
+    return <a href="#" onMouseOver="link('_member','NandCommon_ERROR_BADBLOCK3454457112',this); ">NandCommon_ERROR_BADBLOCK</a>;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

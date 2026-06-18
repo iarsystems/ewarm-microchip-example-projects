@@ -1,0 +1,73 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - sdmmc_mci</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">sdmmc_mci</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','sdmmc0',this)" class="pathLink">sdmmc</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">sdmmc_mci</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("divID73678","aID73678","LeftMenuActive","leftMenuLinkActive");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_page','sdmmc_mci0','_description',this)" class="tabLinkActive">Description</a></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<span class="paragraph1">sdmmc_mci.h::sdmmc_mci</span>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="padding"><div class="userParagraph3">Purpose</div>
+Implementation for sdcard sd mode physical layer driver. Supply a set of sdcard sd mode's interface.<br>
+<br>
+</div>
+<div class="padding"><div class="userParagraph3">Usage</div>
+<ol>
+<li><a href="#" OnMouseOver="link('_member','SD_Init1676226939',this)">SD_Init</a>: Run the SDcard initialization sequence</li>
+<li>SD_MCI_Init : Run the SDcard SD Mode initialization sequence</li>
+<li><a href="#" OnMouseOver="link('_member','SD_Stop1676226939',this)">SD_Stop</a>: Stop the SDcard by sending Cmd12</li>
+<li><a href="#" OnMouseOver="link('_member','SD_ReadBlock2145053675',this)">SD_ReadBlock</a> : Read blocks of <a href="#" OnMouseOver="link('_member','../../../basic-fatfs-nandflash-project/data0',this)">data</a></li>
+<li><a href="#" OnMouseOver="link('_member','SD_WriteBlock3234235813',this)">SD_WriteBlock</a> : Write blocks of <a href="#" OnMouseOver="link('_member','../../../basic-fatfs-nandflash-project/data0',this)">data</a></li>
+<li>Cmd0 : Resets all cards to idle <a href="#" OnMouseOver="link('_member','../../../basic-rtt-project/state0',this)">state</a></li>
+<li>Cmd1 : MMC send operation condition command</li>
+<li>Cmd2 : Asks any card to send the CID numbers on the CMD line</li>
+<li>Cmd3 : Ask the card to publish a new relative address</li>
+<li>Cmd7 : Command toggles a card between the stand-by and transfer states or between the programming and disconnect states</li>
+<li>Cmd8 : Sends SD Memory Card interface condition, which includes host supply voltage information and asks the card whether card supports voltage</li>
+<li>Cmd9 : Addressed card sends its card-specific <a href="#" OnMouseOver="link('_member','../../../basic-fatfs-nandflash-project/data0',this)">data</a> (CSD) on the CMD line</li>
+<li>Cmd12 : Forces the card to stop transmission</li>
+<li>Cmd13 : Addressed card sends its status register</li>
+<li>Cmd16 : Set block length</li>
+<li>Cmd18 : Read multiple blocks</li>
+<li>Cmd25 : Write multiple blocks</li>
+<li>Cmd55 : App command, should be sent before application specific command</li>
+<li>Acmd6 : Defines the <a href="#" OnMouseOver="link('_member','../../../basic-fatfs-nandflash-project/data0',this)">data</a> bus width</li>
+<li>Acmd41 : Asks to all cards to send their operations conditions</li>
+<li>CmdEMMC8 : Sends eMMC EXT_CSD command</li>
+<li>CmdEMMC6 : Switches the mode of operation of the selected card or modifies the EXT_CSD registers</li>
+</ol>
+
+</div>
+<div class="padding">&nbsp;</div>
+<table cellspacing=0 cellpadding=0 border=0 class="widthAndBorderTop" height=1>
+<TR><TD height=1 width=100% class="oneLine"></TD></TR></TABLE>
+<div class="paragraph2">Source</div>
+<div class="paddingMembers">The documentation for this Page was generated from the following file:</div>
+<div class="paddingMembers"><LI>sdmmc_mci.h<br></div>
+<div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_page','_description');
+</script>

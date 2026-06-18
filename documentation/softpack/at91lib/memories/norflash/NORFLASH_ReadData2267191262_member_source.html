@@ -1,0 +1,58 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - NORFLASH_ReadData</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">NORFLASH_ReadData</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','norflash0',this)" class="pathLink">norflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">NORFLASH_ReadData</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','NORFLASH_ReadData2267191262','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','NORFLASH_ReadData2267191262','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 123</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','NORFLASH_ReadData2267191262',this); ">NORFLASH_ReadData</a>(struct <a href="#" onMouseOver="link('_class','NorFlash0',this); ">NorFlash</a> *norFlash, unsigned int address, unsigned char *buffer, unsigned int size)
+{
+    unsigned int busAddress;
+    unsigned char busWidth;
+    unsigned int i;
+    busWidth = <a href="#" onMouseOver="link('_member','NorFlash_GetDataBusWidth3904423740',this); ">NorFlash_GetDataBusWidth</a>(&amp;(pNorFlash-&gt;norFlashInfo));
+    
+    busAddress = <a href="#" onMouseOver="link('_member','NorFlash_GetAddressInChip3806251491',this); ">NorFlash_GetAddressInChip</a>(&amp;(pNorFlash-&gt;norFlashInfo), address);
+    if ((busWidth / 8 ) == <a href="#" onMouseOver="link('_member','FLASH_CHIP_WIDTH_16BITS2466962216',this); ">FLASH_CHIP_WIDTH_16BITS</a> ){ 
+        size = (size + 1) &gt;&gt; 1;
+    }
+    if ((busWidth/8) == <a href="#" onMouseOver="link('_member','FLASH_CHIP_WIDTH_32BITS2466962216',this); ">FLASH_CHIP_WIDTH_32BITS</a> ){ 
+        size = (size + 3) &gt;&gt; 2;
+    }
+    for(i = 0; i &lt; size; i++) {
+        <a href="#" onMouseOver="link('_member','ReadRawData1593415754',this); ">ReadRawData</a>(busWidth, busAddress, buffer);
+        buffer+= (busWidth / 8);
+        busAddress+= (busWidth / 8);
+
+    }
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

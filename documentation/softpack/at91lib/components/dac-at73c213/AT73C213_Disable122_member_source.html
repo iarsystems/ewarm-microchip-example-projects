@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - AT73C213_Disable</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">AT73C213_Disable</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../components0',this)" class="pathLink">components</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','dacmi_at73c2130',this)" class="pathLink">dac-at73c213</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">AT73C213_Disable</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','AT73C213_Disable122','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','AT73C213_Disable122','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 286</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','AT73C213_Disable122',this); ">AT73C213_Disable</a>()
+{
+    // Set gain to -22dB
+    <a href="#" onMouseOver="link('_member','AT73C213_Write898012104',this); ">AT73C213_Write</a>(AT73C213_PA_CTRL,
+                   AT73C213_PA_CTRL_APAGAIN_22N |
+                   AT73C213_PA_CTRL_APAON);
+
+    // Turn off power amplifier
+    <a href="#" onMouseOver="link('_member','AT73C213_Write898012104',this); ">AT73C213_Write</a>(AT73C213_PA_CTRL, AT73C213_PA_CTRL_APAGAIN_22N);
+
+    // Disable DACs
+    <a href="#" onMouseOver="link('_member','AT73C213_Write898012104',this); ">AT73C213_Write</a>(AT73C213_DAC_CTRL,
+                   AT73C213_DAC_CTRL_ONLNOL
+                   | AT73C213_DAC_CTRL_ONLNOR);
+
+    // Disable master power
+    <a href="#" onMouseOver="link('_member','AT73C213_Write898012104',this); ">AT73C213_Write</a>(AT73C213_DAC_PRECH, 0);
+
+    // TODO 1ms delay
+
+    // Power off everything
+    <a href="#" onMouseOver="link('_member','AT73C213_Write898012104',this); ">AT73C213_Write</a>(AT73C213_DAC_CTRL, 0);
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

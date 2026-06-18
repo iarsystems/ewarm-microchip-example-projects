@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - BMP_displayHeader</TITLE>
+<script type="text/javascript" src="../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../common/";
+ var relPathToHelpDir = "../../../common/help/";
+ var toSearchPage     = "_search','../../../search";
+ Body1();
+</script>
+<div class="headerPage">BMP_displayHeader</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','utility0',this)" class="pathLink">utility</A><img src="../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">BMP_displayHeader</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','BMP_displayHeader2855758951','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','BMP_displayHeader2855758951','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 145</div>
+<pre class="codeExamples">
+void <a href="#" onMouseOver="link('_member','BMP_displayHeader2855758951',this); ">BMP_displayHeader</a>(unsigned int *pAddressHeader)
+{
+    struct <a href="#" onMouseOver="link('_class','BMPHeader0',this); ">BMPHeader</a> *header;
+
+    header = (struct <a href="#" onMouseOver="link('_class','BMPHeader0',this); ">BMPHeader</a>*) pAddressHeader;
+
+    TRACE_INFO("BMP\n\r");
+    TRACE_INFO("type       0x%X \n\r", header-&gt;type);
+    TRACE_INFO("fileSize   %d \n\r", header-&gt;fileSize);
+    TRACE_INFO("reserved1  %d \n\r", header-&gt;reserved1);
+    TRACE_INFO("reserved2  %d \n\r", header-&gt;reserved2);
+    TRACE_INFO("offset     %d \n\r", header-&gt;offset);
+    TRACE_INFO("headerSize %d \n\r", header-&gt;headerSize);
+    TRACE_INFO("width      %d \n\r", header-&gt;width);
+    TRACE_INFO("height     %d \n\r", header-&gt;height);
+    TRACE_INFO("planes     %d \n\r", header-&gt;planes);
+    TRACE_INFO("bits       %d \n\r", header-&gt;bits);
+    TRACE_INFO("compression %d \n\r", header-&gt;compression);
+    TRACE_INFO("imageSize   %d \n\r", header-&gt;imageSize);
+    TRACE_INFO("xresolution %d \n\r", header-&gt;xresolution);
+    TRACE_INFO("yresolution %d \n\r", header-&gt;yresolution);
+    TRACE_INFO("ncolours    %d \n\r", header-&gt;ncolours);
+    TRACE_INFO("importantcolours %d\n\r", header-&gt;importantcolours);
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

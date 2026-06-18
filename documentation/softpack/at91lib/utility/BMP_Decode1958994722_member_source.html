@@ -1,0 +1,144 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - BMP_Decode</TITLE>
+<script type="text/javascript" src="../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../common/";
+ var relPathToHelpDir = "../../../common/help/";
+ var toSearchPage     = "_search','../../../search";
+ Body1();
+</script>
+<div class="headerPage">BMP_Decode</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','utility0',this)" class="pathLink">utility</A><img src="../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">BMP_Decode</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','BMP_Decode1958994722','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','BMP_Decode1958994722','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 189</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','BMP_Decode1958994722',this); ">BMP_Decode</a>(void *file, unsigned char *buffer, unsigned int width, unsigned int height, unsigned char bpp)
+{
+    struct <a href="#" onMouseOver="link('_class','BMPHeader0',this); ">BMPHeader</a> *header;
+    unsigned int i, j;
+    unsigned char r, g, b;
+    unsigned char *image;
+
+    // Read header information
+    header = (struct <a href="#" onMouseOver="link('_class','BMPHeader0',this); ">BMPHeader</a> *) file;
+
+    // Verify that the file is valid
+    if (!<a href="#" onMouseOver="link('_member','BMP_IsValid86143056',this); ">BMP_IsValid</a>(file)) {
+
+        TRACE_ERROR("BMP_Decode: File type is not 'BM' (0x%04X).\n\r",header-&gt;type);
+        return 1;
+    }
+
+    // Check that parameters match
+    if ((header-&gt;compression != 0)
+        || (header-&gt;width != width)
+        || (header-&gt;height != height)) {
+
+        TRACE_ERROR("BMP_Decode: File format not supported\n\r");
+        TRACE_ERROR(" -&gt; .compression = %u\n\r", header-&gt;compression);
+        TRACE_ERROR(" -&gt; .width = %u\n\r", header-&gt;width);
+        TRACE_ERROR(" -&gt; .height = %u\n\r", header-&gt;height);
+        TRACE_ERROR(" -&gt; .bits = %d\n\r", header-&gt;bits);
+        return 2;
+    }
+
+    // Get image data
+    image = (unsigned char *) ((unsigned int) file + header-&gt;offset);
+
+    // Check that the bpp resolution is supported
+    // Only a 24-bit output &amp; 24- or 8-bit input are supported
+    if (bpp != 24) {
+
+        TRACE_ERROR("BMP_Decode: Output resolution not supported\n\r");
+        return 3;
+    }
+    else if (header-&gt;bits == 24) {
+
+        // Decoding is ok
+        if (!buffer) return 0;
+
+        // Get image data (swapping red &amp; blue)
+        for (i=0; i &lt; height; i++) {
+            for (j=0; j &lt; width; j++) {
+
+                r = image[((height - i - 1) * width + j) * 3 + 2];
+                g = image[((height - i - 1) * width + j) * 3 + 1];
+                b = image[((height - i - 1) * width + j) * 3];
+                
+#if defined(BOARD_LCD_RGB565)
+                // Interlacing
+                r = ((r &lt;&lt; 1) &amp; 0xF0) | ((g &amp; 0x80) &gt;&gt; 4) | ((r &amp; 0x80) &gt;&gt; 5);
+                g = (g &lt;&lt; 1) &amp; 0xF8;
+                b = b &amp; 0xF8;
+                
+                buffer[(i * width + j) * 3] = b;
+                buffer[(i * width + j) * 3 + 1] = g;
+                buffer[(i * width + j) * 3 + 2] = r;
+#elif defined(BOARD_LCD_BGR565)                
+                buffer[(i * width + j) * 3] = b;
+                buffer[(i * width + j) * 3 + 1] = g;
+                buffer[(i * width + j) * 3 + 2] = r;                
+#else
+                buffer[(i * width + j) * 3] = r;
+                buffer[(i * width + j) * 3 + 1] = g;
+                buffer[(i * width + j) * 3 + 2] = b;
+#endif //#if defined(BOARD_LCD_RGB565)
+            }
+        }
+    }
+    else if (header-&gt;bits == 8) {
+
+        // Decoding is ok
+        if (!buffer) return 0;    
+
+        // Retrieve palette
+        struct <a href="#" onMouseOver="link('_class','BMPPaletteEntry0',this); ">BMPPaletteEntry</a> palette[256];
+        <a href="#" onMouseOver="link('_member','memcpy1713522179',this); ">memcpy</a>(palette,
+               (unsigned char *) ((unsigned int) file + sizeof(struct <a href="#" onMouseOver="link('_class','BMPHeader0',this); ">BMPHeader</a>)),
+               header-&gt;offset - sizeof(struct <a href="#" onMouseOver="link('_class','BMPHeader0',this); ">BMPHeader</a>));
+
+        // Decode image (reversing row order)
+        for (i=0; i &lt; height; i++) {
+            for (j=0; j &lt; width; j++) {
+
+                r = palette[image[(height - i - 1) * width + j]].<a href="#" onMouseOver="link('_member','r2597876453',this); ">r</a>;
+                g = palette[image[(height - i - 1) * width + j]].<a href="#" onMouseOver="link('_member','g2597876453',this); ">g</a>;
+                b = palette[image[(height - i - 1) * width + j]].<a href="#" onMouseOver="link('_member','b2597876453',this); ">b</a>;
+
+                buffer[(i * width + j) * 3] = r;
+                buffer[(i * width + j) * 3 + 1] = g;
+                buffer[(i * width + j) * 3 + 2] = b;
+            }
+        }
+    }
+    else {
+
+        TRACE_ERROR("BMP_Decode: Input resolution not supported\n\r");
+        TRACE_INFO("header-&gt;bits 0x%X \n\r", header-&gt;bits);
+        return 4;
+    }
+
+    return 0;
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

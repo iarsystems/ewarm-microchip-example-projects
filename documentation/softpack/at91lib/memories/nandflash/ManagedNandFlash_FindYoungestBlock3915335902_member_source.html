@@ -1,0 +1,76 @@
+<HTML>
+<HEAD>
+<TITLE>/local/users/along/work/ewarm_release/deliveries/softpack-1.7-rc3.4/ewarm/ARM/examples/Atmel/documentation - ManagedNandFlash_FindYoungestBlock</TITLE>
+<script type="text/javascript" src="../../../../common/js.js" language="JavaScript"></script>
+<script type="text/javascript" src="leftmenu.js" language="JavaScript"></script>
+<script type="text/javascript">
+ var relPathToCommmon = "../../../../common/";
+ var relPathToHelpDir = "../../../../common/help/";
+ var toSearchPage     = "_search','../../../../search";
+ Body1();
+</script>
+<div class="headerPage">ManagedNandFlash_FindYoungestBlock</div>
+<div class="path"><a href="#" OnMouseOver="link('','../../../../index',this)" class="pathLink">Default mainpage</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../../at91lib0',this)" class="pathLink">at91lib</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','../memories0',this)" class="pathLink">memories</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><a href="#" OnMouseOver="link('_dir','nandflash0',this)" class="pathLink">nandflash</A><img src="../../../../common/path-arrow.gif" class="path-arrow"><span class="pathNonLink">ManagedNandFlash_FindYoungestBlock</span></div>
+<script type="text/javascript">
+ Body2();
+ BodyLeftMenuStart();
+WriteLeftMenu("","","","");
+ BodyLeftMenuEnd();
+ Body3();
+</script>
+<span class="tabInActive"><a href="#" OnMouseOver="linkTab('_member','ManagedNandFlash_FindYoungestBlock3915335902','_description',this)" class="tabLinkInActive">Description</a></span>
+<span class="tabActive"><a href="#" OnMouseOver="linkTab('_member','ManagedNandFlash_FindYoungestBlock3915335902','_source',this)" class="tabLinkActive">Source</a></span>
+<span class="tabInActiveGrayout"><span class="tabLinkGrayout">Call Graph</span></span>
+<script type="text/javascript">
+ Body4();
+</script>
+<div class="contentAirTop"></div>
+<div class="paragraph2NoTopPadding">Start Line: 739</div>
+<pre class="codeExamples">
+unsigned char <a href="#" onMouseOver="link('_member','ManagedNandFlash_FindYoungestBlock3915335902',this); ">ManagedNandFlash_FindYoungestBlock</a>(const struct <a href="#" onMouseOver="link('_class','ManagedNandFlash0',this); ">ManagedNandFlash</a> *managed, unsigned char status, unsigned short *block)
+{
+    unsigned char found = 0;
+    unsigned short bestBlock = 0;
+    unsigned int i;
+
+    // Go through the block array
+    for (i=0; i &lt; managed-&gt;sizeInBlocks; i++) {
+
+        // Check status
+        if (managed-&gt;blockStatuses[i].status == status) {
+
+            // If no block was found, i becomes the best block
+            if (!found) {
+
+                found = 1;
+                bestBlock = i;
+            }
+            // Compare the erase counts otherwise
+            else if (managed-&gt;blockStatuses[i].eraseCount
+                     &lt; managed-&gt;blockStatuses[bestBlock].eraseCount) {
+
+                bestBlock = i;
+            }
+        }
+    }
+
+    if (found) {
+
+        if (block) {
+
+            *block = bestBlock;
+        }
+        return 0;
+    }
+    else {
+
+        return <a href="#" onMouseOver="link('_member','NandCommon_ERROR_NOBLOCKFOUND3454457112',this); ">NandCommon_ERROR_NOBLOCKFOUND</a>;
+    }
+}
+</pre><div class="contentAirBottom"></div>
+<script type="text/javascript">
+ Body5();
+Statistics("","","","","");
+ Body6();
+SetPageTab('_member','_source');
+</script>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<workspace>
+	<project>
+		<path>$WS_DIR$/ewp/at91sam9xe-ek.ewp</path>
+	</project>
+	<batchBuild>
+		<batchDefinition>
+			<name>All</name>&gt;
+			<member>
+				<project>at91sam9xe-ek</project>
+				<configuration>at91sam9xe128_flash</configuration>
+			</member>
+			<member>
+				<project>at91sam9xe-ek</project>
+				<configuration>at91sam9xe256_flash</configuration>
+			</member>
+			<member>
+				<project>at91sam9xe-ek</project>
+				<configuration>at91sam9xe256_sram</configuration>
+			</member>
+			<member>
+				<project>at91sam9xe-ek</project>
+				<configuration>at91sam9xe512_flash</configuration>
+			</member>
+			<member>
+				<project>at91sam9xe-ek</project>
+				<configuration>at91sam9xe512_sram</configuration>
+			</member>
+		</batchDefinition>
+	</batchBuild>
+</workspace>

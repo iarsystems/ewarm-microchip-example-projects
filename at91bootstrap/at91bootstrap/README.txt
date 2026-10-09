@@ -27,13 +27,13 @@ COMPATIBILITY
 =============
 
    Currently, the EWARM workspace has projects for building QSPY boot and noboot
-  BootStrap for SAM9x75-Curiosity, SAMA7D65-Curiosity, SAMA7G54-EK and SAM9x60-Curiosity boards.
+  BootStrap for SAM9x75-Curiosity, SAMA7D65-Curiosity, SAMA7G54-EK, SAM9x60-Curiosity and SAMA5D29-Curiosity boards.
   The workspace is compatible with EWARM 9.70.1
 
 CONFIGURATION
 =============
 
-   The workspace contains projects for SAM9x75, SAMA7D65, SAMA7G54 and SAM9x60 devices. 
+   The workspace contains projects for SAM9x75, SAMA7D65, SAMA7G54, SAM9x60 and SAMA5D2 devices. 
  
   SAM9x75 project has configurations for building BootStraps for SAM9x75-Curiosity LAN Kit.
   SAMA7D65 project has configurations for building BootStraps for SAMA7D65-Curiosity
@@ -41,6 +41,7 @@ CONFIGURATION
   the Environment Variables.
   SAMA7G54 project has configurations for building BootStraps for SAMA7G54-EK board.
   SAM9x60 project has configurations for building BootStraps for SAM9x60-Curiosity Kit.
+  SAMA5D2 project has configurations for building BootStraps for SAMA5D29-Curiosity board.
 
    The definitions for the BootStrap are in cfg_<board>_<boot media>.h and in the
   configuration's preprocessor settings.

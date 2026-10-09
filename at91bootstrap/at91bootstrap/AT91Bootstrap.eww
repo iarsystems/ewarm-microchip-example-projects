@@ -13,6 +13,9 @@
         <path>$WS_DIR$/device/sam9x60/AT91bootstrap_SAM9x60.ewp</path>
     </project>
     <project>
+        <path>$WS_DIR$/device/sama5d2/AT91bootstrap_SAMA5D2.ewp</path>
+    </project>
+    <project>
         <path>$WS_DIR$/Loader/Loader.ewp</path>
     </project>
     <batchBuild/>
